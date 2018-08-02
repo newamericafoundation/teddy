@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" type="text/css" href="bundle.css">
+  </head>
+  <body>
+    <% htmlWebpackPlugin.options.chartIDs.forEach(function(id){ %>
+    <div id="<%= id %>" class="na-dataviz"></div>
+    <% }) %>
+    <script src="bundle.js"></script>
+    <script>
+      var charts = document.querySelectorAll('.na-dataviz');
+
+      if(charts){
+        for(let i=0; i<charts.length; i++){
+          renderDataViz(charts[i]);
+        }
+      }
+    </script>
+  </body>
+</html>
