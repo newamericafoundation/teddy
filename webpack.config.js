@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+const ENV = process.env.NODE_ENV;
+
 module.exports = {
   entry: [
     './src/index.js'
@@ -36,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.s?css/,
-        use: ExtractTextPlugin.extract({
+        use: ENV === 'production' ? ["style-loader", "css-loader", "sass-loader"] : ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: ["css-loader", "sass-loader"]
         })
