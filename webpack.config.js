@@ -13,6 +13,11 @@ module.exports = {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js'
   },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    newamericadotorg: 'newamericadotorg'
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({ filename: 'bundle.css' }),

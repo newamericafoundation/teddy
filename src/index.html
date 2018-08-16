@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" type="text/css" href="bundle.css">
+    <link rel="stylesheet" type="text/css" href="https://d3fvh0lm0eshry.cloudfront.net/static/css/newamericadotorg.lite.css" />
+    <link rel="stylesheet" type="text/css" href="bundle.css"/>
   </head>
   <body>
     <% htmlWebpackPlugin.options.chartIDs.forEach(function(id){ %>
     <div id="<%= id %>" class="na-dataviz"></div>
     <% }) %>
+    <script src="https://d3fvh0lm0eshry.cloudfront.net/static/js/newamericadotorg.lite.js"></script>
+    <script>newamericadotorg.init();</script>
     <script src="bundle.js"></script>
     <script>
       var charts = document.querySelectorAll('.na-dataviz');
