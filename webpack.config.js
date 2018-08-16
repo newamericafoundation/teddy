@@ -37,7 +37,7 @@ module.exports = {
         exclude: /node_modules/,
         loaders: "babel-loader",
         options: {
-          presets: ["es2015"],
+          presets: ["es2015", "react"],
           plugins: ["transform-class-properties", "transform-object-rest-spread"]
         }
       },
