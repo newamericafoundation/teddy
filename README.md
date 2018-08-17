@@ -16,7 +16,7 @@ var settings = {
 
 window.renderDataViz = function(el){
   let id = el.getAttribute(id);
-  if(settings[id]) chart1init(el);
+  if(settings[id]) settings[id](el);
 }
 ```
 
