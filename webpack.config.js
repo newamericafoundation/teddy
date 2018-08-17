@@ -16,6 +16,8 @@ module.exports = {
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM',
+    'redux': 'Redux',
+    'react-redux': 'ReactRedux',
     newamericadotorg: 'newamericadotorg'
   },
   plugins: [
