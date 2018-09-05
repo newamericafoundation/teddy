@@ -12,7 +12,7 @@ module.exports = env => {
     entry: ["./src/index.js"],
     output: {
       path: path.join(__dirname, "public"),
-      filename: "bundle.[hash].js"
+      filename: `bundle.${env.deploy ? "[hash]." : ""}js`
     },
     externals: {
       react: "React",
