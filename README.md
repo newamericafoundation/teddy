@@ -8,7 +8,7 @@ Before starting to build, run `npm install` and change the git origin `git remot
 
 1. Define all chartIDs that will be referenced in wagtail inside [webpack.config.js](https://github.com/newamerica-graphics/data-viz-boilerplate/blob/master/webpack.config.js#L29)
 2. Build your graphic any way you like
-3. Inside `src/index.js` define initialization functions for each graphic. It may look somethings like this:
+3. Inside `src/index.js` define initialization functions for each graphic. It may look something like this:
 
 ```js
 var settings = {
