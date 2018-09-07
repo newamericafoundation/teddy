@@ -21,7 +21,6 @@ module.exports = env => {
     },
     plugins: [
       env.deploy === "development" && new webpack.HotModuleReplacementPlugin(),
-      new ExtractTextPlugin({ filename: "bundle.css" }),
       new HtmlWebpackPlugin({
         title: "",
         chartIDs: [],
@@ -52,13 +51,7 @@ module.exports = env => {
         },
         {
           test: /\.s?css/,
-          use:
-            env.NODE_ENV === "production"
-              ? ["style-loader", "css-loader", "sass-loader"]
-              : ExtractTextPlugin.extract({
-                  fallback: "style-loader",
-                  use: ["css-loader", "sass-loader"]
-                })
+          use: ["style-loader", "css-loader", "sass-loader"]
         }
       ]
     }
