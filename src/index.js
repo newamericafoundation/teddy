@@ -1,18 +1,18 @@
 import './index.scss';
 
-
-let settings = {
-
-
-};
-
 let queue = [];
 let data = null;
+
+const settings = {
+  'viz__id': (el) => {
+    // use data
+  }
+};
 
 fetch('endpoint').then(response => response.json()).then((_data)=>{
   data = _data;
   for(let i=0; i<queue.length; i++)
-    queue[i].render(data);
+    queue[i]();
 });
 
 window.renderDataViz = function(el){
@@ -21,8 +21,8 @@ window.renderDataViz = function(el){
   if(!chart) return;
 
   if(data){
-    chart.render(data);
+    chart(el);
   } else {
-    queue.push(chart);
+    queue.push(() => chart(el));
   }
 }
