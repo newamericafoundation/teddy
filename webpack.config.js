@@ -1,8 +1,6 @@
-require("dotenv").config();
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = env => {
@@ -42,10 +40,10 @@ module.exports = env => {
           exclude: /node_modules/,
           loaders: "babel-loader",
           options: {
-            presets: ["es2015", "react"],
+            presets: ["@babel/env", "@babel/preset-react"],
             plugins: [
-              "transform-class-properties",
-              "transform-object-rest-spread"
+              "@babel/plugin-proposal-class-properties",
+              "babel/plugin-proposal-object-rest-spread"
             ]
           }
         },
