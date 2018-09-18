@@ -6,7 +6,7 @@ Run `git clone https://github.com/newamerica-graphics/data-viz-boilerplate.git`.
 
 Before starting to build, run `npm install` and change the git origin `git remote set-url origin https://github.com/newamerica-graphics/REPOSITORY.git`.
 
-**Also change the `name` of the project in `package.json` to your repository's name. This will also be the name the directory the project is deployed to on s3**
+Also change the `name` of the project in `package.json` to your repository's name. This will also be the name the directory the project is deployed to on s3.
 
 1. Define all chartIDs that will be referenced in wagtail inside [webpack.config.js](https://github.com/newamerica-graphics/data-viz-boilerplate/blob/master/webpack.config.js#L29)
 2. Build your graphic any way you like
@@ -28,8 +28,9 @@ window.renderDataViz = function(el) {
 
 ## Deployment
 
-- Make sure you have the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) configured properly on your machine. If you have Homebrew installed, run `brew update && brew install awscli` and then `aws configure`.
-- Make sure you have renamed your project in `package.json`. 
+- Make sure you have the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) configured properly on your machine. If you have Homebrew installed, run `brew update && brew install awscli` and then `aws configure` and finally `aws configure set preview.cloudfront true`
+- Make sure you have renamed your project in `package.json`.
+- All deployments are cached by AWS cloudfront and available at [https://data.newamerica.org/](https://data.newamerica.org/) and on s3 [here](http://datadotnewamerica.s3-website-us-east-1.amazonaws.com/).
 
 ## Notes
 
