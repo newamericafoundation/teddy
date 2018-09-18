@@ -1,0 +1,42 @@
+.mw-850 {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mw-650 {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.chart__title {
+  font-size: 1.125rem;
+  line-height: 1.35rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.chart__meta-container {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.chart__figure {
+  position: relative;
+}
+
+.chart__source {
+  font-size: 0.75rem;
+  color: #2c2f35;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
