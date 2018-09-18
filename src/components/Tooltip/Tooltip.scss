@@ -1,0 +1,119 @@
+@import '../scss/colors';
+@import '../scss/box-shadow';
+.tooltip {
+  position: absolute;
+  padding: 0px 20px;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid palette-get(na-black-10);
+  @include standard-shadow;
+  &.hidden {
+    visibility: hidden;
+  }
+  &__fadeout__top,
+  &__fadeout__bottom {
+    display: block;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    z-index: 100;
+    pointer-events: none;
+  }
+  &__fadeout__top {
+    $gradient: 180deg, white 70%, rgba(255, 255, 255, 0);
+    background-image: -webkit-linear-gradient($gradient);
+    /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image: -moz-linear-gradient($gradient);
+    /* For Firefox (3.6 to 15) */
+    background-image: -o-linear-gradient($gradient);
+    /* For old Opera (11.1 to 12.0) */
+    background-image: linear-gradient($gradient);
+    /* Standard syntax; must be last */
+    top: 0px;
+    left: 0px;
+  }
+  &__fadeout__bottom {
+    $gradient: 0deg, white 70%, rgba(255, 255, 255, 0);
+    background-image: -webkit-linear-gradient($gradient);
+    /* For Chrome 25 and Safari 6, iOS 6.1, Android 4.3 */
+    background-image: -moz-linear-gradient($gradient);
+    /* For Firefox (3.6 to 15) */
+    background-image: -o-linear-gradient($gradient);
+    /* For old Opera (11.1 to 12.0) */
+    background-image: linear-gradient($gradient);
+    /* Standard syntax; must be last */
+    bottom: 0px;
+    left: 0px;
+  }
+  &__content-container {
+    padding: 20px 0px 15px;
+    .scrollable & {
+      max-height: 350px;
+      overflow-y: scroll;
+    }
+  }
+  &__title-container {
+    padding-bottom: 10px;
+    &.no-content {
+      padding-bottom: 0px;
+    }
+    &:last-child {
+      padding-bottom: 0px;
+    }
+    .person__icon {
+      margin: 0px !important;
+      display: table-cell;
+    }
+  }
+  h1.tooltip__title {
+    font-size: 1rem;
+    line-height: 1.2;
+    font-weight: 800;
+    font-family: circular;
+    letter-spacing: normal;
+    color: palette-get(na-black);
+    margin-top: 0;
+    margin-bottom: 0;
+    &.has-image {
+      padding-left: 15px;
+    }
+  }
+  &__category {
+    &__name {
+      color: palette-get(na-black-70);
+      font-weight: bold;
+      font-size: 15px;
+      -webkit-margin-before: 0em;
+      -webkit-margin-after: 0em;
+    }
+    &__list-item {
+      display: block;
+      margin-bottom: 5px;
+      line-height: 1.4;
+      &.active {
+        border: 2px solid;
+        padding: 5px 6px;
+      }
+      &__label,
+      &__value {
+        display: inline-block;
+        font-size: 14px;
+        margin-bottom: 0px;
+      }
+      &__label {
+        line-height: 1.5;
+        color: palette-get(na-black);
+        font-style: italic;
+      }
+      &__value {
+        padding-left: 0.25rem;
+        color: palette-get(na-black);
+        font-weight: 800;
+        line-height: 1.2;
+      }
+    }
+  }
+  a {
+    border: none !important;
+  }
+}
