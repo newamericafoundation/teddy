@@ -12,11 +12,26 @@
   <script>
     window.user = { isAuthenticated: true };
   </script>
+  <style>
+
+  .chart-heading {
+    border-top: 1px solid #333;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 35px;
+    margin-top: 35px;
+  }
+
+  </style>
 </head>
 
 <body>
   <div class="container">
     <% htmlWebpackPlugin.options.chartIDs.forEach(function(id){ %>
+      <div class="chart-heading">
+        chartId: <h4 class="inline"><%= id %></h4>
+      </div>
       <div id="<%= id %>" class="na-dataviz"></div>
       <% }) %>
   </div>
