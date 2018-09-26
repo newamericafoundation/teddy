@@ -1,7 +1,7 @@
 import React from "react";
-import ChartContainer from "../components/ChartContainer";
-import BaseMap from "../components/BaseMap";
-import Tooltip from "../components/Tooltip";
+import ChartContainer from "../../components/ChartContainer";
+import BaseMap from "../../components/BaseMap";
+import Tooltip from "../../components/Tooltip";
 import MapPin from "./MapPin";
 
 class PindropMap extends React.Component {
@@ -55,8 +55,8 @@ class PindropMap extends React.Component {
         >
           {data.map((d, i) => (
             <MapPin
-              x={projection([d[lon], d[lat]])[0]}
-              y={projection([d[lon], d[lat]])[1]}
+              x={projection([+d[lon], +d[lat]])[0]}
+              y={projection([+d[lon], +d[lat]])[1]}
               d={d}
               key={i}
               showTooltip={this.showTooltip.bind(this)}
