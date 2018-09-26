@@ -16,10 +16,10 @@ import { Search } from "./components/Search";
 - `className` - Any additional classes to be passed to the select.
 - `style` - Any additional styles to be passed to the select.
 
-| propName  | propType | defaultValue | isRequired |     |
-|-----------|----------|--------------|------------|-----|
-| onChange  | func     | -            | +          | +   |
-| options   | array    | -            | -          | +   |
-| selected  | string   | -            | -          | -   |
-| className | string   | -            | -          | -   |
-| style     | object   | -            | -          | -   |
+| propName  | propType | defaultValue | isRequired |
+|-----------|----------|--------------|------------|
+| onChange  | func     | -            | +          |
+| options   | array    | -            | +          |
+| selected  | string   | -            | -          |
+| className | string   | -            | -          |
+| style     | object   | -            | -          |
