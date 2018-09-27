@@ -15,10 +15,14 @@ import VerticalGroupedBar from "../../src/charts/VerticalGroupedBar";
 import VerticalGroupedBarReadme from "../../src/charts/VerticalGroupedBar/README.md";
 import { DataTableWithSearch } from "../../src/charts/DataTable";
 import DataTableReadme from "../../src/charts/DataTable/README.md";
+import PindropMap from "../../src/charts/PindropMap";
+import PindropMapReadme from "../../src/charts/PindropMap/README.md";
 import Search from "../../src/components/Search";
 import SearchReadme from "../../src/components/Search/README.md";
 import Select from "../../src/components/Select";
 import SelectReadme from "../../src/components/Select/README.md";
+import BaseMap from "../../src/components/BaseMap";
+import BaseMapReadme from "../../src/components/BaseMap/README.md";
 import { cityTemperature } from "@vx/mock-data";
 import { colors } from "../../src/lib/colors";
 import "./newamericadotorg.lite.css";
@@ -93,6 +97,15 @@ storiesOf("Chart", module)
     );
   });
 
+storiesOf("Chart", module)
+  .addDecorator(withKnobs)
+  .addDecorator(withReadme(PindropMapReadme))
+  .add("Pindrop Map", () => {
+    return (
+      <PindropMap data={object("Data",[{"lat": 38.9072, lon: -77.0369}])} geometry={text("Geometry", "us")} title={text("Chart Title", "Chart title")} source={text("Source", "Chart source")} width={1000} height={600} />
+    );
+  });
+
 storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addDecorator(withReadme(SearchReadme))
@@ -105,4 +118,18 @@ storiesOf("Components", module)
   .addDecorator(withReadme(SelectReadme))
   .add("Select", () => {
     return <Select options={["option 1", "option 2", "option 3"]} />;
+  });
+
+storiesOf("Components", module)
+  .addDecorator(withKnobs)
+  .addDecorator(withReadme(BaseMapReadme))
+  .add("BaseMap", () => {
+    return (
+      <BaseMap
+        geometry={text("Geometry", "us")}
+        width={1000}
+        height={600}
+        projectionInit={projection => console.log(projection)}
+      />
+    );
   });
