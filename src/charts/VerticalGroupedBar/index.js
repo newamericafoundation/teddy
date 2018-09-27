@@ -77,7 +77,7 @@ const VerticalGroupedBarChart = withTooltip(props => {
               rangeRound: [0, xMax],
               domain: data.map(x),
               padding: 0.2,
-              tickFormat: () => val => xFormat(val)
+              tickFormat: () => val => (xFormat ? xFormat(val) : val)
             });
           const x1Scale =
             x1Scale ||
