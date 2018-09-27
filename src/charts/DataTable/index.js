@@ -19,8 +19,7 @@ class DataTable extends React.Component {
       title,
       subtitle,
       source,
-      showPagination,
-      ...other
+      showPagination
     } = this.props;
 
     return (
@@ -33,13 +32,12 @@ class DataTable extends React.Component {
       >
         {this.props.children}
         <ReactTable
-          data={_data}
+          data={data}
           columns={columns}
           className="-striped"
           showPagination={showPagination ? showPagination : false}
           showPageSizeOptions={false}
           PaginationComponent={Pagination}
-          {...other}
         />
       </ChartContainer>
     );
