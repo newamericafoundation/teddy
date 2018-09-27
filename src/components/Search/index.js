@@ -1,4 +1,4 @@
-import React from "React";
+import React from "react";
 import "./Search.scss";
 
 class Search extends React.Component {
