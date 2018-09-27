@@ -9,7 +9,8 @@
     "build": "webpack --mode production --env.NODE_ENV=production",
     "deploy": "webpack --mode production --env.NODE_ENV=production --env.deploy && ./deploy.sh $npm_package_name",
     "watch": "webpack --watch",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "author": "",
   "license": "ISC",
@@ -39,6 +40,7 @@
     "@storybook/addon-knobs": "^4.0.0-alpha.23",
     "@storybook/addon-options": "^4.0.0-alpha.23",
     "@storybook/react": "^4.0.0-alpha.23",
+    "@storybook/storybook-deployer": "^2.3.0",
     "babel-loader": "^8.0.2",
     "clean-webpack-plugin": "^0.1.19",
     "compression-webpack-plugin": "^2.0.0",
