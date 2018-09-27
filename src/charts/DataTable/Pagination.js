@@ -67,7 +67,7 @@ export default class Pagination extends React.Component {
 
     return (
       <div className="pagination" style={this.props.style}>
-        <span class="pagination__number-of-entries">
+        <span className="pagination__number-of-entries">
           Showing {page * pageSize + 1} to{" "}
           {page === pages - 1 ? sortedData.length : page * pageSize + pageSize}{" "}
           of {sortedData.length} entries

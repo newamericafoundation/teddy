@@ -1,4 +1,4 @@
-# Pindrop Map
+# BaseMap
 
 ### Usage
 
@@ -14,7 +14,7 @@ import BaseMap from "./components/BaseMap";
 - `height` -An explicitly declared height, which is passed into the BaseMap component and used in the SVG's viewBox.
 
 | propName       | propType | defaultValue | isRequired |
-| -------------- | -------- | ------------ | ---------- |
+|----------------|----------|--------------|------------|
 | projectionInit | string   | -            | +          |
 | geometry       | func     | -            | +          |
 | width          | number   | -            | +          |
