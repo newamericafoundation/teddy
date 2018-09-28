@@ -5,3 +5,4 @@ node_modules
 data
 public
 .env
+.storybook/dist
