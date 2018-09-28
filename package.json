@@ -10,7 +10,7 @@
     "deploy": "webpack --mode production --env.NODE_ENV=production --env.deploy && ./deploy.sh $npm_package_name",
     "watch": "webpack --watch",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "build-storybook": "build-storybook -c .storybook -o .storybook/dist && aws s3 sync .storybook/dist s3://datadotnewamerica/components-library && aws cloudfront create-invalidation --distribution-id E15K2IVEDI1Y6H --paths \"/components-library/*\""
   },
   "author": "",
   "license": "ISC",
@@ -37,10 +37,10 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@sambego/storybook-styles": "^1.0.0",
     "@storybook/addon-knobs": "^4.0.0-alpha.23",
     "@storybook/addon-options": "^4.0.0-alpha.23",
     "@storybook/react": "^4.0.0-alpha.23",
-    "@storybook/storybook-deployer": "^2.3.0",
     "babel-loader": "^8.0.2",
     "clean-webpack-plugin": "^0.1.19",
     "compression-webpack-plugin": "^2.0.0",
