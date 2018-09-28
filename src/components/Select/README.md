@@ -5,7 +5,7 @@ A simple select with sensible styles.
 ### Usage
 
 ```js
-import { Search } from "./components/Search";
+import { Select } from "./components/Select";
 ```
 
 ### Properties
