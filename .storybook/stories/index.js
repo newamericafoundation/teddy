@@ -9,6 +9,7 @@ import {
   boolean
 } from "@storybook/addon-knobs";
 import { withReadme, withDocs, doc } from "storybook-readme";
+import styles from "@sambego/storybook-styles";
 import HorizontalStackedBar from "../../src/charts/HorizontalStackedBar";
 import HorizontalStackedBarReadme from "../../src/charts/HorizontalStackedBar/README.md";
 import VerticalGroupedBar from "../../src/charts/VerticalGroupedBar";
@@ -28,9 +29,19 @@ import { colors } from "../../src/lib/colors";
 import "./newamericadotorg.lite.css";
 import "../../src/index.scss";
 
+
 storiesOf("Chart", module)
-  .addDecorator(withKnobs)
+  .addDecorator(withKnobs({escapeHTML: false}))
   .addDecorator(withReadme(HorizontalStackedBarReadme))
+  .addDecorator(
+    styles({
+      maxWidth: "850px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
   .add("Horizontal Stacked Bar", () => (
     <HorizontalStackedBar
       title={text("Title", "Your Chart's Title")}
@@ -54,8 +65,17 @@ storiesOf("Chart", module)
   ));
 
 storiesOf("Chart", module)
-  .addDecorator(withKnobs)
+  .addDecorator(withKnobs({escapeHTML: false}))
   .addDecorator(withReadme(VerticalGroupedBarReadme))
+  .addDecorator(
+    styles({
+      maxWidth: "850px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
   .add("Vertical Grouped Bar", () => (
     <VerticalGroupedBar
       title={text("Title", "Your Chart's Title")}
@@ -80,8 +100,17 @@ storiesOf("Chart", module)
   ));
 
 storiesOf("Chart", module)
-  .addDecorator(withKnobs)
+  .addDecorator(withKnobs({escapeHTML: false}))
   .addDecorator(withReadme(DataTableReadme))
+  .addDecorator(
+    styles({
+      maxWidth: "1200px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
   .add("Data Table", () => {
     return (
       <DataTableWithSearch
@@ -98,8 +127,17 @@ storiesOf("Chart", module)
   });
 
 storiesOf("Chart", module)
-  .addDecorator(withKnobs)
+  .addDecorator(withKnobs({escapeHTML: false}))
   .addDecorator(withReadme(PindropMapReadme))
+  .addDecorator(
+    styles({
+      maxWidth: "1200px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
   .add("Pindrop Map", () => {
     return (
       <PindropMap data={object("Data",[{"lat": 38.9072, lon: -77.0369}])} geometry={text("Geometry", "us")} title={text("Chart Title", "Chart title")} source={text("Source", "Chart source")} width={1000} height={600} />
@@ -109,6 +147,11 @@ storiesOf("Chart", module)
 storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addDecorator(withReadme(SearchReadme))
+  .addDecorator(
+    styles({
+      padding: "0 0.5rem"
+    })
+  )
   .add("Search", () => {
     return <Search />;
   });
@@ -116,6 +159,11 @@ storiesOf("Components", module)
 storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addDecorator(withReadme(SelectReadme))
+  .addDecorator(
+    styles({
+      padding: "0 0.5rem"
+    })
+  )
   .add("Select", () => {
     return <Select options={["option 1", "option 2", "option 3"]} />;
   });
@@ -123,6 +171,15 @@ storiesOf("Components", module)
 storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addDecorator(withReadme(BaseMapReadme))
+  .addDecorator(
+    styles({
+      maxWidth: "1200px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
   .add("BaseMap", () => {
     return (
       <BaseMap
