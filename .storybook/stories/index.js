@@ -22,6 +22,8 @@ import Search from "../../src/components/Search";
 import SearchReadme from "../../src/components/Search/README.md";
 import Select from "../../src/components/Select";
 import SelectReadme from "../../src/components/Select/README.md";
+import Slider from "../../src/components/Slider";
+import SliderReadme from "../../src/components/Slider/README.md";
 import BaseMap from "../../src/components/BaseMap";
 import BaseMapReadme from "../../src/components/BaseMap/README.md";
 import { cityTemperature } from "@vx/mock-data";
@@ -29,9 +31,8 @@ import { colors } from "../../src/lib/colors";
 import "./newamericadotorg.lite.css";
 import "../../src/index.scss";
 
-
 storiesOf("Chart", module)
-  .addDecorator(withKnobs({escapeHTML: false}))
+  .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(withReadme(HorizontalStackedBarReadme))
   .addDecorator(
     styles({
@@ -65,7 +66,7 @@ storiesOf("Chart", module)
   ));
 
 storiesOf("Chart", module)
-  .addDecorator(withKnobs({escapeHTML: false}))
+  .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(withReadme(VerticalGroupedBarReadme))
   .addDecorator(
     styles({
@@ -100,7 +101,7 @@ storiesOf("Chart", module)
   ));
 
 storiesOf("Chart", module)
-  .addDecorator(withKnobs({escapeHTML: false}))
+  .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(withReadme(DataTableReadme))
   .addDecorator(
     styles({
@@ -127,7 +128,7 @@ storiesOf("Chart", module)
   });
 
 storiesOf("Chart", module)
-  .addDecorator(withKnobs({escapeHTML: false}))
+  .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(withReadme(PindropMapReadme))
   .addDecorator(
     styles({
@@ -140,7 +141,14 @@ storiesOf("Chart", module)
   )
   .add("Pindrop Map", () => {
     return (
-      <PindropMap data={object("Data",[{"lat": 38.9072, lon: -77.0369}])} geometry={text("Geometry", "us")} title={text("Chart Title", "Chart title")} source={text("Source", "Chart source")} width={1000} height={600} />
+      <PindropMap
+        data={object("Data", [{ lat: 38.9072, lon: -77.0369 }])}
+        geometry={text("Geometry", "us")}
+        title={text("Chart Title", "Chart title")}
+        source={text("Source", "Chart source")}
+        width={1000}
+        height={600}
+      />
     );
   });
 
@@ -187,6 +195,27 @@ storiesOf("Components", module)
         width={1000}
         height={600}
         projectionInit={projection => console.log(projection)}
+      />
+    );
+  });
+
+storiesOf("Components", module)
+  .addDecorator(withKnobs)
+  .addDecorator(withReadme(SliderReadme))
+  .addDecorator(
+    styles({
+      padding: "1rem"
+    })
+  )
+  .add("Slider", () => {
+    return (
+      <Slider
+        label="Label"
+        min="0"
+        max="10"
+        step="1"
+        value="5"
+        onChange={val => console.log(val)}
       />
     );
   });
