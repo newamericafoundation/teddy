@@ -24,6 +24,12 @@ import Select from "../../src/components/Select";
 import SelectReadme from "../../src/components/Select/README.md";
 import Slider from "../../src/components/Slider";
 import SliderReadme from "../../src/components/Slider/README.md";
+import CheckboxGroup from "../../src/components/CheckboxGroup";
+import CheckboxGroupReadme from "../../src/components/CheckboxGroup/README.md";
+import Toggle from "../../src/components/Toggle";
+import ToggleReadme from "../../src/components/Toggle/README.md";
+import ButtonGroup from "../../src/components/ButtonGroup";
+import ButtonGroupReadme from "../../src/components/ButtonGroup/README.md";
 import BaseMap from "../../src/components/BaseMap";
 import BaseMapReadme from "../../src/components/BaseMap/README.md";
 import { cityTemperature } from "@vx/mock-data";
@@ -216,6 +222,74 @@ storiesOf("Components", module)
         step="1"
         value="5"
         onChange={val => console.log(val)}
+      />
+    );
+  });
+
+storiesOf("Components", module)
+  .addDecorator(withKnobs)
+  .addDecorator(withReadme(CheckboxGroupReadme))
+  .addDecorator(
+    styles({
+      padding: "1rem"
+    })
+  )
+  .add("CheckboxGroup", () => {
+    return (
+      <CheckboxGroup
+        orientation="vertical"
+        options={[
+          { id: "1", label: "option 1" },
+          { id: "2", label: "option 2" }
+        ]}
+        onChange={e => console.log(e.target.checked)}
+        title="Title"
+      />
+    );
+  });
+
+storiesOf("Components", module)
+  .addDecorator(withKnobs)
+  .addDecorator(withReadme(ToggleReadme))
+  .addDecorator(
+    styles({
+      padding: "1rem"
+    })
+  )
+  .add("Toggle", () => {
+    return (
+      <Toggle
+        onLabel="on"
+        offLabel="off"
+        id="toggle"
+        onChange={e => console.log(e)}
+      />
+    );
+  });
+
+storiesOf("Components", module)
+  .addDecorator(withKnobs)
+  .addDecorator(withReadme(ButtonGroupReadme))
+  .addDecorator(
+    styles({
+      padding: "1rem"
+    })
+  )
+  .add("ButtonGroup", () => {
+    return (
+      <ButtonGroup
+        options={[
+          {
+            id: "1",
+            text: "option 1"
+          },
+          {
+            id: "2",
+            text: "option 2"
+          }
+        ]}
+        active="2"
+        onChange={e => console.log(e)}
       />
     );
   });
