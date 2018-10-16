@@ -9,7 +9,6 @@ const defaultButton = props => (
 export default class Pagination extends React.Component {
   constructor(props) {
     super();
-    console.log(props);
     this.getSafePage = this.getSafePage.bind(this);
     this.changePage = this.changePage.bind(this);
     this.applyPage = this.applyPage.bind(this);
