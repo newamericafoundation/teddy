@@ -14,7 +14,7 @@ const ChartContainer = props => (
     </div>
     <div
       className="chart__figure"
-      style={{ height: props.height, maxWidth: props.width, margin: "auto" }}
+      style={{ height: props.height, maxWidth: props.maxWidth, margin: "auto" }}
     >
       {props.children}
     </div>
