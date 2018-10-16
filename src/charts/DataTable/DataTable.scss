@@ -31,6 +31,10 @@ $desktop-padding: 25px;
   font-size: 14px;
 }
 
+.rt-tr.-even {
+  background-color: #E5E5E5 !important;
+}
+
 .ReactTable .rt-resizable-header {
   padding: 6px 24px !important;
   -webkit-box-shadow: none !important;
