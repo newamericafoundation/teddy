@@ -1,0 +1,52 @@
+.dv-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.dv-toggle {
+  padding-right: 1rem;
+}
+
+.dv-toggle__input {
+  display: none;
+  + .dv-toggle__button {
+    display: block;
+    position: relative;
+    width: 4rem;
+    height: 2rem;
+    padding: 3px;
+    background: #d5d5d5;
+    outline: 0;
+    border-radius: 1rem;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    user-select: none;
+    &:after,
+    &:before {
+      position: relative;
+      display: block;
+      content: "";
+      width: 50%;
+      height: 100%;
+    }
+    &:after {
+      left: 0;
+      border-radius: 100%;
+      background: #fff;
+      transition: all 0.2s ease;
+    }
+    &:before {
+      display: none;
+    }
+  }
+  &:checked + .dv-toggle__button {
+    background: #d5d5d5;
+  }
+  &:checked + .dv-toggle__button:after {
+    left: 50%;
+  }
+}
+
+.dv-toggle__label {
+  font-size: 14px;
+}
