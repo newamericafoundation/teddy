@@ -1,0 +1,26 @@
+.dv-btn {
+  font-size: 14px;
+  text-transform: none;
+  font-weight: normal;
+  letter-spacing: normal;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border: none;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+  &:first-child {
+    border-left: 1px solid #333;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  &.dv-btn-active {
+    background-color: #333;
+    color: #fff;
+  }
+}
+
+.dv-btn-group {
+  display: flex;
+}

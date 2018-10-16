@@ -1,0 +1,70 @@
+.dv-range-slider {
+  width: 100%;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dv-range-slider__range {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 5px;
+  border-radius: 10px;
+  background: #e3e3e3;
+  outline: none;
+  padding: 0;
+  margin: 0; // Range Handle
+  &::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: inset 0 0 0 6px #2dd1ac;
+    cursor: pointer;
+  }
+  &::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: inset 0 0 0 6px #2dd1ac;
+    cursor: pointer;
+  }
+  &::-moz-range-progress {
+    background-color: #2dd1ac;
+  }
+  &::-ms-fill-lower {
+    background-color: #2dd1ac;
+  }
+}
+
+// Firefox Overrides
+::-moz-range-track {
+  background: #e3e3e3;
+  border: 0;
+}
+
+input::-moz-focus-inner,
+input::-moz-focus-outer {
+  border: 0;
+}
+
+.dv-range-slider__label-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+}
+
+.dv-range-slider__label {
+  font-size: 14px;
+  color: #333333;
+}
+
+.dv-range-slider__value {
+  font-size: 14px;
+  color: #888888;
+}

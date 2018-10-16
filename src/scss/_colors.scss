@@ -1,0 +1,28 @@
+$_color-palette: (
+  na-turquoise: #2ebcb3,
+  na-light-turquoise: #46ccc3,
+  na-dark-turquoise: #2a8e88,
+  oti-blue: #5ba4da,
+  oti-light-blue: #75bef4,
+  dark-oti-blue: #477da3,
+  cinnabar-red: #e75c64,
+  dark-cinnabar-red: #477da3,
+  na-black: #2c2f35,
+  na-light-black: #5f6268,
+  na-black-70: rgba(44, 47, 53, 0.7),
+  na-black-40: #6b6d71,
+  na-black-30: #c0c1c3,
+  na-black-10: #e0e0e1,
+  na-black-05: #f4f4f4,
+  na-white: #ffffff,
+  shadow: rgba(0, 0, 0, 0.25),
+  overlay: rgba(0, 0, 0, 0.2)
+);
+/*
+ * Color palette usage:
+ * background-color: palette-get(cinnabar-red);
+ */
+
+@function palette-get($key) {
+  @return map-get($_color-palette, $key);
+}
