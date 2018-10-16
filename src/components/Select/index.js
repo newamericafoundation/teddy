@@ -10,12 +10,16 @@ export default class Select extends React.Component {
     const { options, selected, onChange, className, style } = this.props;
     return (
       <select
-        onChange={event => this.props.onChange(event.target.value)}
+        onChange={event => this.props.onChange(e)}
         className={`dv-select ${className || ""}`}
         style={style}
       >
         {options.map((option, i) => (
-          <option selected={option === selected ? true : false} value={option}>
+          <option
+            selected={option === selected ? true : false}
+            value={option}
+            key={option}
+          >
             {option}
           </option>
         ))}

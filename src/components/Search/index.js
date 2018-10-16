@@ -11,7 +11,7 @@ class Search extends React.Component {
 
   updateSearch(e) {
     this.setState({ search: e.target.value });
-    this.props.onChange(e.target.value);
+    this.props.onChange(e);
   }
 
   render() {
