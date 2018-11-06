@@ -179,7 +179,12 @@ storiesOf("Components", module)
     })
   )
   .add("Select", () => {
-    return <Select options={["option 1", "option 2", "option 3"]} />;
+    return (
+      <Select
+        options={["option 1", "option 2", "option 3"]}
+        onChange={e => console.log(e)}
+      />
+    );
   });
 
 storiesOf("Components", module)
