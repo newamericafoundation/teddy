@@ -8,8 +8,8 @@ export default function withSearch(Table) {
       this.state = { search: "" };
     }
 
-    handleChange(val) {
-      this.setState({ search: val });
+    handleChange(e) {
+      this.setState({ search: e.target.value });
     }
 
     render() {
