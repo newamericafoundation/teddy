@@ -10,6 +10,7 @@ import {
 } from "@storybook/addon-knobs";
 import { withReadme, withDocs, doc } from "storybook-readme";
 import styles from "@sambego/storybook-styles";
+import Timeline from "../../src/charts/Timeline";
 import HorizontalStackedBar from "../../src/charts/HorizontalStackedBar";
 import HorizontalStackedBarReadme from "../../src/charts/HorizontalStackedBar/README.md";
 import VerticalGroupedBar from "../../src/charts/VerticalGroupedBar";
@@ -36,6 +37,10 @@ import { cityTemperature } from "@vx/mock-data";
 import { colors } from "../../src/lib/colors";
 import "./newamericadotorg.lite.css";
 import "../../src/index.scss";
+
+storiesOf("Chart", module)
+  .addDecorator(withKnobs({ escapeHTML: false }))
+  .add("Timeline", () => <Timeline />);
 
 storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
