@@ -38,9 +38,47 @@ import { colors } from "../../src/lib/colors";
 import "./newamericadotorg.lite.css";
 import "../../src/index.scss";
 
+class LoadData extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null
+    };
+  }
+  componentDidMount() {
+    fetch(this.props.url)
+      .then(data => data.json())
+      .then(data => {
+        this.setState({ data });
+      });
+  }
+  render() {
+    if (!this.state.data) {
+      return <div>loading</div>;
+    }
+    return this.props.render(this.state.data);
+  }
+}
+
 storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
-  .add("Timeline", () => <Timeline />);
+  .add("Timeline", () => {
+    const url =
+      "http://na-data-projects.s3.amazonaws.com/data/isp/proxy_warfare.json";
+    return (
+      <LoadData
+        url={url}
+        render={data => {
+          const _data = data.timeline.map((val, i) => ({
+            ...val,
+            date: new Date(val.date),
+            dateString: val.date
+          }));
+          return <Timeline title="test" divisionWidth={30} data={_data} />;
+        }}
+      />
+    );
+  });
 
 storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
