@@ -1,9 +1,10 @@
 @import "../../scss/spacing";
 @import "../../scss/widths";
+@import "../../scss/breakpoints";
 .dv-Timeline {
   width: 100%;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  background-color: #f5f5f5; // min-height: 100vh;
+  padding: $s4 $s2;
 }
 
 h1#dv-Timeline__title {
@@ -11,6 +12,8 @@ h1#dv-Timeline__title {
   font-weight: bold;
   font-size: 18px;
   color: #333333;
+  margin: 0;
+  margin-bottom: $s3;
 }
 
 .dv-Timeline__container {
@@ -20,61 +23,85 @@ h1#dv-Timeline__title {
 }
 
 .dv-Timeline__ContentArea {
-  background-color: #fff;
   position: relative;
-  min-height: 75vh;
+  padding: $s4 0;
   margin-left: $s2 !important;
   margin-right: $s2 !important;
-  .content-padding {
-    padding: $s1;
+  background-color: #fff;
+  &-group {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 0 2.3rem;
+  }
+  @include breakpoint(medium) {
+    padding: $s6 0;
+    &-group {
+      padding: 0;
+    }
   }
 }
 
 .dv-Timeline__content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.dv-Timeline__content-center {
-  display: flex;
-  flex-direction: column;
   align-items: start;
   justify-content: center;
+  height: 100%;
+  overflow: scroll;
+  margin: 20px 0;
+  &-left {
+    width: 100%;
+  }
+  &-right {
+    width: 100%;
+  }
+  &-label {
+    font-family: Circular;
+    font-size: 15px;
+    color: darken(#a6a6a6, 30%);
+  }
+  &-tag {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background-color: #ebebeb;
+    border-radius: 5px;
+    font-family: Circular;
+    font-size: 12px;
+    color: darken(#a6a6a6, 30%);
+  }
+  &-tag:last-child {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+  p {
+    font-family: Circular;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333333;
+    margin: 0;
+  }
+  @include breakpoint(medium) {
+    height: 20rem;
+    margin: 0;
+    &-left {
+      width: 25%;
+    }
+    &-right {
+      width: calc(100% / 3);
+    }
+  }
 }
 
-.dv-Timeline__content-title {
+// fucking specifity override
+#dv-Timeline__content-title {
   font-family: Platform;
   font-size: 24px;
+  line-height: 1.2;
   color: #333333;
-}
-
-p.dv-Timeline__content-description {
-  font-family: Circular;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #333333;
-  margin: 0;
-}
-
-.dv-Timeline__content-label {
-  font-family: Circular;
-  font-size: 14px;
-  color: darken(#a6a6a6, 30%);
-}
-
-.dv-Timeline__content-tag {
-  padding-left: $s3;
-  padding-right: $s3;
-  padding-top: $s2;
-  padding-bottom: $s2;
-  background-color: #ebebeb;
-  border-radius: 5px;
-  font-family: Circular;
-  font-size: 12px;
-  color: #333; // text-transform: uppercase;
-  // letter-spacing: 0.0625rem;
+  margin: 20px 0;
 }
 
 .dv-Timeline__ArrowLeft {
@@ -93,4 +120,19 @@ p.dv-Timeline__content-description {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.dv-Timeline-fade {
+  animation: fade;
+  animation-duration: 400ms;
+  animation-timing-function: ease-in;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

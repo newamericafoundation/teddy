@@ -1,49 +1,50 @@
 import React from "react";
 import ContentArea from "./ContentArea";
 import TimelineControl from "./TimelineControl";
+import { min, max, ascending } from "d3-array";
 import "./Timeline.scss";
 
 export default class Timeline extends React.Component {
   constructor(props) {
     super(props);
+    this._data = this.props.data
+      .sort((a, b) => ascending(a.date, b.date))
+      .map((val, i) => ({ ...val, id: i }));
     this.state = {
-      data: [],
-      activeData: {
-        title: "",
-        description: "",
-        date: "",
-        tags: "test, test"
-      }
+      activeData: this._data[0]
     };
     this.updatePoint = this.updatePoint.bind(this);
   }
 
-  componentDidMount() {
-    fetch(
-      "http://na-data-projects.s3.amazonaws.com/data/isp/proxy_warfare.json"
-    )
-      .then(data => data.json())
-      .then(data => {
-        console.log(data);
-        this.setState({ data: data.timeline, activeData: data.timeline[0] });
-      });
-  }
-
-  updatePoint = newData => {
-    this.setState({ activeData: newData });
+  updatePoint = id => {
+    this.setState({ activeData: this._data[id] });
   };
 
   render() {
-    const title = "test";
+    const { divisionWidth, title } = this.props;
     const { activeData } = this.state;
+    const highestPoint = this._data.length - 1;
+    const minDate = min(this._data, d => d.date);
+    const maxDate = max(this._data, d => d.date);
     return (
       <div className="dv-Timeline">
         <div className="dv-Timeline__container">
           <h1 className="dv-Timeline__title col-5" id="dv-Timeline__title">
             {title}
           </h1>
-          <ContentArea data={activeData} />
-          <TimelineControl onChange={this.updatePoint} />
+          <ContentArea
+            activeData={activeData}
+            updatePoint={this.updatePoint}
+            highestPoint={highestPoint}
+          />
+          <TimelineControl
+            data={this._data}
+            onChange={this.updatePoint}
+            activePoint={activeData.id}
+            divisionWidth={divisionWidth}
+            minDate={minDate}
+            maxDate={maxDate}
+          />
         </div>
       </div>
     );

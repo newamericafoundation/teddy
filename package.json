@@ -17,6 +17,7 @@
   "dependencies": {
     "@vx/axis": "0.0.173",
     "@vx/event": "0.0.165",
+    "@vx/grid": "0.0.181",
     "@vx/group": "0.0.170",
     "@vx/legend": "0.0.170",
     "@vx/mock-data": "0.0.165",
@@ -26,8 +27,10 @@
     "@vx/tooltip": "0.0.165",
     "d3-array": "^1.2.4",
     "d3-geo": "^1.11.1",
+    "d3-time": "^1.0.10",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "react-draggable": "^3.0.5",
     "react-table": "^6.8.6",
     "topojson-client": "^3.0.0"
   },

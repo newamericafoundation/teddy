@@ -8,15 +8,14 @@ const Image = ({ image }) => (
 
 const ContentLeft = props => {
   const { hasImage, data } = props;
-
   if (hasImage) {
     return <Image image={data.image} />;
   } else {
     return (
-      <div className="dv-Timeline__content col-6 content-padding row align-self-center">
-        <div className="dv-Timeline__content-center col-8 align-items-center">
-          <span className="dv-Timeline__content-label">{data.date}</span>
-          <h1 className="dv-Timeline__content-title">{data.title}</h1>
+      <div className={`dv-Timeline__content dv-Timeline__content-left`}>
+        <span className="dv-Timeline__content-label">{data.dateString}</span>
+        <h1 id="dv-Timeline__content-title">{data.title}</h1>
+        <div>
           {data.tags.split(",").map(tag => (
             <span className="dv-Timeline__content-tag">{tag}</span>
           ))}
@@ -31,30 +30,30 @@ const ContentRight = props => {
 
   if (hasImage) {
     return (
-      <div className="dv-Timeline__content col-6 content-padding row align-self-center">
-        <div className="dv-Timeline__content-center col-8 align-items-center">
-          <span className="dv-Timeline__content-label">{data.date}</span>
-          <h1 className="dv-Timeline__content-title">{data.title}</h1>
-          <p className="dv-Timeline__content-description">{data.description}</p>
-          {data.tags.split(",").map(tag => (
-            <span className="dv-Timeline__content-tag">{tag}</span>
-          ))}
-        </div>
+      <div className="dv-Timeline__content dv-Timeline__content-right">
+        <span className="dv-Timeline__content-label">{data.dateString}</span>
+        <h1 className="dv-Timeline__content-title">{data.title}</h1>
+        <p className="dv-Timeline__content-description">{data.description}</p>
+        {data.tags.split(",").map(tag => (
+          <span className="dv-Timeline__content-tag">{tag}</span>
+        ))}
       </div>
     );
   } else {
     return (
-      <div className="dv-Timeline__content col-6 content-padding row">
-        <div className="dv-Timeline__content-center col-8">
-          <p className="dv-Timeline__content-description">{data.description}</p>
-        </div>
+      <div className="dv-Timeline__content dv-Timeline__content-right">
+        <p className="dv-Timeline__content-description">{data.description}</p>
       </div>
     );
   }
 };
 
-const ArrowLeft = () => (
-  <div className="dv-Timeline__ArrowLeft">
+const ArrowLeft = ({ updatePoint, data }) => (
+  <div
+    className="dv-Timeline__ArrowLeft"
+    onClick={() => data.id !== 0 && updatePoint(data.id - 1)}
+    style={{ cursor: data.id === 0 ? "not-allowed" : "pointer" }}
+  >
     <svg viewBox="0 0 39 60" xmlns="http://www.w3.org/2000/svg">
       <g fill="none">
         <path
@@ -72,8 +71,12 @@ const ArrowLeft = () => (
   </div>
 );
 
-const ArrowRight = () => (
-  <div className="dv-Timeline__ArrowRight">
+const ArrowRight = ({ updatePoint, data, highestPoint }) => (
+  <div
+    className="dv-Timeline__ArrowRight"
+    onClick={() => data.id !== highestPoint && updatePoint(data.id + 1)}
+    style={{ cursor: data.id === highestPoint ? "not-allowed" : "pointer" }}
+  >
     <svg viewBox="0 0 39 60" xmlns="http://www.w3.org/2000/svg">
       <g fill="none">
         <path
@@ -94,16 +97,41 @@ const ArrowRight = () => (
 export default class ContentArea extends React.Component {
   constructor(props) {
     super(props);
+    this.content = null;
+  }
+
+  componentWillReceiveProps() {}
+
+  componentDidUpdate() {
+    this.content.classList.add("dv-Timeline-fade");
+    this.content.addEventListener("animationend", () => {
+      this.content.classList.remove("dv-Timeline-fade");
+    });
   }
 
   render() {
-    const { data } = this.props;
+    const { updatePoint, activeData, highestPoint } = this.props;
     return (
-      <div className="dv-Timeline__ContentArea row align-items-center">
-        <ArrowLeft />
-        <ContentLeft data={data} hasImage={data.image ? true : false} />
-        <ContentRight data={data} hasImage={data.image ? true : false} />
-        <ArrowRight />
+      <div className="dv-Timeline__ContentArea">
+        <div
+          className="dv-Timeline__ContentArea-group"
+          ref={el => (this.content = el)}
+        >
+          <ContentLeft
+            data={activeData}
+            hasImage={activeData.image ? true : false}
+          />
+          <ContentRight
+            data={activeData}
+            hasImage={activeData.image ? true : false}
+          />
+        </div>
+        <ArrowLeft updatePoint={updatePoint} data={activeData} />
+        <ArrowRight
+          updatePoint={updatePoint}
+          data={activeData}
+          highestPoint={highestPoint}
+        />
       </div>
     );
   }
