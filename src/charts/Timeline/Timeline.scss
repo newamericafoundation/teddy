@@ -12,8 +12,9 @@ h1#dv-Timeline__title {
   font-weight: bold;
   font-size: 18px;
   color: #333333;
-  margin: 0;
+  margin: 0 $s2;
   margin-bottom: $s3;
+  line-height: 1.3;
 }
 
 .dv-Timeline__container {
