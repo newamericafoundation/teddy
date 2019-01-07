@@ -10,6 +10,7 @@ import {
 } from "@storybook/addon-knobs";
 import { withReadme, withDocs, doc } from "storybook-readme";
 import styles from "@sambego/storybook-styles";
+import Line from "../../src/charts/Line";
 import Timeline from "../../src/charts/Timeline";
 import HorizontalStackedBar from "../../src/charts/HorizontalStackedBar";
 import HorizontalStackedBarReadme from "../../src/charts/HorizontalStackedBar/README.md";
@@ -59,6 +60,29 @@ class LoadData extends React.Component {
     return this.props.render(this.state.data);
   }
 }
+
+storiesOf("Chart", module)
+  .addDecorator(withKnobs({ escapeHTML: false }))
+  .add("Line Chart", () => {
+    const url =
+      "https://na-data-projects.s3.amazonaws.com/data/nann/network_research.json";
+    return (
+      <LoadData
+        url={url}
+        render={data => {
+          return (
+            <Line
+              data={data.line}
+              width={600}
+              height={400}
+              x={d => d.year}
+              y={d => d.cumulative}
+            />
+          );
+        }}
+      />
+    );
+  });
 
 storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
