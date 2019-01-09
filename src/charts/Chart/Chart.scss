@@ -1,0 +1,14 @@
+.dv-legend-container {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  div {
+    position: absolute;
+    transform: translateY(-50%);
+  }
+}
+
+.vx-legend-label {
+  font-size: 12px;
+}

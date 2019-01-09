@@ -57,7 +57,7 @@ class LoadData extends React.Component {
     if (!this.state.data) {
       return <div>loading</div>;
     }
-    return this.props.render(this.state.data);
+    return this.props.children(this.state.data);
   }
 }
 
@@ -67,20 +67,17 @@ storiesOf("Chart", module)
     const url =
       "https://na-data-projects.s3.amazonaws.com/data/nann/network_research.json";
     return (
-      <LoadData
-        url={url}
-        render={data => {
-          return (
-            <Line
-              data={data.line}
-              width={600}
-              height={400}
-              x={d => d.year}
-              y={d => d.cumulative}
-            />
-          );
-        }}
-      />
+      <LoadData url={url}>
+        {data => (
+          <Line
+            data={data.line}
+            width={600}
+            height={400}
+            x={d => d.year}
+            y={d => d.cumulative}
+          />
+        )}
+      </LoadData>
     );
   });
 
@@ -118,9 +115,6 @@ storiesOf("Chart", module)
   )
   .add("Horizontal Stacked Bar", () => (
     <HorizontalStackedBar
-      title={text("Title", "Your Chart's Title")}
-      subtitle={text("Subtitle", "Your chart's subtitle")}
-      source={text("Source", "A source for the data in your chart")}
       height={number("Height", 400)}
       y={d => d[text("Y Accessor", "date")]}
       keys={array(
@@ -133,7 +127,12 @@ storiesOf("Chart", module)
         colors.purple.light
       ])}
       margin={object("Margin", { top: 40, left: 70, right: 40, bottom: 40 })}
-      tooltipTemplate={d => <div>Tooltip</div>}
+      renderTooltip={({ datum }) => (
+        <div style={{ display: "flex" }}>
+          <span style={{ paddingRight: "3px" }}>{datum.key}: </span>
+          <span>{datum.bar.data[datum.key]}</span>
+        </div>
+      )}
       data={object("Data", [...cityTemperature.slice(0, 10)])}
     />
   ));
