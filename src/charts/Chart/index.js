@@ -4,7 +4,7 @@ import WithTooltip from "./WithTooltip";
 import "./Chart.scss";
 
 const Chart = ({
-  width = "100%",
+  maxWidth = "100%",
   height = 600,
   renderTooltip,
   renderLegend,
@@ -16,7 +16,7 @@ const Chart = ({
       <WithTooltip renderTooltip={renderTooltip}>
         {({ handleMouseEnter, handleMouseLeave }) => (
           <Chart
-            width={width}
+            maxWidth={maxWidth}
             height={height}
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
@@ -30,7 +30,7 @@ const Chart = ({
     );
   } else {
     return (
-      <div style={{ width, height }}>
+      <div style={{ maxWidth: maxWidth, height }} className="dv-Chart">
         {renderLegend && (
           <div className="dv-legend-container">{renderLegend()}</div>
         )}

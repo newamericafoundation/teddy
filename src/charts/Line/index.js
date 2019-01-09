@@ -9,7 +9,7 @@ import { format } from "d3-format";
 import Chart from "../Chart";
 
 export default ({
-  width,
+  maxWidth,
   height,
   x,
   y,
@@ -20,7 +20,7 @@ export default ({
   stroke = "#22C8A3",
   strokeWidth = 2
 }) => (
-  <Chart width={width} height={height}>
+  <Chart maxWidth={maxWidth} height={height}>
     {({ width, height }) => {
       const xMax = width - margin.left - margin.right;
       const yMax = height - margin.top - margin.bottom;
