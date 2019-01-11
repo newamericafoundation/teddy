@@ -3,7 +3,8 @@
 This component is the default wrapper for all charts. It provides two functionalities:
 
 - gives you a responsive SVG
-- optionally takes care of the rendering and positioning of your tooltips.
+- optionally takes care of the rendering and positioning of your tooltips
+- optionally renders a legend outside of the chart's SVG (you have to pass this in from your chart)
 
 ## Usage
 

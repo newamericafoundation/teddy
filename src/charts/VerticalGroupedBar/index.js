@@ -3,200 +3,156 @@ import { BarGroup } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
-import { max } from "d3-array";
-import ChartContainer from "../../components/ChartContainer";
-import { ParentSize } from "@vx/responsive";
-import { localPoint } from "@vx/event";
 import { LegendOrdinal } from "@vx/legend";
-import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
+import { max } from "d3-array";
+import Chart from "../Chart";
 import { colors as naColors } from "../../lib/colors";
 
-const VerticalGroupedBarChart = withTooltip(props => {
-  const margin = props.margin || {
+export default ({
+  maxWidth,
+  height,
+  data,
+  x,
+  y,
+  keys,
+  renderTooltip,
+  xFormat,
+  yFormat,
+  xAxisLabel,
+  yAxisLabel,
+  colors,
+  margin = {
     top: 40,
     left: 40,
     right: 40,
     bottom: 40
-  };
+  }
+}) => {
+  const colorScale = scaleOrdinal({
+    domain: keys,
+    range: colors
+  });
 
-  const {
-    data,
-    title,
-    subtitle,
-    source,
-    height,
-    x,
-    y,
-    keys,
-    x0Scale,
-    x1Scale,
-    yScale,
-    zScale,
-    xFormat,
-    yFormat,
-    xAxisLabel,
-    yAxisLabel,
-    colors,
-    tooltipTemplate,
-    tooltipData,
-    tooltipLeft,
-    tooltipTop,
-    tooltipOpen,
-    hideTooltip,
-    showTooltip
-  } = props;
-
-  const handleMouseOver = (event, datum) => {
-    if (showTooltip) {
-      const coords = localPoint(event.target.ownerSVGElement, event);
-      showTooltip({
-        tooltipLeft: coords.x,
-        tooltipTop: coords.y,
-        tooltipData: datum
-      });
-    }
-  };
+  const legend = () => (
+    <LegendOrdinal
+      scale={colorScale}
+      direction="row"
+      labelMargin="0 15px 0 0"
+    />
+  );
 
   return (
-    <ChartContainer
-      title={title}
-      subtitle={subtitle}
-      source={source}
+    <Chart
+      maxWidth={maxWidth}
       height={height}
+      renderTooltip={renderTooltip}
+      renderLegend={legend}
     >
-      <ParentSize>
-        {({ width, height }) => {
-          // bounds
-          const xMax = width - margin.left - margin.right;
-          const yMax = height - margin.top - margin.bottom;
+      {({ width, height, handleMouseEnter, handleMouseLeave }) => {
+        const xMax = width - margin.left - margin.right;
+        const yMax = height - margin.top - margin.bottom;
 
-          // scales
-          const x0Scale =
-            x0Scale ||
-            scaleBand({
-              rangeRound: [0, xMax],
-              domain: data.map(x),
-              padding: 0.2,
-              tickFormat: () => val => (xFormat ? xFormat(val) : val)
-            });
-          const x1Scale =
-            x1Scale ||
-            scaleBand({
-              rangeRound: [0, x0Scale.bandwidth()],
-              domain: keys,
-              padding: 0.1
-            });
-          const yScale =
-            yScale ||
-            scaleLinear({
-              rangeRound: [yMax, 0],
-              domain: [
-                0,
-                max(data, d => {
-                  return max(keys, key => d[key]);
-                })
-              ],
-              tickFormat: () => val => yFormat(val)
-            });
-          const zScale =
-            zScale ||
-            scaleOrdinal({
-              domain: keys,
-              range: colors
-            });
+        const x0Scale = scaleBand({
+          rangeRound: [0, xMax],
+          domain: data.map(x),
+          padding: 0.2
+        });
+        const x1Scale = scaleBand({
+          rangeRound: [0, x0Scale.bandwidth()],
+          domain: keys,
+          padding: 0.1
+        });
+        const yScale = scaleLinear({
+          rangeRound: [yMax, 0],
+          domain: [
+            0,
+            max(data, d => {
+              return max(keys, key => d[key]);
+            })
+          ]
+        });
 
-          return (
-            <React.Fragment>
-              <svg width={width} height={height}>
-                <BarGroup
-                  top={margin.top}
-                  left={margin.left}
-                  data={data}
-                  keys={keys}
-                  height={yMax}
-                  x0={x}
-                  x0Scale={x0Scale}
-                  x1Scale={x1Scale}
-                  yScale={yScale}
-                  zScale={zScale}
-                  onMouseLeave={data => event => {
-                    hideTooltip();
-                  }}
-                  onMouseMove={data => event => {
-                    handleMouseOver(event, data);
-                  }}
-                />
-                <AxisLeft
-                  scale={yScale}
-                  top={margin.top}
-                  left={margin.left}
-                  label={yAxisLabel ? yAxisLabel : null}
-                  labelProps={{
-                    fontSize: 12,
-                    fill: naColors.grey.dark,
-                    textAnchor: "middle"
-                  }}
-                  stroke={naColors.grey.dark}
-                  tickStroke={naColors.grey.dark}
-                  tickFormat={yFormat ? yFormat : null}
-                  tickLabelProps={(value, index) => ({
-                    fill: naColors.grey.dark,
-                    fontSize: 12,
-                    textAnchor: "end",
-                    dy: "0.33em"
-                  })}
-                />
-                <AxisBottom
-                  scale={x0Scale}
-                  top={yMax + margin.top}
-                  left={margin.left}
-                  label={xAxisLabel ? xAxisLabel : null}
-                  stroke={naColors.grey.dark}
-                  hideTicks={true}
-                  tickStroke={naColors.grey.dark}
-                  hideAxisLine
-                  tickLabelProps={(value, index) => ({
-                    fill: naColors.grey.dark,
-                    fontSize: 12,
-                    textAnchor: "middle",
-                    width: x0Scale.bandwidth(),
-                    verticalAnchor: "start"
-                  })}
-                />
-              </svg>
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "14px"
-                }}
-              >
-                <LegendOrdinal
-                  scale={zScale}
-                  direction="row"
-                  labelMargin="0 15px 0 0"
-                />
-              </div>
-              {tooltipOpen && (
-                <TooltipWithBounds
-                  top={tooltipTop}
-                  left={tooltipLeft}
-                  className="tooltip"
-                >
-                  <div className="tooltip__content-container">
-                    {tooltipTemplate(tooltipData)}
-                  </div>
-                </TooltipWithBounds>
-              )}
-            </React.Fragment>
-          );
-        }}
-      </ParentSize>
-    </ChartContainer>
+        return (
+          <Group top={margin.top} left={margin.left}>
+            <BarGroup
+              data={data}
+              keys={keys}
+              height={yMax}
+              x0={x}
+              x0Scale={x0Scale}
+              x1Scale={x1Scale}
+              yScale={yScale}
+              color={colorScale}
+            >
+              {barGroups => {
+                return barGroups.map(barGroup => {
+                  return (
+                    <Group
+                      key={`bar-group-${barGroup.index}-${barGroup.x0}`}
+                      left={barGroup.x0}
+                    >
+                      {barGroup.bars.map(bar => {
+                        return (
+                          <rect
+                            key={`bar-group-bar-${barGroup.index}-${
+                              bar.index
+                            }-${bar.value}-${bar.key}`}
+                            x={bar.x}
+                            y={bar.y}
+                            width={bar.width}
+                            height={bar.height}
+                            fill={bar.color}
+                            onMouseMove={event =>
+                              handleMouseEnter({ event, data, datum: bar })
+                            }
+                            onMouseLeave={handleMouseLeave}
+                          />
+                        );
+                      })}
+                    </Group>
+                  );
+                });
+              }}
+            </BarGroup>
+            <AxisLeft
+              scale={yScale}
+              label={yAxisLabel ? yAxisLabel : null}
+              labelProps={{
+                fontSize: 12,
+                fill: naColors.grey.dark,
+                textAnchor: "middle"
+              }}
+              stroke="rgba(0,0,0,0.15)"
+              tickStroke="rgba(0,0,0,0.15)"
+              hideTicks={false}
+              tickFormat={yFormat ? yFormat : null}
+              tickLabelProps={(value, index) => ({
+                fill: naColors.grey.dark,
+                fontSize: 12,
+                textAnchor: "end",
+                dy: "0.33em"
+              })}
+            />
+            <AxisBottom
+              top={yMax}
+              scale={x0Scale}
+              label={xAxisLabel ? xAxisLabel : null}
+              stroke="rgba(0,0,0,0.15)"
+              hideAxisLine={true}
+              hideTicks={true}
+              tickStroke={naColors.grey.dark}
+              tickFormat={xFormat ? xFormat : null}
+              tickLabelProps={(value, index) => ({
+                fill: naColors.grey.dark,
+                fontSize: 12,
+                textAnchor: "middle",
+                width: x0Scale.bandwidth(),
+                verticalAnchor: "end"
+              })}
+            />
+          </Group>
+        );
+      }}
+    </Chart>
   );
-});
-
-export default VerticalGroupedBarChart;
+};

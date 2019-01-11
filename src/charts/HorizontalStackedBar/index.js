@@ -21,7 +21,7 @@ export default ({
   colors,
   renderTooltip,
   margin = {
-    top: 40,
+    top: 10,
     left: 60,
     right: 40,
     bottom: 40
@@ -46,7 +46,6 @@ export default ({
       scale={colorScale}
       direction="row"
       labelMargin="0 15px 0 0"
-      style={{ top: margin.top / 2 }}
     />
   );
 
