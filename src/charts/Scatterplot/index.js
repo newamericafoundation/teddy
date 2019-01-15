@@ -1,25 +1,31 @@
 import React from "react";
 import { Group } from "@vx/group";
-import { GlyphCircle } from "@vx/glyph";
-import { Text } from "@vx/text";
 import { scaleLinear, scaleOrdinal } from "@vx/scale";
 import { AxisLeft, AxisBottom } from "@vx/axis";
-import { max, extent } from "d3-array";
-import { format } from "d3-format";
+import { max } from "d3-array";
 import Chart from "../Chart";
 
-const margin = {
-  top: 10,
-  bottom: 55,
-  left: 65,
-  right: 10
-};
-
-export default ({ maxWidth, height, data, renderTooltip, x, y }) => {
+export default ({
+  maxWidth,
+  height,
+  data,
+  x,
+  y,
+  r,
+  renderTooltip,
+  circleStroke = "#4C81DB",
+  circleFill = "rgba(76,129,219, 0.4)",
+  margin = {
+    top: 10,
+    bottom: 55,
+    left: 65,
+    right: 10
+  }
+}) => {
   return (
-    <Chart maxWidth={maxWidth} height={height}>
+    <Chart maxWidth={maxWidth} height={height} margin={margin}>
       {({ width, height }) => {
-        if (width < 100) return null;
+        if (width < 100) return;
 
         const xMax = width - margin.left - margin.right;
         const yMaxRange = height - margin.top - margin.bottom;
@@ -34,7 +40,7 @@ export default ({ maxWidth, height, data, renderTooltip, x, y }) => {
 
         const yScale = scaleLinear({
           domain: [0, yMaxDomain],
-          range: [yMaxRange, margin.top],
+          range: [yMaxRange, 0],
           clamp: true
         });
 
@@ -43,27 +49,28 @@ export default ({ maxWidth, height, data, renderTooltip, x, y }) => {
             <Group>
               {data.map((point, i) => {
                 return (
-                  <GlyphCircle
+                  <circle
                     className="dv-scatterplot-point"
                     key={`point-${i}`}
-                    stroke={"#4C81DB"}
-                    fill="transparent"
+                    stroke={circleStroke}
+                    fill={circleFill}
                     fillOpacity={0.2}
-                    left={xScale(x(point))}
-                    top={yScale(y(point))}
-                    size={60}
+                    cx={xScale(x(point))}
+                    cy={yScale(y(point))}
+                    datax={x(point)}
+                    datay={y(point)}
+                    r={5}
                   />
                 );
               })}
             </Group>
             <AxisLeft
               scale={yScale}
-              left={margin.left}
               stroke={"rgba(0,0,0,0.15)"}
               hideTicks={true}
               label="Metropolitan/Micropolitan Area Population"
               numTicks={6}
-              tickFormat={d => format(".2s")(d).replace(".0", "")}
+              tickFormat={d => d}
               tickLabelProps={() => ({
                 fontFamily: "Circular",
                 fontSize: "11px",
@@ -71,7 +78,6 @@ export default ({ maxWidth, height, data, renderTooltip, x, y }) => {
                 fill: "#333"
               })}
               labelProps={{
-                dx: "-0.5em",
                 textAnchor: "middle",
                 fill: "#333",
                 fontSize: "14px",
@@ -81,7 +87,6 @@ export default ({ maxWidth, height, data, renderTooltip, x, y }) => {
             <AxisBottom
               scale={xScale}
               top={height - margin.top - margin.bottom}
-              left={margin.left}
               stroke={"rgba(0,0,0,0.15)"}
               hideTicks={true}
               label="Number of connections in each Metro Area"
@@ -93,7 +98,6 @@ export default ({ maxWidth, height, data, renderTooltip, x, y }) => {
                 fill: "#333",
                 textAnchor: "middle"
               })}
-              tickTransform={`translate(0,10px)`}
               labelProps={{
                 dy: "3.5em",
                 textAnchor: "middle",

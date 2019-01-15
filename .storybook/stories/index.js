@@ -11,6 +11,7 @@ import {
 import { withReadme, withDocs, doc } from "storybook-readme";
 import styles from "@sambego/storybook-styles";
 import Line from "../../src/charts/Line";
+import Scatterplot from "../../src/charts/Scatterplot";
 import Timeline from "../../src/charts/Timeline";
 import HorizontalStackedBar from "../../src/charts/HorizontalStackedBar";
 import HorizontalStackedBarReadme from "../../src/charts/HorizontalStackedBar/README.md";
@@ -34,10 +35,16 @@ import ButtonGroup from "../../src/components/ButtonGroup";
 import ButtonGroupReadme from "../../src/components/ButtonGroup/README.md";
 import BaseMap from "../../src/components/BaseMap";
 import BaseMapReadme from "../../src/components/BaseMap/README.md";
-import { cityTemperature } from "@vx/mock-data";
+import { genRandomNormalPoints, cityTemperature } from "@vx/mock-data";
 import { colors } from "../../src/lib/colors";
 import "./newamericadotorg.lite.css";
 import "../../src/index.scss";
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
 
 class LoadData extends React.Component {
   constructor(props) {
@@ -60,6 +67,34 @@ class LoadData extends React.Component {
     return this.props.children(this.state.data);
   }
 }
+
+storiesOf("Chart", module)
+  .addDecorator(withKnobs({ escapeHTML: false }))
+  .addDecorator(
+    styles({
+      maxWidth: "850px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
+  .add("Scatterplot", () => {
+    const scatterData = new Array(30).fill(undefined).map((val, i) => ({
+      name: i,
+      x: getRandomInt(1, 40),
+      y: getRandomInt(1, 40)
+    }));
+    return (
+      <Scatterplot
+        maxWidth={600}
+        height={400}
+        data={scatterData}
+        x={d => d.x}
+        y={d => d.y}
+      />
+    );
+  });
 
 storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
