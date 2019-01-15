@@ -129,7 +129,7 @@ storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .add("Timeline", () => {
     const url =
-      "http://na-data-projects.s3.amazonaws.com/data/isp/proxy_warfare.json";
+      "https://na-data-projects.s3.amazonaws.com/data/isp/proxy_warfare.json";
     return (
       <LoadData url={url}>
         {data => {
