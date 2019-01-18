@@ -10,6 +10,8 @@ import {
 } from "@storybook/addon-knobs";
 import { withReadme, withDocs, doc } from "storybook-readme";
 import styles from "@sambego/storybook-styles";
+import Bar from "../../src/charts/Bar";
+import HorizontalBar from "../../src/charts/HorizontalBar";
 import Line from "../../src/charts/Line";
 import Scatterplot from "../../src/charts/Scatterplot";
 import Timeline from "../../src/charts/Timeline";
@@ -72,7 +74,73 @@ storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
-      maxWidth: "850px",
+      maxWidth: "600px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
+  .add("Bar Chart", () => {
+    const barData = new Array(5).fill(undefined).map((val, i) => ({
+      key: `Bar ${i + 1}`,
+      value: getRandomInt(1, 40)
+    }));
+    return (
+      <Bar
+        data={barData}
+        maxWidth={600}
+        height={400}
+        y={d => d.value}
+        x={d => d.key}
+        yAxisLabel="This is an axis label"
+        renderTooltip={({ datum }) => (
+          <div>
+            {datum.key}: <b>{datum.value}</b>
+          </div>
+        )}
+      />
+    );
+  });
+
+storiesOf("Chart", module)
+  .addDecorator(withKnobs({ escapeHTML: false }))
+  .addDecorator(
+    styles({
+      maxWidth: "600px",
+      width: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      padding: "0 15px"
+    })
+  )
+  .add("Horizontal Bar Chart", () => {
+    const barData = new Array(5).fill(undefined).map((val, i) => ({
+      key: `Bar ${i + 1}`,
+      value: getRandomInt(1, 40)
+    }));
+    return (
+      <HorizontalBar
+        data={barData}
+        maxWidth={600}
+        height={300}
+        x={d => d.value}
+        y={d => d.key}
+        xAxisLabel="This is an axis label"
+        renderTooltip={({ datum }) => (
+          <div>
+            {datum.key}: <b>{datum.value}</b>
+          </div>
+        )}
+      />
+    );
+  });
+
+storiesOf("Chart", module)
+  .addDecorator(withKnobs({ escapeHTML: false }))
+  .addDecorator(
+    styles({
+      maxWidth: "600px",
       width: "100%",
       marginLeft: "auto",
       marginRight: "auto",
@@ -82,8 +150,8 @@ storiesOf("Chart", module)
   .add("Scatterplot", () => {
     const scatterData = new Array(30).fill(undefined).map((val, i) => ({
       name: i,
-      x: getRandomInt(1, 40),
-      y: getRandomInt(1, 40)
+      x: getRandomInt(i, (i + 1) * 5),
+      y: getRandomInt(i, (i + 1) * 5)
     }));
     return (
       <Scatterplot
@@ -92,6 +160,16 @@ storiesOf("Chart", module)
         data={scatterData}
         x={d => d.x}
         y={d => d.y}
+        xAxisLabel="This is an axis label"
+        yAxisLabel="This is an axis label"
+        renderTooltip={() => <div>Tooltip</div>}
+        numTicksX={width => (width < 400 ? 5 : 7)}
+        margin={{
+          top: 10,
+          bottom: 55,
+          left: 60,
+          right: 10
+        }}
       />
     );
   });
@@ -100,7 +178,7 @@ storiesOf("Chart", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
-      maxWidth: "850px",
+      maxWidth: "600px",
       width: "100%",
       marginLeft: "auto",
       marginRight: "auto",
@@ -119,6 +197,11 @@ storiesOf("Chart", module)
             height={400}
             x={d => d.year}
             y={d => d.cumulative}
+            renderTooltip={({ datum }) => (
+              <div>
+                {datum.year}: <b>{datum.cumulative}</b>
+              </div>
+            )}
           />
         )}
       </LoadData>
