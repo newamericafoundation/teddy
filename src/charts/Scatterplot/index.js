@@ -1,8 +1,9 @@
 import React from "react";
 import { Group } from "@vx/group";
-import { scaleLinear, scaleOrdinal } from "@vx/scale";
+import { scaleLinear, scalePower } from "@vx/scale";
 import { AxisLeft, AxisBottom } from "@vx/axis";
-import { max } from "d3-array";
+import { Grid } from "@vx/grid";
+import { max, extent } from "d3-array";
 import Chart from "../Chart";
 
 export default ({
@@ -12,19 +13,31 @@ export default ({
   x,
   y,
   r,
+  xAxisLabel,
+  yAxisLabel,
+  yFormat,
+  xFormat,
+  size = 5,
+  numTicksX = 5,
+  numTicksY = 5,
   renderTooltip,
-  circleStroke = "#4C81DB",
-  circleFill = "rgba(76,129,219, 0.4)",
   margin = {
     top: 10,
     bottom: 55,
-    left: 65,
+    left: 20,
     right: 10
-  }
+  },
+  circleStroke = "#4C81DB",
+  circleFill = "rgba(76,129,219, 0.4)"
 }) => {
   return (
-    <Chart maxWidth={maxWidth} height={height} margin={margin}>
-      {({ width, height }) => {
+    <Chart
+      maxWidth={maxWidth}
+      height={height}
+      margin={margin}
+      renderTooltip={renderTooltip}
+    >
+      {({ width, height, handleMouseEnter, handleMouseLeave }) => {
         if (width < 100) return;
 
         const xMax = width - margin.left - margin.right;
@@ -44,8 +57,28 @@ export default ({
           clamp: true
         });
 
+        let rScale = undefined;
+
+        if (r && size.length === 2) {
+          rScale = scalePower({
+            domain: extent(data, r),
+            range: [size[0], size[1]],
+            exponent: 0.5
+          });
+        }
+
         return (
           <Group top={margin.top} left={margin.left}>
+            <Grid
+              xScale={xScale}
+              yScale={yScale}
+              height={yMaxRange}
+              width={xMax}
+              numTicksRows={numTicksY}
+              numTicksColumns={
+                typeof numTicksX === "function" ? numTicksX(width) : numTicksX
+              }
+            />
             <Group>
               {data.map((point, i) => {
                 return (
@@ -57,53 +90,50 @@ export default ({
                     fillOpacity={0.2}
                     cx={xScale(x(point))}
                     cy={yScale(y(point))}
-                    datax={x(point)}
-                    datay={y(point)}
-                    r={5}
+                    r={rScale ? rScale(r(point)) : size}
+                    onMouseMove={event =>
+                      handleMouseEnter({ event, data, datum: point })
+                    }
+                    onMouseLeave={handleMouseLeave}
                   />
                 );
               })}
             </Group>
             <AxisLeft
               scale={yScale}
-              stroke={"rgba(0,0,0,0.15)"}
+              hideAxisLine={false}
               hideTicks={true}
-              label="Metropolitan/Micropolitan Area Population"
-              numTicks={6}
-              tickFormat={d => d}
+              numTicks={
+                typeof numTicksY === "function" ? numTicksY(width) : numTicksY
+              }
+              tickFormat={yFormat}
               tickLabelProps={() => ({
-                fontFamily: "Circular",
                 fontSize: "11px",
                 textAnchor: "end",
-                fill: "#333"
+                verticalAnchor: "middle"
               })}
+              label={yAxisLabel}
               labelProps={{
-                textAnchor: "middle",
-                fill: "#333",
-                fontSize: "14px",
-                fontWeight: "bold"
+                textAnchor: "middle"
               }}
             />
             <AxisBottom
               scale={xScale}
               top={height - margin.top - margin.bottom}
-              stroke={"rgba(0,0,0,0.15)"}
+              hideAxisLine={false}
               hideTicks={true}
-              label="Number of connections in each Metro Area"
-              numTicks={width < 600 ? 5 : 20}
+              tickFormat={xFormat}
+              numTicks={
+                typeof numTicksX === "function" ? numTicksX(width) : numTicksX
+              }
               tickLabelProps={() => ({
-                fontFamily: "Circular",
-                fontSize: "11px",
-                dy: "1.5em",
-                fill: "#333",
                 textAnchor: "middle"
               })}
+              label={xAxisLabel}
               labelProps={{
-                dy: "3.5em",
+                dy: "3em",
                 textAnchor: "middle",
-                fill: "#333",
-                fontSize: "14px",
-                fontWeight: "bold"
+                y: 0
               }}
             />
           </Group>

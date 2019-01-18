@@ -6,7 +6,7 @@ import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
 import { LegendOrdinal } from "@vx/legend";
 import { max } from "d3-array";
 import Chart from "../Chart";
-import { colors as naColors } from "../../lib/colors";
+import { GridRows } from "@vx/grid";
 
 export default ({
   maxWidth,
@@ -20,6 +20,7 @@ export default ({
   yFormat,
   xAxisLabel,
   yAxisLabel,
+  numTicksY = 5,
   colors,
   margin = {
     top: 40,
@@ -74,6 +75,7 @@ export default ({
 
         return (
           <Group top={margin.top} left={margin.left}>
+            <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
             <BarGroup
               data={data}
               keys={keys}
@@ -116,39 +118,37 @@ export default ({
             </BarGroup>
             <AxisLeft
               scale={yScale}
-              label={yAxisLabel ? yAxisLabel : null}
+              label={yAxisLabel}
               labelProps={{
-                fontSize: 12,
-                fill: naColors.grey.dark,
                 textAnchor: "middle"
               }}
-              stroke="rgba(0,0,0,0.15)"
-              tickStroke="rgba(0,0,0,0.15)"
-              hideTicks={false}
-              tickFormat={yFormat ? yFormat : null}
+              hideTicks={true}
+              hideAxisLine={true}
+              numTicks={numTicksY}
+              tickFormat={yFormat}
               tickLabelProps={(value, index) => ({
-                fill: naColors.grey.dark,
-                fontSize: 12,
                 textAnchor: "end",
-                dy: "0.33em"
+                verticalAnchor: "middle"
               })}
             />
             <AxisBottom
               top={yMax}
               scale={x0Scale}
-              label={xAxisLabel ? xAxisLabel : null}
-              stroke="rgba(0,0,0,0.15)"
-              hideAxisLine={true}
-              hideTicks={true}
-              tickStroke={naColors.grey.dark}
-              tickFormat={xFormat ? xFormat : null}
-              tickLabelProps={(value, index) => ({
-                fill: naColors.grey.dark,
-                fontSize: 12,
+              label={xAxisLabel}
+              hideAxisLine={false}
+              hideTicks={false}
+              tickFormat={xFormat}
+              tickLabelProps={() => ({
                 textAnchor: "middle",
                 width: x0Scale.bandwidth(),
-                verticalAnchor: "end"
+                verticalAnchor: "end",
+                dy: "0.2em"
               })}
+              labelProps={{
+                dy: "3em",
+                textAnchor: "middle",
+                y: 0
+              }}
             />
           </Group>
         );

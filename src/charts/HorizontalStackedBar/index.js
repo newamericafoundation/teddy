@@ -4,9 +4,9 @@ import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
 import { LegendOrdinal } from "@vx/legend";
+import { GridColumns } from "@vx/grid";
 import { max } from "d3-array";
 import Chart from "../Chart";
-import { colors as naColors } from "../../lib/colors";
 
 export default ({
   width,
@@ -17,6 +17,7 @@ export default ({
   xFormat,
   yAxisLabel,
   xAxisLabel,
+  numTicksX,
   keys,
   colors,
   renderTooltip,
@@ -73,6 +74,13 @@ export default ({
 
         return (
           <Group top={margin.top} left={margin.left}>
+            <GridColumns
+              scale={xScale}
+              height={yMax}
+              numTicks={
+                typeof numTicksX === "function" ? numTicksX(width) : numTicksX
+              }
+            />
             <BarStackHorizontal
               data={data}
               keys={keys}
@@ -102,32 +110,29 @@ export default ({
               }}
             </BarStackHorizontal>
             <AxisLeft
-              hideAxisLine={true}
-              hideTicks={true}
               scale={yScale}
-              stroke={naColors.grey.dark}
-              tickStroke={naColors.grey.dark}
-              tickFormat={yFormat ? yFormat : null}
-              label={yAxisLabel ? yAxisLabel : null}
-              tickLabelProps={(value, index) => ({
-                fill: naColors.grey.dark,
-                fontSize: 12,
+              hideAxisLine={false}
+              hideTicks={false}
+              tickFormat={yFormat}
+              label={yAxisLabel}
+              tickLabelProps={() => ({
                 width: margin.left,
                 textAnchor: "end",
-                verticalAnchor: "middle"
+                verticalAnchor: "middle",
+                dx: "-0.3em"
               })}
             />
             <AxisBottom
               scale={xScale}
               top={yMax}
-              stroke={naColors.grey.dark}
-              numTicks={width - margin.left - margin.right < 300 ? 5 : 10}
-              tickStroke={naColors.grey.dark}
-              tickFormat={xFormat ? xFormat : null}
-              label={xAxisLabel ? xAxisLabel : null}
-              tickLabelProps={(value, index) => ({
-                fill: naColors.grey.dark,
-                fontSize: 12,
+              hideAxisLine={true}
+              hideTicks={true}
+              numTicks={
+                typeof numTicksX === "function" ? numTicksX(width) : numTicksX
+              }
+              tickFormat={xFormat}
+              label={xAxisLabel}
+              tickLabelProps={() => ({
                 textAnchor: "middle"
               })}
             />

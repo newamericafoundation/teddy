@@ -3,93 +3,168 @@ import { ParentSize } from "@vx/responsive";
 import { Group } from "@vx/group";
 import { LinePath } from "@vx/shape";
 import { AxisLeft, AxisBottom } from "@vx/axis";
-import { scaleTime, scaleLinear } from "@vx/scale";
+import { scaleLinear } from "@vx/scale";
 import { curveBasis } from "@vx/curve";
-import { format } from "d3-format";
+import { GridRows } from "@vx/grid";
+import { localPoint } from "@vx/event";
+import { bisector } from "d3-array";
 import Chart from "../Chart";
+import HoverLine from "./HoverLine";
 
-export default ({
-  maxWidth,
-  height,
-  x,
-  y,
-  xAxisLabel,
-  yAxisLabel,
-  data,
-  margin = { top: 10, left: 50, bottom: 50, right: 10 },
-  stroke = "#22C8A3",
-  strokeWidth = 2
-}) => (
-  <Chart maxWidth={maxWidth} height={height}>
-    {({ width, height }) => {
-      const xMax = width - margin.left - margin.right;
-      const yMax = height - margin.top - margin.bottom;
+class Line extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { x: 0, y: 0 };
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+  }
 
-      const xScale = scaleLinear({
-        domain: [Math.min(...data.map(x)), Math.max(...data.map(x))],
-        range: [0, xMax]
-      });
-      const yScale = scaleLinear({
-        domain: [0, Math.max(...data.map(y))],
-        range: [yMax, 0]
-      });
-      return (
-        <Group top={margin.top} left={margin.left}>
-          <LinePath
-            data={data}
-            x={d => xScale(x(d))}
-            y={d => yScale(y(d))}
-            stroke={stroke}
-            strokeWidth={strokeWidth}
-            curve={curveBasis}
-          />
+  handleMouseMove = ({
+    data,
+    event,
+    tooltipParentFunc,
+    xAccessor,
+    yAccessor,
+    xScale,
+    yScale,
+    margin
+  }) => {
+    const bisect = bisector(xAccessor).left;
+    let { x } = localPoint(event.target.ownerSVGElement, event);
+    x = x - margin.left;
+    const x0 = xScale.invert(x);
+    const index = bisect(data, x0);
+    if (index > data.length - 1 || index < 1) return;
+    const d0 = data[index - 1];
+    const d1 = data[index];
+    const d = x0 - xScale(xAccessor(d0)) > xScale(xAccessor(d1)) - x0 ? d1 : d0;
+    const xPos = xScale(xAccessor(d));
+    const yPos = yScale(yAccessor(d));
+    tooltipParentFunc({
+      datum: d,
+      coords: { x: xPos + 50, y: yPos + 10 }
+    });
+    this.setState({ x: xPos, y: yPos });
+  };
 
-          <AxisLeft
-            scale={yScale}
-            stroke={"rgba(0,0,0,0.15)"}
-            hideTicks={true}
-            label={yAxisLabel || ""}
-            numTicks={6}
-            tickLabelProps={() => ({
-              fontFamily: "Circular",
-              fontSize: "11px",
-              textAnchor: "end",
-              fill: "#333"
-            })}
-            labelProps={{
-              dx: "0.5em",
-              textAnchor: "middle",
-              fill: "#333",
-              fontSize: "14px",
-              fontWeight: "bold"
-            }}
-          />
-          <AxisBottom
-            scale={xScale}
-            top={yMax}
-            stroke={"rgba(0,0,0,0.15)"}
-            hideTicks={true}
-            label={xAxisLabel || ""}
-            numTicks={width < 450 ? 5 : 10}
-            tickLabelProps={() => ({
-              fontFamily: "Circular",
-              fontSize: "11px",
-              dy: "1.5em",
-              fill: "#333",
-              textAnchor: "middle"
-            })}
-            tickFormat={d => d}
-            tickTransform={`translate(0,10px)`}
-            labelProps={{
-              dy: "3.5em",
-              textAnchor: "middle",
-              fill: "#333",
-              fontSize: "14px",
-              fontWeight: "bold"
-            }}
-          />
-        </Group>
-      );
-    }}
-  </Chart>
-);
+  render() {
+    const {
+      maxWidth,
+      height,
+      data,
+      x,
+      y,
+      xAxisLabel,
+      yAxisLabel,
+      yFormat,
+      xFormat,
+      numTicksX = 10,
+      numTicksY = 5,
+      renderTooltip,
+      margin = { top: 10, left: 50, bottom: 50, right: 10 },
+      stroke = "#22C8A3",
+      strokeWidth = 2
+    } = this.props;
+
+    return (
+      <Chart maxWidth={maxWidth} height={height} renderTooltip={renderTooltip}>
+        {({
+          width,
+          height,
+          handleMouseEnter,
+          handleMouseLeave,
+          tooltipOpen
+        }) => {
+          const xMax = width - margin.left - margin.right;
+          const yMax = height - margin.top - margin.bottom;
+
+          const xScale = scaleLinear({
+            domain: [Math.min(...data.map(x)), Math.max(...data.map(x))],
+            range: [0, xMax]
+          });
+          const yScale = scaleLinear({
+            domain: [0, Math.max(...data.map(y))],
+            range: [yMax, 0]
+          });
+          return (
+            <Group top={margin.top} left={margin.left}>
+              <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
+              <LinePath
+                data={data}
+                x={d => xScale(x(d))}
+                y={d => yScale(y(d))}
+                stroke={stroke}
+                strokeWidth={strokeWidth}
+                curve={curveBasis}
+              />
+              <rect
+                x={0}
+                y={0}
+                width={xMax}
+                height={yMax}
+                fill="transparent"
+                onMouseMove={event => {
+                  this.handleMouseMove({
+                    event,
+                    data,
+                    xScale,
+                    yScale,
+                    margin,
+                    xAccessor: x,
+                    yAccessor: y,
+                    tooltipParentFunc: handleMouseEnter
+                  });
+                }}
+                onMouseLeave={handleMouseLeave}
+              />
+              {tooltipOpen && (
+                <HoverLine
+                  top={0}
+                  bottom={yMax}
+                  tooltipLeft={this.state.x}
+                  tooltipTop={this.state.y}
+                />
+              )}
+              <AxisLeft
+                scale={yScale}
+                hideTicks={true}
+                hideAxisLine={true}
+                tickFormat={yFormat}
+                numTicks={numTicksY}
+                tickLabelProps={() => ({
+                  textAnchor: "end",
+                  verticalAnchor: "middle"
+                })}
+                label={yAxisLabel}
+                labelProps={{
+                  dx: "0.5em",
+                  textAnchor: "middle"
+                }}
+              />
+              <AxisBottom
+                scale={xScale}
+                top={yMax}
+                tickFormat={xFormat}
+                numTicks={
+                  typeof numTicksX === "function" ? numTicksX(width) : numTicksX
+                }
+                tickLabelProps={() => ({
+                  dy: "1.8em",
+                  textAnchor: "middle",
+                  y: 0
+                })}
+                tickFormat={d => d}
+                label={xAxisLabel}
+                labelProps={{
+                  dy: "3.5em",
+                  textAnchor: "middle"
+                }}
+              />
+            </Group>
+          );
+        }}
+      </Chart>
+    );
+  }
+}
+
+export default Line;

@@ -1,12 +1,13 @@
+import React from "react";
 import { Line } from "@vx/shape";
 
-export default ({ from, to, tooltipLeft, tooltipTop }) => {
+export default ({ top, bottom, tooltipLeft, tooltipTop }) => {
   return (
     <g>
       <Line
-        from={from}
-        to={to}
-        stroke="#333"
+        from={{ x: tooltipLeft, y: top }}
+        to={{ x: tooltipLeft, y: bottom }}
+        stroke="#ababab"
         strokeWidth={1}
         style={{ pointerEvents: "none" }}
         strokeDasharray="2,2"
@@ -24,7 +25,6 @@ export default ({ from, to, tooltipLeft, tooltipTop }) => {
         cy={tooltipTop}
         r={4}
         fill="#22C8A3"
-        fillOpacity={0.8}
         style={{ pointerEvents: "none" }}
       />
     </g>
