@@ -43,7 +43,7 @@ class WithTooltip extends React.Component {
   }
 
   handleMouseLeave() {
-    const { tooltipTimeout, hideTooltip } = this.props;
+    const { hideTooltip } = this.props;
     this.tooltipTimeout = setTimeout(() => {
       hideTooltip();
     }, 200);
@@ -65,9 +65,17 @@ class WithTooltip extends React.Component {
 
     return (
       <React.Fragment>
-        {children({ handleMouseEnter, handleMouseLeave })}
+        {children({ handleMouseEnter, handleMouseLeave, tooltipOpen })}
         {tooltipOpen && (
-          <TooltipWithBounds top={tooltipTop} left={tooltipLeft}>
+          <TooltipWithBounds
+            top={tooltipTop}
+            left={tooltipLeft}
+            style={{
+              borderRadius: 0,
+              boxShadow:
+                "0 2px 5px 0 rgba(0, 0, 0, 0.15), 0 2px 10px 0 rgba(0, 0, 0, 0.1)"
+            }}
+          >
             {tooltipContent}
           </TooltipWithBounds>
         )}

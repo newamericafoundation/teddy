@@ -14,12 +14,13 @@ const Chart = ({
   if (renderTooltip) {
     return (
       <WithTooltip renderTooltip={renderTooltip}>
-        {({ handleMouseEnter, handleMouseLeave }) => (
+        {({ handleMouseEnter, handleMouseLeave, tooltipOpen }) => (
           <Chart
             maxWidth={maxWidth}
             height={height}
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
+            tooltipOpen={tooltipOpen}
             renderTooltip={null}
             renderLegend={renderLegend}
           >
