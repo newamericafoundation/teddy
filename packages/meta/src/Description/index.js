@@ -1,9 +1,9 @@
 import React from "react";
 import "./Description.scss";
 
-const Description = ({ title, className, style }) => (
+const Description = ({ children, className, style }) => (
   <p className={`dv-chart__description ${className}`} style={style}>
-    {title}
+    {children}
   </p>
 );
 
