@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Components to build stuff with",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -24,7 +24,6 @@
     "data",
     "visualization"
   ],
-  "dependencies": {},
   "peerDependencies": {
     "react": "^16.2.0"
   },

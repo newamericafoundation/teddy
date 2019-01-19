@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/scss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sass partials shared across packages",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/data-table",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tables on tables",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -25,8 +25,8 @@
     "visualization"
   ],
   "dependencies": {
-    "react-table": "^6.8.6",
-    "@newamerica/scss": "^0.0.1"
+    "@newamerica/scss": "^0.0.2",
+    "react-table": "^6.8.6"
   },
   "peerDependencies": {
     "react": "^16.2.0"

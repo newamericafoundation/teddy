@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/timeline",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Time is but the stream I go fishing in",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -25,7 +25,7 @@
     "visualization"
   ],
   "dependencies": {
-    "react-draggable": "^3.0.5",
+    "@newamerica/scss": "^0.0.2",
     "@vx/axis": "0.0.182",
     "@vx/grid": "0.0.183",
     "@vx/group": "0.0.183",
@@ -33,7 +33,7 @@
     "@vx/scale": "0.0.182",
     "d3-array": "^1.2.4",
     "d3-time": "^1.0.10",
-    "@newamerica/scss": "^0.0.1"
+    "react-draggable": "^3.0.5"
   },
   "peerDependencies": {
     "react": "^16.2.0"
