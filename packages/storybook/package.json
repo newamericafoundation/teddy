@@ -3,6 +3,11 @@
   "version": "0.0.2",
   "description": "Storybook for teddy components",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/newamericafoundation/teddy.git"
+  },
+  "private": true,
   "scripts": {
     "test": "",
     "storybook": "start-storybook -p 9001 -c ./src",
