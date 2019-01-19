@@ -1,5 +1,5 @@
 import React from "react";
-import { Search } from "@newamerica/search";
+import { Search } from "@newamerica/components";
 
 export default function withSearch(Table) {
   return class extends React.Component {

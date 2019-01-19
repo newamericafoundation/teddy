@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "@newamerica/scss": "^0.0.2",
+    "@newamerica/components": "^0.0.2",
     "react-table": "^6.8.6"
   },
   "peerDependencies": {
