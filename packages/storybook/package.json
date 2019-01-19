@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/storybook",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Storybook for teddy components",
   "main": "index.js",
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "@newamerica/charts": "^0.0.2",
     "@newamerica/components": "^0.0.2",
-    "@newamerica/data-table": "^0.0.2",
+    "@newamerica/data-table": "^0.0.3",
     "@newamerica/meta": "^0.0.2",
     "@newamerica/timeline": "^0.0.2",
     "@vx/mock-data": "0.0.182",
