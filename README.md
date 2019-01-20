@@ -8,18 +8,7 @@ While anyone can use these packages, many of the styles are customized to suit d
 
 ## Usage
 
-Installation:
-
-```bash
-npm install --save @newamerica/charts
-npm install --save @newamerica/maps
-npm install --save @newamerica/data-table
-npm install --save @newamerica/timeline
-npm install --save @newamerica/components
-npm install --save @newamerica/meta
-```
-
-And then:
+Example:
 
 ```jsx
 import { Bar } from "@newamerica/charts";
@@ -47,6 +36,10 @@ _Documentation coming soon_
 
 **Charts**
 
+```bash
+npm install --save @newamerica/charts
+```
+
 - Bar
 - HorizontalBar
 - HorizontalStackedBar
@@ -56,21 +49,37 @@ _Documentation coming soon_
 
 **Maps**
 
-- Cartogram (coming soon)
-- Choropleth (coming soon)
+```bash
+npm install --save @newamerica/maps
+```
+
+- Pindrop
+- Choropleth
+- Cartogram
 - Hexgrid (coming soon)
-- Pindrop (coming soon)
 
 **Data Table**
+
+```bash
+npm install --save @newamerica/data-table
+```
 
 - DataTable
 - DataTableWithSearch
 
 **Timeline**
 
+```bash
+npm install --save @newamerica/timeline
+```
+
 - Timeline
 
 **Components**
+
+```bash
+npm install --save @newamerica/components
+```
 
 - ButtonGroup
 - CheckboxGroup
@@ -81,6 +90,17 @@ _Documentation coming soon_
 
 **Meta**
 
+```bash
+npm install --save @newamerica/meta
+```
+
+- ChartContainer
 - Title
 - Description
 - Source
+
+## To do
+
+- [ ] add prop type checks to all packages
+- [ ] generate documentation from prop types
+- [ ] project website
