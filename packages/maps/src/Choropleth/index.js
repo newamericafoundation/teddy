@@ -4,8 +4,8 @@ import { scaleQuantize } from "@vx/scale";
 import { map } from "d3-collection";
 import { extent } from "d3-array";
 import { quantize, interpolateRgb } from "d3-interpolate";
-import LoadGeometry from "./LoadGeometry";
-import Projection from "./Projection";
+import LoadGeometry from "../LoadGeometry";
+import Projection from "../Projection";
 
 /**
  * Choropleth map
