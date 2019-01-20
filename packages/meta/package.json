@@ -16,6 +16,9 @@
     "prepublish": "rm -rf ./dist && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "@newamerica/scss": "^0.0.2"
+  },
   "peerDependencies": {
     "react": "^16.2.0"
   },
