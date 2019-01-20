@@ -5,7 +5,8 @@ import "./Chart.scss";
 
 const Chart = ({
   maxWidth = "100%",
-  height = 600,
+  height,
+  aspectRatio,
   renderTooltip,
   renderLegend,
   children,
@@ -18,6 +19,7 @@ const Chart = ({
           <Chart
             maxWidth={maxWidth}
             height={height}
+            aspectRatio={aspectRatio}
             handleMouseEnter={handleMouseEnter}
             handleMouseLeave={handleMouseLeave}
             tooltipOpen={tooltipOpen}
@@ -36,11 +38,12 @@ const Chart = ({
           <div className="dv-legend-container">{renderLegend()}</div>
         )}
         <ParentSize>
-          {({ width, height }) => {
+          {({ width, height: computedHeight }) => {
             if (width < 10) return;
+            const chartHeight = height ? computedHeight : width * aspectRatio;
             return (
-              <svg width={width} height={height}>
-                {children({ width, height, ...rest })}
+              <svg width={width} height={chartHeight}>
+                {children({ width, height: chartHeight, ...rest })}
               </svg>
             );
           }}
