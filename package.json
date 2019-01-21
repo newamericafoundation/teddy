@@ -4,9 +4,7 @@
   "description": "A charting and component library for New America data visualization projects",
   "main": "index.js",
   "scripts": {
-    "test": "",
-    "storybook": "start-storybook -p 9001 -c .storybook",
-    "build-storybook": "build-storybook -c .storybook -o .storybook/dist && aws s3 sync .storybook/dist s3://datadotnewamerica/components-library && aws cloudfront create-invalidation --distribution-id E15K2IVEDI1Y6H --paths \"/components-library/*\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "lorenries",
   "license": "MIT",
