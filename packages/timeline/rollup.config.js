@@ -51,7 +51,7 @@ export default [
         inject: false,
         extract: "dist/styles.css"
       }),
-      terser()
+      process.env.BUILD === "production" && terser()
     ],
     output: {
       file: pkg.main,
@@ -75,7 +75,7 @@ export default [
         inject: false,
         extract: "dist/styles.css"
       }),
-      terser()
+      process.env.BUILD === "production" && terser()
     ],
     output: { file: pkg.module, format: "es", globals }
   }
