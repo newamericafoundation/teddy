@@ -105,3 +105,49 @@ npm install --save @newamerica/meta
 - [ ] generate documentation from prop types
 - [ ] add mobile touch events for tooltip interactions
 - [ ] project website
+
+## Development
+
+Clone this repo:
+
+```bash
+git clone https://github.com/newamericafoundation/teddy.git
+```
+
+Install [lerna](https://github.com/lerna/lerna) globally:
+
+```bash
+npm i -g lerna
+```
+
+Bootstrap all packages. This installs package dependencies (equivalent to `npm install` in every package folder), but hoists dependencies required by multiple packages up to the top level `node_modules`. It also symlinks `@newamerica` dependencies to that package's `packages/<PACKAGE>/dist` folder.
+
+```bash
+lerna bootstrap --hoist
+```
+
+To publish new package versions to npm:
+
+```bash
+lerna publish
+```
+
+**Local development**
+
+Watch file changes in all packages and create development builds. This runs `rollup -c -w --environment BUILD:development` inside of every package:
+
+```bash
+lerna run start --parallel
+```
+
+If you just want to work on one or a couple package, run something like this instead (it'll be a bit lighter on your computer, because it won't spawn separate subprocesses to watch/build every single package).
+
+```
+lerna run start --parallel --scope @newamerica/charts @newamerica/maps
+```
+
+Now you can start storybook to develop charts/maps/components locally. Packages will be rebuilt automatically on file changes and storybook will hot reload those changes. Go to `packages/storybook` and run:
+
+```bash
+npm run storybook
+```
