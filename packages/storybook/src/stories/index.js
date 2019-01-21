@@ -26,17 +26,27 @@ import {
   Toggle,
   ButtonGroup
 } from "@newamerica/components";
-import Timeline from "@newamerica/timeline";
+import { Pindrop, Choropleth, Cartogram } from "@newamerica/maps";
+import { ChartContainer, Title, Description, Source } from "@newamerica/meta";
+import { Timeline } from "@newamerica/timeline";
 import { DataTableWithSearch } from "@newamerica/data-table";
 import { cityTemperature } from "@vx/mock-data";
 import { colors } from "../lib/colors";
 import "./newamericadotorg.lite.css";
+import "@newamerica/charts/dist/styles.css";
+import "@newamerica/data-table/dist/styles.css";
+import "@newamerica/components/dist/styles.css";
+import "@newamerica/timeline/dist/styles.css";
+import "@newamerica/meta/dist/styles.css";
+import "@newamerica/maps/dist/styles.css";
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
+
+export default ChartContainer;
 
 class LoadData extends React.Component {
   constructor(props) {
@@ -60,15 +70,14 @@ class LoadData extends React.Component {
   }
 }
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
       maxWidth: "600px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem auto",
+      padding: "0 1rem"
     })
   )
   .add("Bar Chart", () => {
@@ -77,31 +86,42 @@ storiesOf("Chart", module)
       value: getRandomInt(1, 40)
     }));
     return (
-      <Bar
-        data={barData}
-        maxWidth={600}
-        height={400}
-        y={d => d.value}
-        x={d => d.key}
-        yAxisLabel="This is an axis label"
-        renderTooltip={({ datum }) => (
-          <div>
-            {datum.key}: <b>{datum.value}</b>
-          </div>
-        )}
-      />
+      <ChartContainer>
+        <Title>This is a bar chart</Title>
+        <Description>This is a description for the bar chart</Description>
+        <Bar
+          data={barData}
+          maxWidth={600}
+          height={300}
+          y={d => d.value}
+          x={d => d.key}
+          yAxisLabel="This is an axis label"
+          margin={{ top: 10, left: 55, right: 0, bottom: 25 }}
+          renderTooltip={({ datum }) => (
+            <div>
+              {datum.key}: <b>{datum.value}</b>
+            </div>
+          )}
+        />
+        <Source>
+          This is a{" "}
+          <a href="#" onClick={e => e.preventDefault()}>
+            source
+          </a>{" "}
+          for the bar chart
+        </Source>
+      </ChartContainer>
     );
   });
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
       maxWidth: "600px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem auto",
+      padding: "0 1rem"
     })
   )
   .add("Horizontal Bar Chart", () => {
@@ -110,31 +130,39 @@ storiesOf("Chart", module)
       value: getRandomInt(1, 40)
     }));
     return (
-      <HorizontalBar
-        data={barData}
-        maxWidth={600}
-        height={300}
-        x={d => d.value}
-        y={d => d.key}
-        xAxisLabel="This is an axis label"
-        renderTooltip={({ datum }) => (
-          <div>
-            {datum.key}: <b>{datum.value}</b>
-          </div>
-        )}
-      />
+      <ChartContainer>
+        <Title>This is a title for the horizontal bar chart</Title>
+        <Description>
+          This is a description for the horizontal bar chart
+        </Description>
+        <HorizontalBar
+          data={barData}
+          maxWidth={600}
+          height={300}
+          x={d => d.value}
+          y={d => d.key}
+          xAxisLabel="This is an axis label"
+          numTicksX={width => (width < 400 ? 4 : 6)}
+          margin={{ top: 10, left: 40, right: 10, bottom: 30 }}
+          renderTooltip={({ datum }) => (
+            <div>
+              {datum.key}: <b>{datum.value}</b>
+            </div>
+          )}
+        />
+        <Source>This is a source</Source>
+      </ChartContainer>
     );
   });
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
       maxWidth: "600px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem auto",
+      padding: "0 1rem"
     })
   )
   .add("Scatterplot", () => {
@@ -144,35 +172,39 @@ storiesOf("Chart", module)
       y: getRandomInt(i, (i + 1) * 5)
     }));
     return (
-      <Scatterplot
-        maxWidth={600}
-        height={400}
-        data={scatterData}
-        x={d => d.x}
-        y={d => d.y}
-        xAxisLabel="This is an axis label"
-        yAxisLabel="This is an axis label"
-        renderTooltip={() => <div>Tooltip</div>}
-        numTicksX={width => (width < 400 ? 5 : 7)}
-        margin={{
-          top: 10,
-          bottom: 55,
-          left: 60,
-          right: 10
-        }}
-      />
+      <ChartContainer>
+        <Title>This is a scatterplot</Title>
+        <Description>This is a description</Description>
+        <Scatterplot
+          maxWidth={600}
+          height={400}
+          data={scatterData}
+          x={d => d.x}
+          y={d => d.y}
+          xAxisLabel="This is an axis label"
+          yAxisLabel="This is an axis label"
+          renderTooltip={() => <div>Tooltip</div>}
+          numTicksX={width => (width < 400 ? 5 : 7)}
+          margin={{
+            top: 10,
+            bottom: 55,
+            left: 60,
+            right: 10
+          }}
+        />
+        <Source>This is a source</Source>
+      </ChartContainer>
     );
   });
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
       maxWidth: "600px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem auto",
+      padding: "0 1rem"
     })
   )
   .add("Line Chart", () => {
@@ -181,24 +213,30 @@ storiesOf("Chart", module)
     return (
       <LoadData url={url}>
         {data => (
-          <Line
-            data={data.line}
-            maxWidth={600}
-            height={400}
-            x={d => d.year}
-            y={d => d.cumulative}
-            renderTooltip={({ datum }) => (
-              <div>
-                {datum.year}: <b>{datum.cumulative}</b>
-              </div>
-            )}
-          />
+          <ChartContainer>
+            <Title>This is a line chart</Title>
+            <Description>This is a description</Description>
+            <Line
+              data={data.line}
+              maxWidth={600}
+              height={300}
+              x={d => d.year}
+              y={d => d.cumulative}
+              margin={{ top: 10, left: 25, right: 10, bottom: 30 }}
+              renderTooltip={({ datum }) => (
+                <div>
+                  {datum.year}: <b>{datum.cumulative}</b>
+                </div>
+              )}
+            />
+            <Source>This is a source</Source>
+          </ChartContainer>
         )}
       </LoadData>
     );
   });
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .add("Timeline", () => {
     const url =
@@ -217,72 +255,75 @@ storiesOf("Chart", module)
     );
   });
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
-      maxWidth: "850px",
+      maxWidth: "600px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem auto",
+      padding: "0 1rem"
     })
   )
   .add("Horizontal Stacked Bar", () => (
-    <HorizontalStackedBar
-      height={number("Height", 400)}
-      y={d => d[text("Y Accessor", "date")]}
-      keys={array(
-        "Keys",
-        Object.keys(cityTemperature[0]).filter(d => d !== "date")
-      )}
-      colors={array("Colors", [
-        colors.turquoise.light,
-        colors.blue.light,
-        colors.purple.light
-      ])}
-      margin={object("Margin", { top: 30, left: 70, right: 40, bottom: 40 })}
-      renderTooltip={({ datum }) => (
-        <div style={{ display: "flex" }}>
-          <span style={{ paddingRight: "3px" }}>{datum.key}: </span>
-          <span>{datum.bar.data[datum.key]}</span>
-        </div>
-      )}
-      data={object("Data", [...cityTemperature.slice(0, 10)])}
-    />
+    <ChartContainer>
+      <Title>This is a horizontal stacked bar chart</Title>
+      <Description>This is a description</Description>
+      <HorizontalStackedBar
+        maxWidth={600}
+        height={350}
+        y={d => d["date"]}
+        keys={Object.keys(cityTemperature[0]).filter(d => d !== "date")}
+        colors={[
+          colors.turquoise.light,
+          colors.blue.light,
+          colors.purple.light
+        ]}
+        margin={{ top: 35, left: 60, right: 40, bottom: 20 }}
+        renderTooltip={({ datum }) => (
+          <div style={{ display: "flex" }}>
+            <span style={{ paddingRight: "3px" }}>{datum.key}: </span>
+            <span>{datum.bar.data[datum.key]}</span>
+          </div>
+        )}
+        data={[...cityTemperature.slice(0, 10)]}
+      />
+      <Source>This is a source</Source>
+    </ChartContainer>
   ));
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
-      maxWidth: "850px",
+      maxWidth: "600px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem auto",
+      padding: "0 1rem"
     })
   )
   .add("Vertical Grouped Bar", () => (
-    <VerticalGroupedBar
-      height={number("Height", 400)}
-      data={object("Data", [...cityTemperature.slice(0, 10)])}
-      x={d => d[text("Y Accessor", "date")]}
-      keys={array(
-        "Keys",
-        Object.keys(cityTemperature[0]).filter(d => d !== "date")
-      )}
-      renderTooltip={d => <div>Tooltip</div>}
-      colors={array("Colors", [
-        colors.turquoise.light,
-        colors.blue.light,
-        colors.purple.light
-      ])}
-      margin={object("Margin", { top: 40, left: 70, right: 40, bottom: 30 })}
-    />
+    <ChartContainer>
+      <Title>This is a title</Title>
+      <Description>This is a short description</Description>
+      <VerticalGroupedBar
+        height={350}
+        data={[...cityTemperature.slice(0, 10)]}
+        x={d => d["date"]}
+        keys={Object.keys(cityTemperature[0]).filter(d => d !== "date")}
+        renderTooltip={d => <div>Tooltip</div>}
+        colors={[
+          colors.turquoise.light,
+          colors.blue.light,
+          colors.purple.light
+        ]}
+        margin={{ top: 50, left: 25, right: 10, bottom: 30 }}
+      />
+      <Source>This is a source</Source>
+    </ChartContainer>
   ));
 
-storiesOf("Chart", module)
+storiesOf("Charts", module)
   .addDecorator(withKnobs({ escapeHTML: false }))
   .addDecorator(
     styles({
@@ -308,27 +349,143 @@ storiesOf("Chart", module)
     );
   });
 
-storiesOf("Chart", module)
-  .addDecorator(withKnobs({ escapeHTML: false }))
+storiesOf("Maps", module)
   .addDecorator(
     styles({
       maxWidth: "1200px",
       width: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      padding: "0 15px"
+      margin: "1rem, auto",
+      padding: "0 1rem"
     })
   )
   .add("Pindrop Map", () => {
     return (
-      <PindropMap
-        data={object("Data", [{ lat: 38.9072, lon: -77.0369 }])}
-        geometry={text("Geometry", "us")}
-        title={text("Chart Title", "Chart title")}
-        source={text("Source", "Chart source")}
-        width={1000}
-        height={600}
-      />
+      <LoadData url="https://na-data-projects.s3.amazonaws.com/data/epp/embedded_certifications.json">
+        {data => {
+          return (
+            <ChartContainer>
+              <Title>This is a title</Title>
+              <Description>This is a description</Description>
+              <Pindrop
+                maxWidth="100%"
+                data={data.viz__map}
+                aspectRatio={0.7}
+                geometry="us"
+                projection="albersUsa"
+                mapStroke="#f5f5f5"
+                renderTooltip={() => <div>Tooltip</div>}
+              />
+              <Source>This is a source</Source>
+            </ChartContainer>
+          );
+        }}
+      </LoadData>
+    );
+  });
+
+storiesOf("Maps", module)
+  .addDecorator(
+    styles({
+      maxWidth: "1200px",
+      width: "100%",
+      margin: "1rem auto",
+      padding: "0 1rem"
+    })
+  )
+  .add("U.S. Choropleth", () => {
+    return (
+      <LoadData url="https://na-data-projects.s3.amazonaws.com/data/epp/undermining_pell_iv.json">
+        {data => {
+          return (
+            <ChartContainer>
+              <Title>This is a title for the map</Title>
+              <Description>This is a description</Description>
+              <Choropleth
+                maxWidth="100%"
+                aspectRatio={0.6}
+                geometry="us"
+                projection="albersUsa"
+                data={data.viz__2}
+                accessor={d => +d["average_net_price"]}
+                mapStroke="#f5f5f5"
+                renderTooltip={() => <div>Tooltip</div>}
+              />
+              <Source>This is a source</Source>
+            </ChartContainer>
+          );
+        }}
+      </LoadData>
+    );
+  });
+
+storiesOf("Maps", module)
+  .addDecorator(
+    styles({
+      maxWidth: "1200px",
+      margin: "1rem auto",
+      padding: "0 1rem"
+    })
+  )
+  .add("World Choropleth", () => {
+    return (
+      <LoadData url="https://na-data-projects.s3.amazonaws.com/data/epp/undermining_pell_iv.json">
+        {data => {
+          return (
+            <ChartContainer>
+              <Title>This is a title for the map</Title>
+              <Description>
+                These maps are completely responsive. Try resizing your browser.
+              </Description>
+              <Choropleth
+                maxWidth="100%"
+                aspectRatio={0.7}
+                geometry="world"
+                projection="mercator"
+                data={data.viz__2}
+                accessor={d => +d["average_net_price"]}
+                mapStroke="#f5f5f5"
+                renderTooltip={() => <div>Tooltip</div>}
+                outline
+              />
+              <Source>This is a source</Source>
+            </ChartContainer>
+          );
+        }}
+      </LoadData>
+    );
+  });
+
+storiesOf("Maps", module)
+  .addDecorator(
+    styles({
+      maxWidth: "1200px",
+      margin: "1rem auto",
+      padding: "0 1rem"
+    })
+  )
+  .add("Cartogram", () => {
+    return (
+      <LoadData url="https://na-data-projects.s3.amazonaws.com/data/epp/undermining_pell_iv.json">
+        {data => {
+          return (
+            <ChartContainer>
+              <Title>This is a title for the map</Title>
+              <Description style={{ paddingBottom: "2rem" }}>
+                These maps are completely responsive. Try resizing your browser.
+              </Description>
+              <Cartogram
+                maxWidth="100%"
+                data={data.viz__2}
+                margin={{ top: 10, left: 0, right: 0, bottom: 10 }}
+                mapStroke="#f5f5f5"
+                valueAccessor={d => +d["average_net_price"]}
+                renderTooltip={() => <div>Tooltip</div>}
+              />
+              <Source style={{ paddingTop: "2rem" }}>This is a source</Source>
+            </ChartContainer>
+          );
+        }}
+      </LoadData>
     );
   });
 
