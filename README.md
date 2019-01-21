@@ -140,7 +140,7 @@ Watch file changes in all packages and create development builds. This runs `rol
 lerna run start --parallel
 ```
 
-If you just want to work on one or a couple package, run something like this instead (it'll be a bit lighter on your computer, because it won't spawn separate subprocesses to watch/build every single package).
+If you just want to work on one or a couple packages, run something like this instead (it'll be a bit lighter on your computer, because it won't spawn separate subprocesses to watch/build every single package).
 
 ```
 lerna run start --parallel --scope @newamerica/charts @newamerica/maps
