@@ -11,6 +11,10 @@
   justify-content: center;
 }
 
+.vx-legend-item:last-child .vx-legend-label {
+  margin-right: 0 !important;
+}
+
 .vx-legend-label {
   font-size: 12px;
 }
@@ -24,7 +28,7 @@
 }
 
 .vx-axis-line {
-  stroke: rgba(0, 0, 0, 0.15);
+  stroke: rgba(0, 0, 0, 0.2);
 }
 
 .vx-axis-tick {
@@ -33,7 +37,7 @@
   font-weight: normal;
   font-family: Circular;
   .vx-line {
-    stroke: rgba(0, 0, 0, 0.15);
+    stroke: rgba(0, 0, 0, 0.2);
   }
 }
 
