@@ -33,13 +33,12 @@
     visibility: visible;
     white-space: nowrap;
     &:checked {
-      + .dv-checkbox-label::before {
+      +.dv-checkbox-label::before {
         background-color: #333;
         border-color: #333;
       }
-      + .dv-checkbox-label::after {
+      +.dv-checkbox-label::after {
         opacity: 1;
-        /*rtl:ignore*/
         transform: scale(1) rotate(-45deg);
       }
     }
@@ -55,6 +54,7 @@
     margin: 0;
     padding: 0.5rem 0 0.5rem 1.5rem;
     min-height: 1rem;
+    user-select: none;
   }
   &-label::before {
     box-sizing: border-box;
