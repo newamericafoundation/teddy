@@ -41,7 +41,7 @@ class Line extends React.Component {
     const yPos = yScale(yAccessor(d));
     tooltipParentFunc({
       datum: d,
-      coords: { x: xPos + 50, y: yPos + 10 }
+      coords: { x: xPos + 30, y: yPos + 10 }
     });
     this.setState({ x: xPos, y: yPos });
   };
