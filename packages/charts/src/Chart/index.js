@@ -13,7 +13,7 @@ const Chart = ({
   ...rest
 }) => {
   return (
-    <div style={{ maxWidth: maxWidth, height }} className="dv-Chart">
+    <div style={{ maxWidth, height }} className="dv-Chart">
       {renderLegend && (
         <div className="dv-legend-container">{renderLegend()}</div>
       )}
