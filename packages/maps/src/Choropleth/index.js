@@ -14,6 +14,7 @@ import Projection from "../Projection";
 const Choropleth = ({
   maxWidth,
   height,
+  aspectRatio,
   data,
   accessor,
   geometry,
@@ -37,6 +38,7 @@ const Choropleth = ({
         <Chart
           maxWidth={maxWidth}
           height={height}
+          aspectRatio={aspectRatio}
           renderTooltip={renderTooltip}
         >
           {({ width, height, handleMouseEnter, handleMouseLeave }) => {

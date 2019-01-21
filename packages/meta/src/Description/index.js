@@ -2,9 +2,9 @@ import React from "react";
 import "./Description.scss";
 
 const Description = ({ children, className, style }) => (
-  <p className={`dv-chart__description ${className}`} style={style}>
+  <span className={`dv-chart__description ${className}`} style={style}>
     {children}
-  </p>
+  </span>
 );
 
 export default Description;

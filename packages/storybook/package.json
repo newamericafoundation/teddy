@@ -19,6 +19,7 @@
     "@newamerica/charts": "^0.0.2",
     "@newamerica/components": "^0.0.2",
     "@newamerica/data-table": "^0.0.3",
+    "@newamerica/maps": "0.0.1",
     "@newamerica/meta": "^0.0.2",
     "@newamerica/timeline": "^0.0.2",
     "@vx/mock-data": "0.0.182",
@@ -26,7 +27,7 @@
     "react-dom": "^16.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.0.0",
     "@sambego/storybook-styles": "^1.0.0",
     "@storybook/addon-knobs": "^4.1.4",
     "@storybook/addon-options": "^4.1.4",

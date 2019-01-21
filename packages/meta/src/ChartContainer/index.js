@@ -1,4 +1,5 @@
 import React from "react";
+import "./ChartContainer.scss";
 
 const ChartContainer = ({ children, style, className, full, noBackground }) => (
   <div
@@ -10,7 +11,7 @@ const ChartContainer = ({ children, style, className, full, noBackground }) => (
     {full ? (
       <div className="dv-ChartContainer__child">{children}</div>
     ) : (
-      { children }
+      children
     )}
   </div>
 );

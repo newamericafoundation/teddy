@@ -22,6 +22,7 @@ class Pindrop extends React.Component {
     const {
       maxWidth,
       height,
+      aspectRatio,
       data,
       geometry,
       projection,
@@ -39,6 +40,7 @@ class Pindrop extends React.Component {
           <Chart
             maxWidth={maxWidth}
             height={height}
+            aspectRatio={aspectRatio}
             renderTooltip={renderTooltip}
           >
             {({ width, height, handleMouseEnter, handleMouseLeave }) => {

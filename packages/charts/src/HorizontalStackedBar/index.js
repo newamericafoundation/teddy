@@ -9,7 +9,7 @@ import { max } from "d3-array";
 import Chart from "../Chart";
 
 export default ({
-  width,
+  maxWidth,
   height,
   data,
   y,
@@ -52,7 +52,7 @@ export default ({
 
   return (
     <Chart
-      width={width}
+      maxWidth={maxWidth}
       height={height}
       renderTooltip={renderTooltip}
       renderLegend={legend}

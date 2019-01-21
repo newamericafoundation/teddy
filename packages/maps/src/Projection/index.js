@@ -1,10 +1,10 @@
 // simplified version of https://github.com/hshoff/vx/blob/master/packages/vx-geo/src/projections/Projection.js\
 import React from "react";
 import { Group } from "@vx/group";
-import { geoAlbers, geoAlbersUsa, geoEqualEarth, geoPath } from "d3-geo";
+import { geoAlbersUsa, geoEqualEarth, geoMercator, geoPath } from "d3-geo";
 
 const projectionMapping = {
-  albers: () => geoAlbers(),
+  mercator: () => geoMercator(),
   albersUsa: () => geoAlbersUsa(),
   equalEarth: () => geoEqualEarth()
 };

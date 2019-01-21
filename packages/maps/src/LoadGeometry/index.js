@@ -28,7 +28,7 @@ export default class LoadGeometry extends React.Component {
     }
   }
   render() {
-    if (!this.state.feature) return;
+    if (!this.state.feature) return null;
     return this.props.children(this.state.feature);
   }
 }

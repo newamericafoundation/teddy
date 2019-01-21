@@ -103,4 +103,5 @@ npm install --save @newamerica/meta
 
 - [ ] add prop type checks to all packages
 - [ ] generate documentation from prop types
+- [ ] add mobile touch events for tooltip interactions
 - [ ] project website

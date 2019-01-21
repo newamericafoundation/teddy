@@ -18,6 +18,7 @@ const Cartogram = ({
   renderTooltip,
   valueAccessor,
   idAccessor = d => d.id,
+  margin = { top: 10, right: 10, bottom: 10, left: 10 },
   mapStroke = "#fff",
   mapFill = "#cbcbcd",
   colors = ["#e5f5f9", "#2ca25f"],
@@ -60,6 +61,7 @@ const Cartogram = ({
               const datum = dataMap.get(state.fips);
               return (
                 <g
+                  key={`grid-square-${i}`}
                   onMouseMove={event => handleMouseEnter({ event, datum })}
                   onMouseLeave={handleMouseLeave}
                 >

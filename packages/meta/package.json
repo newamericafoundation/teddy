@@ -12,7 +12,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rollup -c",
+    "start": "rollup -c -w --environment BUILD:development",
+    "build": "rollup -c --environment BUILD:production",
     "prepublish": "rm -rf ./dist && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
