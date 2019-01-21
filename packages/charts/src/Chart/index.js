@@ -12,45 +12,46 @@ const Chart = ({
   children,
   ...rest
 }) => {
-  if (renderTooltip) {
-    return (
-      <WithTooltip renderTooltip={renderTooltip}>
-        {({ handleMouseEnter, handleMouseLeave, tooltipOpen }) => (
-          <Chart
-            maxWidth={maxWidth}
-            height={height}
-            aspectRatio={aspectRatio}
-            handleMouseEnter={handleMouseEnter}
-            handleMouseLeave={handleMouseLeave}
-            tooltipOpen={tooltipOpen}
-            renderTooltip={null}
-            renderLegend={renderLegend}
-          >
-            {children}
-          </Chart>
-        )}
-      </WithTooltip>
-    );
-  } else {
-    return (
-      <div style={{ maxWidth: maxWidth, height }} className="dv-Chart">
-        {renderLegend && (
-          <div className="dv-legend-container">{renderLegend()}</div>
-        )}
-        <ParentSize>
-          {({ width, height: computedHeight }) => {
-            if (width < 10) return;
-            const chartHeight = height ? computedHeight : width * aspectRatio;
+  return (
+    <div style={{ maxWidth: maxWidth, height }} className="dv-Chart">
+      {renderLegend && (
+        <div className="dv-legend-container">{renderLegend()}</div>
+      )}
+
+      <ParentSize>
+        {({ width, height: computedHeight }) => {
+          if (width < 10) return null;
+
+          const chartHeight = height ? computedHeight : width * aspectRatio;
+
+          if (renderTooltip) {
+            return (
+              <WithTooltip renderTooltip={renderTooltip}>
+                {({ handleMouseEnter, handleMouseLeave, tooltipOpen }) => (
+                  <svg width={width} height={chartHeight}>
+                    {children({
+                      width,
+                      height: chartHeight,
+                      handleMouseEnter,
+                      handleMouseLeave,
+                      tooltipOpen,
+                      ...rest
+                    })}
+                  </svg>
+                )}
+              </WithTooltip>
+            );
+          } else {
             return (
               <svg width={width} height={chartHeight}>
                 {children({ width, height: chartHeight, ...rest })}
               </svg>
             );
-          }}
-        </ParentSize>
-      </div>
-    );
-  }
+          }
+        }}
+      </ParentSize>
+    </div>
+  );
 };
 
 export default Chart;
