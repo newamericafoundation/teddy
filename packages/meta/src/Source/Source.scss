@@ -1,3 +1,6 @@
+@import "~@newamerica/scss/spacing";
 .dv-chart__source {
+  display: block;
+  padding-top: $s3;
   font-size: 0.75rem;
 }
