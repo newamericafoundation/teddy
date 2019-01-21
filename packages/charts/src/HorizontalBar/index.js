@@ -23,9 +23,9 @@ export default ({
   color = "#22C8A3",
   margin = {
     top: 10,
-    left: 70,
+    left: 50,
     right: 10,
-    bottom: 50
+    bottom: 20
   }
 }) => {
   return (
@@ -74,10 +74,6 @@ export default ({
             </Group>
             <AxisLeft
               scale={yScale}
-              label={yAxisLabel}
-              labelProps={{
-                textAnchor: "middle"
-              }}
               hideTicks={false}
               hideAxisLine={false}
               tickFormat={yFormat}
@@ -87,9 +83,11 @@ export default ({
                 verticalAnchor: "middle",
                 dx: "-0.3em"
               })}
+              label={yAxisLabel}
               labelProps={{
                 dx: yLabelOffset,
-                textAnchor: "middle"
+                textAnchor: "middle",
+                verticalAnchor: "end"
               }}
             />
             <AxisBottom
@@ -107,9 +105,9 @@ export default ({
                 verticalAnchor: "end"
               })}
               labelProps={{
-                dy: "3em",
+                dy: "2.5em",
                 textAnchor: "middle",
-                y: 0
+                verticalAnchor: "start"
               }}
             />
           </Group>

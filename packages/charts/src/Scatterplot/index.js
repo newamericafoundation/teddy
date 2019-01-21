@@ -23,8 +23,8 @@ export default ({
   renderTooltip,
   margin = {
     top: 10,
-    bottom: 55,
-    left: 20,
+    bottom: 50,
+    left: 55,
     right: 10
   },
   circleStroke = "#4C81DB",
@@ -108,13 +108,13 @@ export default ({
               }
               tickFormat={yFormat}
               tickLabelProps={() => ({
-                fontSize: "11px",
                 textAnchor: "end",
                 verticalAnchor: "middle"
               })}
               label={yAxisLabel}
               labelProps={{
-                textAnchor: "middle"
+                textAnchor: "middle",
+                verticalAnchor: "end"
               }}
             />
             <AxisBottom
@@ -127,13 +127,14 @@ export default ({
                 typeof numTicksX === "function" ? numTicksX(width) : numTicksX
               }
               tickLabelProps={() => ({
-                textAnchor: "middle"
+                textAnchor: "middle",
+                verticalAnchor: "end"
               })}
               label={xAxisLabel}
               labelProps={{
-                dy: "3em",
+                dy: "2.5em",
                 textAnchor: "middle",
-                y: 0
+                verticalAnchor: "start"
               }}
             />
           </Group>

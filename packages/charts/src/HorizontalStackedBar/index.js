@@ -131,10 +131,16 @@ export default ({
                 typeof numTicksX === "function" ? numTicksX(width) : numTicksX
               }
               tickFormat={xFormat}
-              label={xAxisLabel}
               tickLabelProps={() => ({
-                textAnchor: "middle"
+                textAnchor: "middle",
+                verticalAnchor: "end"
               })}
+              label={xAxisLabel}
+              labelProps={{
+                dy: "2.5em",
+                textAnchor: "middle",
+                verticalAnchor: "start"
+              }}
             />
           </Group>
         );

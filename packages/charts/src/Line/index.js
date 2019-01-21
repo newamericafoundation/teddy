@@ -60,7 +60,7 @@ class Line extends React.Component {
       numTicksX = 10,
       numTicksY = 5,
       renderTooltip,
-      margin = { top: 10, left: 50, bottom: 50, right: 10 },
+      margin = { top: 10, left: 55, bottom: 30, right: 10 },
       stroke = "#22C8A3",
       strokeWidth = 2
     } = this.props;
@@ -136,8 +136,8 @@ class Line extends React.Component {
                 })}
                 label={yAxisLabel}
                 labelProps={{
-                  dx: "0.5em",
-                  textAnchor: "middle"
+                  textAnchor: "middle",
+                  verticalAnchor: "end"
                 }}
               />
               <AxisBottom
@@ -148,15 +148,15 @@ class Line extends React.Component {
                   typeof numTicksX === "function" ? numTicksX(width) : numTicksX
                 }
                 tickLabelProps={() => ({
-                  dy: "1.8em",
                   textAnchor: "middle",
-                  y: 0
+                  verticalAnchor: "middle"
                 })}
                 tickFormat={d => d}
                 label={xAxisLabel}
                 labelProps={{
-                  dy: "3.5em",
-                  textAnchor: "middle"
+                  dy: "2.5em",
+                  textAnchor: "middle",
+                  verticalAnchor: "start"
                 }}
               />
             </Group>
