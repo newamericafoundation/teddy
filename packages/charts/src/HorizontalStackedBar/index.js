@@ -21,6 +21,7 @@ export default ({
   keys,
   colors,
   renderTooltip,
+  renderAnnotation,
   margin = {
     top: 10,
     left: 60,
@@ -55,6 +56,7 @@ export default ({
       maxWidth={maxWidth}
       height={height}
       renderTooltip={renderTooltip}
+      renderAnnotation={renderAnnotation}
       renderLegend={legend}
     >
       {({ width, height, handleMouseEnter, handleMouseLeave }) => {
@@ -100,9 +102,11 @@ export default ({
                       width={bar.width}
                       height={bar.height}
                       fill={bar.color}
-                      onMouseLeave={handleMouseLeave}
+                      onMouseLeave={renderTooltip ? handleMouseLeave : null}
                       onMouseMove={event =>
-                        handleMouseEnter({ event, data, datum: bar })
+                        renderTooltip
+                          ? handleMouseEnter({ event, data, datum: bar })
+                          : null
                       }
                     />
                   ))

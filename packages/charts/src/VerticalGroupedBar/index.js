@@ -16,6 +16,7 @@ export default ({
   y,
   keys,
   renderTooltip,
+  renderAnnotation,
   xFormat,
   yFormat,
   xAxisLabel,
@@ -47,6 +48,7 @@ export default ({
       maxWidth={maxWidth}
       height={height}
       renderTooltip={renderTooltip}
+      renderAnnotation={renderAnnotation}
       renderLegend={legend}
     >
       {({ width, height, handleMouseEnter, handleMouseLeave }) => {
@@ -105,9 +107,13 @@ export default ({
                             height={bar.height}
                             fill={bar.color}
                             onMouseMove={event =>
-                              handleMouseEnter({ event, data, datum: bar })
+                              renderTooltip
+                                ? handleMouseEnter({ event, data, datum: bar })
+                                : null
                             }
-                            onMouseLeave={handleMouseLeave}
+                            onMouseLeave={
+                              renderTooltip ? handleMouseLeave : null
+                            }
                           />
                         );
                       })}

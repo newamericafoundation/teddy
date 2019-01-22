@@ -21,6 +21,7 @@ export default ({
   numTicksX = 5,
   numTicksY = 5,
   renderTooltip,
+  renderAnnotation,
   margin = {
     top: 10,
     bottom: 50,
@@ -36,6 +37,7 @@ export default ({
       height={height}
       margin={margin}
       renderTooltip={renderTooltip}
+      renderAnnotation={renderAnnotation}
     >
       {({ width, height, handleMouseEnter, handleMouseLeave }) => {
         if (width < 100) return;
@@ -92,9 +94,11 @@ export default ({
                     cy={yScale(y(point))}
                     r={rScale ? rScale(r(point)) : size}
                     onMouseMove={event =>
-                      handleMouseEnter({ event, data, datum: point })
+                      renderTooltip
+                        ? handleMouseEnter({ event, data, datum: point })
+                        : null
                     }
-                    onMouseLeave={handleMouseLeave}
+                    onMouseLeave={renderTooltip ? handleMouseLeave : null}
                   />
                 );
               })}
@@ -134,7 +138,8 @@ export default ({
               labelProps={{
                 dy: "2.5em",
                 textAnchor: "middle",
-                verticalAnchor: "start"
+                verticalAnchor: "start",
+                y: 0
               }}
             />
           </Group>

@@ -14,6 +14,7 @@ export default ({
   x,
   y,
   renderTooltip,
+  renderAnnotation,
   xFormat,
   yFormat,
   xAxisLabel,
@@ -29,7 +30,12 @@ export default ({
   }
 }) => {
   return (
-    <Chart maxWidth={maxWidth} height={height} renderTooltip={renderTooltip}>
+    <Chart
+      maxWidth={maxWidth}
+      height={height}
+      renderTooltip={renderTooltip}
+      renderAnnotation={renderAnnotation}
+    >
       {({ width, height, handleMouseEnter, handleMouseLeave }) => {
         const xMax = width - margin.left - margin.right;
         const yMax = height - margin.top - margin.bottom;
@@ -65,9 +71,11 @@ export default ({
                     height={yScale.bandwidth()}
                     fill={color}
                     onMouseMove={event =>
-                      handleMouseEnter({ event, data, datum })
+                      renderTooltip
+                        ? handleMouseEnter({ event, data, datum })
+                        : null
                     }
-                    onMouseLeave={handleMouseLeave}
+                    onMouseLeave={renderTooltip ? handleMouseLeave : null}
                   />
                 );
               })}
