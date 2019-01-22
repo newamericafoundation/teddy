@@ -1,6 +1,7 @@
-// code from Chris Williams' data-ui: https://github.com/williaster/data-ui/blob/master/packages/shared/src/enhancer/WithTooltip.jsx
+// code adapted from Chris Williams' data-ui: https://github.com/williaster/data-ui/blob/master/packages/shared/src/enhancer/WithTooltip.jsx
 
 import React from "react";
+import PropTypes from "prop-types";
 import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
 import { localPoint } from "@vx/event";
 
@@ -83,5 +84,14 @@ class WithTooltip extends React.Component {
     );
   }
 }
+
+WithTooltip.propTypes = {
+  children: PropTypes.func,
+  tooltipData: PropTypes.object,
+  tooltipOpen: PropTypes.bool,
+  tooltipLeft: PropTypes.number,
+  tooltipTop: PropTypes.number,
+  renderTooltip: PropTypes.func.isRequired
+};
 
 export default withTooltip(WithTooltip);

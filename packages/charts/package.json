@@ -36,7 +36,8 @@
     "@vx/scale": "0.0.182",
     "@vx/shape": "0.0.183",
     "@vx/tooltip": "0.0.182",
-    "d3-array": "^1.2.4"
+    "d3-array": "^1.2.4",
+    "prop-types": "^15.6.2"
   },
   "peerDependencies": {
     "react": "^16.2.0"

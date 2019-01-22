@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Bar } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
@@ -7,28 +8,31 @@ import { GridRows } from "@vx/grid";
 import { max } from "d3-array";
 import Chart from "../Chart";
 
-export default ({
+const BarChart = ({
   maxWidth,
   height,
+  aspectRatio,
+  renderTooltip,
+  renderAnnotation,
   data,
   x,
   y,
-  renderTooltip,
   xFormat,
   yFormat,
   xAxisLabel,
   yAxisLabel,
-  numTicksY = 5,
-  color = "#22C8A3",
-  margin = {
-    top: 10,
-    left: 55,
-    right: 10,
-    bottom: 30
-  }
+  numTicksY,
+  color,
+  margin
 }) => {
   return (
-    <Chart maxWidth={maxWidth} height={height} renderTooltip={renderTooltip}>
+    <Chart
+      maxWidth={maxWidth}
+      height={height}
+      aspectRatio={aspectRatio}
+      renderTooltip={renderTooltip}
+      renderAnnotation={renderAnnotation}
+    >
       {({ width, height, handleMouseEnter, handleMouseLeave }) => {
         const xMax = width - margin.left - margin.right;
         const yMax = height - margin.top - margin.bottom;
@@ -46,7 +50,13 @@ export default ({
 
         return (
           <Group top={margin.top} left={margin.left}>
-            <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
+            <GridRows
+              scale={yScale}
+              width={xMax}
+              numTicks={
+                typeof numTicksY === "function" ? numTicksY(height) : numTicksY
+              }
+            />
             <Group>
               {data.map((datum, i) => {
                 return (
@@ -58,9 +68,11 @@ export default ({
                     height={yMax - yScale(y(datum))}
                     fill={color}
                     onMouseMove={event =>
-                      handleMouseEnter({ event, data, datum })
+                      renderTooltip
+                        ? handleMouseEnter({ event, data, datum })
+                        : null
                     }
-                    onMouseLeave={handleMouseLeave}
+                    onMouseLeave={renderTooltip ? handleMouseLeave : null}
                   />
                 );
               })}
@@ -69,7 +81,9 @@ export default ({
               scale={yScale}
               hideTicks={true}
               hideAxisLine={true}
-              numTicks={numTicksY}
+              numTicks={
+                typeof numTicksY === "function" ? numTicksY(height) : numTicksY
+              }
               tickFormat={yFormat}
               tickLabelProps={() => ({
                 textAnchor: "end",
@@ -105,3 +119,42 @@ export default ({
     </Chart>
   );
 };
+
+BarChart.propTypes = {
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  aspectRatio: PropTypes.number,
+  renderTooltip: PropTypes.func,
+  renderAnnotation: PropTypes.func,
+  data: PropTypes.array.isRequired,
+  x: PropTypes.func.isRequired,
+  y: PropTypes.func.isRequired,
+  xFormat: PropTypes.func,
+  yFormat: PropTypes.func,
+  xAxisLabel: PropTypes.string,
+  yAxisLabel: PropTypes.string,
+  /**
+   * You can specify the number of y axis ticks directly, or pass in a function which will receive the chart's computed height as an argument.
+   */
+  numTicksY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  color: PropTypes.string,
+  margin: PropTypes.shape({
+    top: PropTypes.number.isRequired,
+    right: PropTypes.number.isRequired,
+    bottom: PropTypes.number.isRequired,
+    left: PropTypes.number.isRequired
+  })
+};
+
+BarChart.defaultProps = {
+  numTicksY: 5,
+  color: "#22C8A3",
+  margin: {
+    top: 10,
+    left: 55,
+    right: 10,
+    bottom: 30
+  }
+};
+
+export default BarChart;

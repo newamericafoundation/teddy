@@ -1,5 +1,5 @@
 import React from "react";
-import { ParentSize } from "@vx/responsive";
+import PropTypes from "prop-types";
 import { Group } from "@vx/group";
 import { LinePath } from "@vx/shape";
 import { AxisLeft, AxisBottom } from "@vx/axis";
@@ -7,11 +7,11 @@ import { scaleLinear } from "@vx/scale";
 import { curveBasis } from "@vx/curve";
 import { GridRows } from "@vx/grid";
 import { localPoint } from "@vx/event";
-import { bisector } from "d3-array";
+import { bisector, max, extent } from "d3-array";
 import Chart from "../Chart";
 import HoverLine from "./HoverLine";
 
-class Line extends React.Component {
+class LineChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = { x: 0, y: 0 };
@@ -41,7 +41,7 @@ class Line extends React.Component {
     const yPos = yScale(yAccessor(d));
     tooltipParentFunc({
       datum: d,
-      coords: { x: xPos + 30, y: yPos + 10 }
+      coords: { x: xPos + margin.left, y: yPos + margin.top }
     });
     this.setState({ x: xPos, y: yPos });
   };
@@ -50,6 +50,9 @@ class Line extends React.Component {
     const {
       maxWidth,
       height,
+      aspectRatio,
+      renderTooltip,
+      renderAnnotation,
       data,
       x,
       y,
@@ -57,16 +60,21 @@ class Line extends React.Component {
       yAxisLabel,
       yFormat,
       xFormat,
-      numTicksX = 10,
-      numTicksY = 5,
-      renderTooltip,
-      margin = { top: 10, left: 55, bottom: 30, right: 10 },
-      stroke = "#22C8A3",
-      strokeWidth = 2
+      numTicksX,
+      numTicksY,
+      margin,
+      stroke,
+      strokeWidth
     } = this.props;
 
     return (
-      <Chart maxWidth={maxWidth} height={height} renderTooltip={renderTooltip}>
+      <Chart
+        maxWidth={maxWidth}
+        height={height}
+        aspectRatio={aspectRatio}
+        renderTooltip={renderTooltip}
+        renderAnnotation={renderAnnotation}
+      >
         {({
           width,
           height,
@@ -78,11 +86,12 @@ class Line extends React.Component {
           const yMax = height - margin.top - margin.bottom;
 
           const xScale = scaleLinear({
-            domain: [Math.min(...data.map(x)), Math.max(...data.map(x))],
+            domain: extent(data, x),
             range: [0, xMax]
           });
+
           const yScale = scaleLinear({
-            domain: [0, Math.max(...data.map(y))],
+            domain: [0, max(data, y)],
             range: [yMax, 0]
           });
           return (
@@ -103,18 +112,20 @@ class Line extends React.Component {
                 height={yMax}
                 fill="transparent"
                 onMouseMove={event => {
-                  this.handleMouseMove({
-                    event,
-                    data,
-                    xScale,
-                    yScale,
-                    margin,
-                    xAccessor: x,
-                    yAccessor: y,
-                    tooltipParentFunc: handleMouseEnter
-                  });
+                  renderTooltip
+                    ? this.handleMouseMove({
+                        event,
+                        data,
+                        xScale,
+                        yScale,
+                        margin,
+                        xAccessor: x,
+                        yAccessor: y,
+                        tooltipParentFunc: handleMouseEnter
+                      })
+                    : null;
                 }}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={renderTooltip ? handleMouseLeave : null}
               />
               {tooltipOpen && (
                 <HoverLine
@@ -167,4 +178,43 @@ class Line extends React.Component {
   }
 }
 
-export default Line;
+LineChart.propTypes = {
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  aspectRatio: PropTypes.number,
+  renderTooltip: PropTypes.func,
+  renderAnnotation: PropTypes.func,
+  data: PropTypes.array.isRequired,
+  x: PropTypes.func.isRequired,
+  y: PropTypes.func.isRequired,
+  xFormat: PropTypes.func,
+  yFormat: PropTypes.func,
+  xAxisLabel: PropTypes.string,
+  yAxisLabel: PropTypes.string,
+  /**
+   * You can specify the number of y axis ticks directly, or pass in a function which will receive the chart's computed height as an argument.
+   */
+  numTicksY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  /**
+   * You can specify the number of x axis ticks directly, or pass in a function which will receive the chart's computed width as an argument.
+   */
+  numTicksX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  stroke: PropTypes.string,
+  strokeWidth: PropTypes.number,
+  margin: PropTypes.shape({
+    top: PropTypes.number.isRequired,
+    right: PropTypes.number.isRequired,
+    bottom: PropTypes.number.isRequired,
+    left: PropTypes.number.isRequired
+  })
+};
+
+LineChart.defaultProps = {
+  numTicksX: 10,
+  numTicksY: 5,
+  stroke: "#22C8A3",
+  strokeWidth: 2,
+  margin: { top: 10, left: 55, bottom: 30, right: 10 }
+};
+
+export default LineChart;
