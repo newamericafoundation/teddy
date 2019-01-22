@@ -24,6 +24,7 @@
     "@newamerica/timeline": "^0.0.2",
     "@vx/mock-data": "0.0.182",
     "react": "^16.3.0",
+    "react-annotation": "^2.1.5",
     "react-dom": "^16.3.0"
   },
   "devDependencies": {

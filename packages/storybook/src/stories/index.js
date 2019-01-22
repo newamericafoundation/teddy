@@ -31,6 +31,7 @@ import { ChartContainer, Title, Description, Source } from "@newamerica/meta";
 import { Timeline } from "@newamerica/timeline";
 import { DataTableWithSearch } from "@newamerica/data-table";
 import { cityTemperature } from "@vx/mock-data";
+import { AnnotationCalloutCircle } from "react-annotation";
 import { colors } from "../lib/colors";
 import "./newamericadotorg.lite.css";
 import "@newamerica/charts/dist/styles.css";
@@ -92,11 +93,11 @@ storiesOf("Charts", module)
         <Bar
           data={barData}
           maxWidth={600}
-          height={300}
+          aspectRatio={0.55}
           y={d => d.value}
           x={d => d.key}
           yAxisLabel="This is an axis label"
-          margin={{ top: 10, left: 55, right: 0, bottom: 25 }}
+          margin={{ top: 10, left: 55, right: 10, bottom: 30 }}
           renderTooltip={({ datum }) => (
             <div>
               {datum.key}: <b>{datum.value}</b>
@@ -141,9 +142,8 @@ storiesOf("Charts", module)
           height={300}
           x={d => d.value}
           y={d => d.key}
-          xAxisLabel="This is an axis label"
           numTicksX={width => (width < 400 ? 4 : 6)}
-          margin={{ top: 10, left: 40, right: 10, bottom: 30 }}
+          margin={{ top: 10, left: 40, right: 10, bottom: 20 }}
           renderTooltip={({ datum }) => (
             <div>
               {datum.key}: <b>{datum.value}</b>
@@ -187,8 +187,8 @@ storiesOf("Charts", module)
           numTicksX={width => (width < 400 ? 5 : 7)}
           margin={{
             top: 10,
-            bottom: 55,
-            left: 60,
+            bottom: 50,
+            left: 55,
             right: 10
           }}
         />
@@ -215,18 +215,39 @@ storiesOf("Charts", module)
         {data => (
           <ChartContainer>
             <Title>This is a line chart</Title>
-            <Description>This is a description</Description>
+            <Description>
+              Instead of a fixed height, this chart has an aspect ratio that it
+              will maintain on all screen sizes
+            </Description>
             <Line
               data={data.line}
               maxWidth={600}
-              height={300}
+              aspectRatio={0.6}
               x={d => d.year}
-              y={d => d.cumulative}
-              margin={{ top: 10, left: 25, right: 10, bottom: 30 }}
+              y={d => +d.cumulative}
+              yAxisLabel="Label"
+              margin={{ top: 10, left: 55, right: 10, bottom: 30 }}
+              numTicksX={width => (width < 350 ? 3 : 8)}
               renderTooltip={({ datum }) => (
                 <div>
                   {datum.year}: <b>{datum.cumulative}</b>
                 </div>
+              )}
+              renderAnnotation={({ width, height }) => (
+                <AnnotationCalloutCircle
+                  x={width / 1.35}
+                  y={height / 1.75}
+                  dy={width < 350 ? -40 : -50}
+                  dx={width < 350 ? -10 : -50}
+                  color={"#333"}
+                  editMode={false}
+                  note={{
+                    label: "Oh look, this is an annotation 😎",
+                    lineType: "horizontal",
+                    lineType: null
+                  }}
+                  subject={{ radius: 16, radiusPadding: 5 }}
+                />
               )}
             />
             <Source>This is a source</Source>
