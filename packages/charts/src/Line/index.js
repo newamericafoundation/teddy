@@ -48,11 +48,11 @@ class LineChart extends React.Component {
 
   render() {
     const {
-      maxWidth,
+      width,
       height,
-      aspectRatio,
-      renderTooltip,
-      renderAnnotation,
+      handleMouseEnter,
+      handleMouseLeave,
+      tooltipOpen,
       data,
       x,
       y,
@@ -67,123 +67,105 @@ class LineChart extends React.Component {
       strokeWidth
     } = this.props;
 
+    const xMax = width - margin.left - margin.right;
+    const yMax = height - margin.top - margin.bottom;
+
+    const xScale = scaleLinear({
+      domain: extent(data, x),
+      range: [0, xMax]
+    });
+
+    const yScale = scaleLinear({
+      domain: [0, max(data, y)],
+      range: [yMax, 0]
+    });
     return (
-      <Chart
-        maxWidth={maxWidth}
-        height={height}
-        aspectRatio={aspectRatio}
-        renderTooltip={renderTooltip}
-        renderAnnotation={renderAnnotation}
-      >
-        {({
-          width,
-          height,
-          handleMouseEnter,
-          handleMouseLeave,
-          tooltipOpen
-        }) => {
-          const xMax = width - margin.left - margin.right;
-          const yMax = height - margin.top - margin.bottom;
-
-          const xScale = scaleLinear({
-            domain: extent(data, x),
-            range: [0, xMax]
-          });
-
-          const yScale = scaleLinear({
-            domain: [0, max(data, y)],
-            range: [yMax, 0]
-          });
-          return (
-            <Group top={margin.top} left={margin.left}>
-              <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
-              <LinePath
-                data={data}
-                x={d => xScale(x(d))}
-                y={d => yScale(y(d))}
-                stroke={stroke}
-                strokeWidth={strokeWidth}
-                curve={curveBasis}
-              />
-              <rect
-                x={0}
-                y={0}
-                width={xMax}
-                height={yMax}
-                fill="transparent"
-                onMouseMove={event => {
-                  renderTooltip
-                    ? this.handleMouseMove({
-                        event,
-                        data,
-                        xScale,
-                        yScale,
-                        margin,
-                        xAccessor: x,
-                        yAccessor: y,
-                        tooltipParentFunc: handleMouseEnter
-                      })
-                    : null;
-                }}
-                onMouseLeave={renderTooltip ? handleMouseLeave : null}
-              />
-              {tooltipOpen && (
-                <HoverLine
-                  top={0}
-                  bottom={yMax}
-                  tooltipLeft={this.state.x}
-                  tooltipTop={this.state.y}
-                />
-              )}
-              <AxisLeft
-                scale={yScale}
-                hideTicks={true}
-                hideAxisLine={true}
-                tickFormat={yFormat}
-                numTicks={numTicksY}
-                tickLabelProps={() => ({
-                  textAnchor: "end",
-                  verticalAnchor: "middle"
-                })}
-                label={yAxisLabel}
-                labelProps={{
-                  textAnchor: "middle",
-                  verticalAnchor: "end"
-                }}
-              />
-              <AxisBottom
-                scale={xScale}
-                top={yMax}
-                tickFormat={xFormat}
-                numTicks={
-                  typeof numTicksX === "function" ? numTicksX(width) : numTicksX
-                }
-                tickLabelProps={() => ({
-                  textAnchor: "middle",
-                  verticalAnchor: "middle"
-                })}
-                tickFormat={d => d}
-                label={xAxisLabel}
-                labelProps={{
-                  dy: "2.5em",
-                  textAnchor: "middle",
-                  verticalAnchor: "start"
-                }}
-              />
-            </Group>
-          );
-        }}
-      </Chart>
+      <Group top={margin.top} left={margin.left}>
+        <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
+        <LinePath
+          data={data}
+          x={d => xScale(x(d))}
+          y={d => yScale(y(d))}
+          stroke={stroke}
+          strokeWidth={strokeWidth}
+          curve={curveBasis}
+        />
+        <rect
+          x={0}
+          y={0}
+          width={xMax}
+          height={yMax}
+          fill="transparent"
+          onMouseMove={event => {
+            handleMouseEnter
+              ? this.handleMouseMove({
+                  event,
+                  data,
+                  xScale,
+                  yScale,
+                  margin,
+                  xAccessor: x,
+                  yAccessor: y,
+                  tooltipParentFunc: handleMouseEnter
+                })
+              : null;
+          }}
+          onMouseLeave={handleMouseLeave ? handleMouseLeave : null}
+        />
+        {tooltipOpen && (
+          <HoverLine
+            top={0}
+            bottom={yMax}
+            tooltipLeft={this.state.x}
+            tooltipTop={this.state.y}
+          />
+        )}
+        <AxisLeft
+          scale={yScale}
+          hideTicks={true}
+          hideAxisLine={true}
+          tickFormat={yFormat}
+          numTicks={numTicksY}
+          tickLabelProps={() => ({
+            textAnchor: "end",
+            verticalAnchor: "middle"
+          })}
+          label={yAxisLabel}
+          labelProps={{
+            textAnchor: "middle",
+            verticalAnchor: "end"
+          }}
+        />
+        <AxisBottom
+          scale={xScale}
+          top={yMax}
+          tickFormat={xFormat}
+          numTicks={
+            typeof numTicksX === "function" ? numTicksX(width) : numTicksX
+          }
+          tickLabelProps={() => ({
+            textAnchor: "middle",
+            verticalAnchor: "middle"
+          })}
+          tickFormat={d => d}
+          label={xAxisLabel}
+          labelProps={{
+            dy: "2.5em",
+            textAnchor: "middle",
+            verticalAnchor: "start"
+          }}
+        />
+      </Group>
     );
   }
 }
 
 LineChart.propTypes = {
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  aspectRatio: PropTypes.number,
-  renderTooltip: PropTypes.func,
-  renderAnnotation: PropTypes.func,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  handleMouseEnter: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
+  tooltipOpen: PropTypes.bool,
   data: PropTypes.array.isRequired,
   x: PropTypes.func.isRequired,
   y: PropTypes.func.isRequired,

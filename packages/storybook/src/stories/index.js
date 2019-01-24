@@ -11,6 +11,7 @@ import {
   boolean
 } from "@storybook/addon-knobs";
 import {
+  Chart,
   Bar,
   HorizontalBar,
   HorizontalStackedBar,
@@ -86,31 +87,33 @@ storiesOf("Charts", module)
       key: `Bar ${i + 1}`,
       value: getRandomInt(1, 40)
     }));
+    const tooltip = ({ datum }) => (
+      <div>
+        {datum.key}: <b>{datum.value}</b>
+      </div>
+    );
     return (
       <ChartContainer>
         <Title>This is a bar chart</Title>
         <Description>This is a description for the bar chart</Description>
-        <Bar
-          data={barData}
-          maxWidth={600}
-          aspectRatio={0.55}
-          y={d => d.value}
-          x={d => d.key}
-          yAxisLabel="This is an axis label"
-          margin={{ top: 10, left: 55, right: 10, bottom: 30 }}
-          renderTooltip={({ datum }) => (
-            <div>
-              {datum.key}: <b>{datum.value}</b>
-            </div>
-          )}
-        />
-        <Source>
-          This is a{" "}
-          <a href="#" onClick={e => e.preventDefault()}>
-            source
-          </a>{" "}
-          for the bar chart
-        </Source>
+        <Chart maxWidth={600} aspectRatio={0.55} renderTooltip={tooltip}>
+          {({ width, height, handleMouseEnter, handleMouseLeave }) => {
+            return (
+              <Bar
+                width={width}
+                height={height}
+                data={barData}
+                y={d => d.value}
+                x={d => d.key}
+                yAxisLabel="This is an axis label"
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                margin={{ top: 10, left: 55, right: 10, bottom: 30 }}
+              />
+            );
+          }}
+        </Chart>
+        <Source>This is a source for the bar chart</Source>
       </ChartContainer>
     );
   });
@@ -210,6 +213,12 @@ storiesOf("Charts", module)
   .add("Line Chart", () => {
     const url =
       "https://na-data-projects.s3.amazonaws.com/data/nann/network_research.json";
+
+    const tooltip = ({ datum }) => (
+      <div>
+        {datum.year}: <b>{datum.cumulative}</b>
+      </div>
+    );
     return (
       <LoadData url={url}>
         {data => (
@@ -219,37 +228,45 @@ storiesOf("Charts", module)
               Instead of a fixed height, this chart has an aspect ratio that it
               will maintain on all screen sizes
             </Description>
-            <Line
-              data={data.line}
-              maxWidth={600}
-              aspectRatio={0.6}
-              x={d => d.year}
-              y={d => +d.cumulative}
-              yAxisLabel="Label"
-              margin={{ top: 10, left: 55, right: 10, bottom: 30 }}
-              numTicksX={width => (width < 350 ? 3 : 8)}
-              renderTooltip={({ datum }) => (
-                <div>
-                  {datum.year}: <b>{datum.cumulative}</b>
-                </div>
+            <Chart maxWidth={600} aspectRatio={0.6} renderTooltip={tooltip}>
+              {({
+                width,
+                height,
+                handleMouseEnter,
+                handleMouseLeave,
+                tooltipOpen
+              }) => (
+                <React.Fragment>
+                  <Line
+                    width={width}
+                    height={height}
+                    handleMouseEnter={handleMouseEnter}
+                    handleMouseLeave={handleMouseLeave}
+                    tooltipOpen={tooltipOpen}
+                    data={data.line}
+                    x={d => d.year}
+                    y={d => +d.cumulative}
+                    yAxisLabel="Label"
+                    margin={{ top: 10, left: 55, right: 10, bottom: 30 }}
+                    numTicksX={width => (width < 350 ? 3 : 8)}
+                  />
+                  <AnnotationCalloutCircle
+                    x={width / 1.35}
+                    y={height / 1.75}
+                    dy={width < 350 ? -40 : -50}
+                    dx={width < 350 ? -10 : -50}
+                    color={"#333"}
+                    editMode={false}
+                    note={{
+                      label: "Oh look, this is an annotation 😎",
+                      lineType: "horizontal",
+                      lineType: null
+                    }}
+                    subject={{ radius: 16, radiusPadding: 5 }}
+                  />
+                </React.Fragment>
               )}
-              renderAnnotation={({ width, height }) => (
-                <AnnotationCalloutCircle
-                  x={width / 1.35}
-                  y={height / 1.75}
-                  dy={width < 350 ? -40 : -50}
-                  dx={width < 350 ? -10 : -50}
-                  color={"#333"}
-                  editMode={false}
-                  note={{
-                    label: "Oh look, this is an annotation 😎",
-                    lineType: "horizontal",
-                    lineType: null
-                  }}
-                  subject={{ radius: 16, radiusPadding: 5 }}
-                />
-              )}
-            />
+            </Chart>
             <Source>This is a source</Source>
           </ChartContainer>
         )}

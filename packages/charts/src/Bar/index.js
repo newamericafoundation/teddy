@@ -9,11 +9,11 @@ import { max } from "d3-array";
 import Chart from "../Chart";
 
 const BarChart = ({
-  maxWidth,
+  width,
   height,
-  aspectRatio,
-  renderTooltip,
-  renderAnnotation,
+  handleMouseEnter,
+  handleMouseLeave,
+  tooltipOpen,
   data,
   x,
   y,
@@ -25,107 +25,95 @@ const BarChart = ({
   color,
   margin
 }) => {
+  const xMax = width - margin.left - margin.right;
+  const yMax = height - margin.top - margin.bottom;
+
+  const xScale = scaleBand({
+    rangeRound: [0, xMax],
+    domain: data.map(x),
+    padding: 0.2
+  });
+
+  const yScale = scaleLinear({
+    rangeRound: [yMax, 0],
+    domain: [0, max(data, y)]
+  });
+
   return (
-    <Chart
-      maxWidth={maxWidth}
-      height={height}
-      aspectRatio={aspectRatio}
-      renderTooltip={renderTooltip}
-      renderAnnotation={renderAnnotation}
-    >
-      {({ width, height, handleMouseEnter, handleMouseLeave }) => {
-        const xMax = width - margin.left - margin.right;
-        const yMax = height - margin.top - margin.bottom;
-
-        const xScale = scaleBand({
-          rangeRound: [0, xMax],
-          domain: data.map(x),
-          padding: 0.2
-        });
-
-        const yScale = scaleLinear({
-          rangeRound: [yMax, 0],
-          domain: [0, max(data, y)]
-        });
-
-        return (
-          <Group top={margin.top} left={margin.left}>
-            <GridRows
-              scale={yScale}
-              width={xMax}
-              numTicks={
-                typeof numTicksY === "function" ? numTicksY(height) : numTicksY
+    <Group top={margin.top} left={margin.left}>
+      <GridRows
+        scale={yScale}
+        width={xMax}
+        numTicks={
+          typeof numTicksY === "function" ? numTicksY(height) : numTicksY
+        }
+      />
+      <Group>
+        {data.map((datum, i) => {
+          return (
+            <Bar
+              key={`bar-${i}`}
+              x={xScale(x(datum))}
+              y={yScale(y(datum))}
+              width={xScale.bandwidth()}
+              height={yMax - yScale(y(datum))}
+              fill={color}
+              onMouseMove={event =>
+                handleMouseEnter
+                  ? handleMouseEnter({ event, data, datum })
+                  : null
               }
+              onMouseLeave={handleMouseLeave ? handleMouseLeave : null}
             />
-            <Group>
-              {data.map((datum, i) => {
-                return (
-                  <Bar
-                    key={`bar-${i}`}
-                    x={xScale(x(datum))}
-                    y={yScale(y(datum))}
-                    width={xScale.bandwidth()}
-                    height={yMax - yScale(y(datum))}
-                    fill={color}
-                    onMouseMove={event =>
-                      renderTooltip
-                        ? handleMouseEnter({ event, data, datum })
-                        : null
-                    }
-                    onMouseLeave={renderTooltip ? handleMouseLeave : null}
-                  />
-                );
-              })}
-            </Group>
-            <AxisLeft
-              scale={yScale}
-              hideTicks={true}
-              hideAxisLine={true}
-              numTicks={
-                typeof numTicksY === "function" ? numTicksY(height) : numTicksY
-              }
-              tickFormat={yFormat}
-              tickLabelProps={() => ({
-                textAnchor: "end",
-                verticalAnchor: "middle"
-              })}
-              label={yAxisLabel}
-              labelProps={{
-                textAnchor: "middle",
-                verticalAnchor: "end"
-              }}
-            />
-            <AxisBottom
-              top={yMax}
-              scale={xScale}
-              label={xAxisLabel}
-              hideAxisLine={false}
-              hideTicks={false}
-              tickFormat={xFormat}
-              tickLabelProps={() => ({
-                textAnchor: "middle",
-                width: xScale.bandwidth(),
-                verticalAnchor: "middle"
-              })}
-              labelProps={{
-                dy: "3em",
-                textAnchor: "middle",
-                y: 0
-              }}
-            />
-          </Group>
-        );
-      }}
-    </Chart>
+          );
+        })}
+      </Group>
+      <AxisLeft
+        scale={yScale}
+        hideTicks={true}
+        hideAxisLine={true}
+        numTicks={
+          typeof numTicksY === "function" ? numTicksY(height) : numTicksY
+        }
+        tickFormat={yFormat}
+        tickLabelProps={() => ({
+          textAnchor: "end",
+          verticalAnchor: "middle"
+        })}
+        label={yAxisLabel}
+        labelProps={{
+          textAnchor: "middle",
+          verticalAnchor: "end"
+        }}
+      />
+      <AxisBottom
+        top={yMax}
+        scale={xScale}
+        label={xAxisLabel}
+        hideAxisLine={false}
+        hideTicks={false}
+        tickFormat={xFormat}
+        tickLabelProps={() => ({
+          textAnchor: "middle",
+          width: xScale.bandwidth(),
+          verticalAnchor: "middle"
+        })}
+        labelProps={{
+          dy: "3em",
+          textAnchor: "middle",
+          y: 0
+        }}
+      />
+    </Group>
   );
 };
 
 BarChart.propTypes = {
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  aspectRatio: PropTypes.number,
-  renderTooltip: PropTypes.func,
-  renderAnnotation: PropTypes.func,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  handleMouseEnter: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
+  tooltipOpen: PropTypes.bool,
   data: PropTypes.array.isRequired,
   x: PropTypes.func.isRequired,
   y: PropTypes.func.isRequired,
