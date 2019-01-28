@@ -105,6 +105,7 @@ npm install --save @newamerica/meta
 - [ ] generate documentation from prop types
 - [ ] add mobile touch events for tooltip interactions
 - [ ] project website
+- [ ] improve accessibility across packages, especially for UI components
 
 ## Development
 
