@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/storybook",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Storybook for teddy components",
   "main": "index.js",
   "repository": {
@@ -16,12 +16,12 @@
   "author": "lorenries",
   "license": "MIT",
   "dependencies": {
-    "@newamerica/charts": "^0.0.2",
-    "@newamerica/components": "^0.0.2",
-    "@newamerica/data-table": "^0.0.3",
-    "@newamerica/maps": "0.0.1",
-    "@newamerica/meta": "^0.0.2",
-    "@newamerica/timeline": "^0.0.2",
+    "@newamerica/charts": "^0.0.3",
+    "@newamerica/components": "^0.0.3",
+    "@newamerica/data-table": "^0.0.4",
+    "@newamerica/maps": "^0.0.2",
+    "@newamerica/meta": "^0.0.3",
+    "@newamerica/timeline": "^0.0.3",
     "@vx/mock-data": "0.0.182",
     "react": "^16.3.0",
     "react-annotation": "^2.1.5",
