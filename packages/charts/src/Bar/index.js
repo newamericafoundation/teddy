@@ -5,14 +5,12 @@ import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear } from "@vx/scale";
 import { GridRows } from "@vx/grid";
 import { max } from "d3-array";
-import Chart from "../Chart";
 
 const Bar = ({
   width,
   height,
-  handleMouseEnter,
+  handleMouseMove,
   handleMouseLeave,
-  tooltipOpen,
   data,
   x,
   y,
@@ -58,9 +56,7 @@ const Bar = ({
               height={yMax - yScale(y(datum))}
               fill={color}
               onMouseMove={event =>
-                handleMouseEnter
-                  ? handleMouseEnter({ event, data, datum })
-                  : null
+                handleMouseMove ? handleMouseMove({ event, data, datum }) : null
               }
               onMouseLeave={handleMouseLeave ? handleMouseLeave : null}
             />

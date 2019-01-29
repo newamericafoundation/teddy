@@ -3,20 +3,17 @@ import { BarGroup } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
-import { LegendOrdinal } from "@vx/legend";
 import { GridRows } from "@vx/grid";
 import { max } from "d3-array";
-import Chart from "../Chart";
 
 const VerticalGroupedBar = ({
-  maxWidth,
+  width,
   height,
+  handleMouseEnter,
+  handleMouseLeave,
   data,
   x,
-  y,
   keys,
-  renderTooltip,
-  renderAnnotation,
   xFormat,
   yFormat,
   xAxisLabel,
@@ -30,136 +27,113 @@ const VerticalGroupedBar = ({
     bottom: 40
   }
 }) => {
+  const xMax = width - margin.left - margin.right;
+  const yMax = height - margin.top - margin.bottom;
+
   const colorScale = scaleOrdinal({
     domain: keys,
     range: colors
   });
-
-  const legend = () => (
-    <LegendOrdinal
-      scale={colorScale}
-      direction="row"
-      labelMargin="0 15px 0 0"
-    />
-  );
+  const x0Scale = scaleBand({
+    rangeRound: [0, xMax],
+    domain: data.map(x),
+    padding: 0.2
+  });
+  const x1Scale = scaleBand({
+    rangeRound: [0, x0Scale.bandwidth()],
+    domain: keys,
+    padding: 0.1
+  });
+  const yScale = scaleLinear({
+    rangeRound: [yMax, 0],
+    domain: [
+      0,
+      max(data, d => {
+        return max(keys, key => d[key]);
+      })
+    ]
+  });
 
   return (
-    <Chart
-      maxWidth={maxWidth}
-      height={height}
-      renderTooltip={renderTooltip}
-      renderAnnotation={renderAnnotation}
-      renderLegend={legend}
-    >
-      {({ width, height, handleMouseEnter, handleMouseLeave }) => {
-        const xMax = width - margin.left - margin.right;
-        const yMax = height - margin.top - margin.bottom;
-
-        const x0Scale = scaleBand({
-          rangeRound: [0, xMax],
-          domain: data.map(x),
-          padding: 0.2
-        });
-        const x1Scale = scaleBand({
-          rangeRound: [0, x0Scale.bandwidth()],
-          domain: keys,
-          padding: 0.1
-        });
-        const yScale = scaleLinear({
-          rangeRound: [yMax, 0],
-          domain: [
-            0,
-            max(data, d => {
-              return max(keys, key => d[key]);
-            })
-          ]
-        });
-
-        return (
-          <Group top={margin.top} left={margin.left}>
-            <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
-            <BarGroup
-              data={data}
-              keys={keys}
-              height={yMax}
-              x0={x}
-              x0Scale={x0Scale}
-              x1Scale={x1Scale}
-              yScale={yScale}
-              color={colorScale}
-            >
-              {barGroups => {
-                return barGroups.map(barGroup => {
+    <Group top={margin.top} left={margin.left}>
+      <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
+      <BarGroup
+        data={data}
+        keys={keys}
+        height={yMax}
+        x0={x}
+        x0Scale={x0Scale}
+        x1Scale={x1Scale}
+        yScale={yScale}
+        color={colorScale}
+      >
+        {barGroups => {
+          return barGroups.map(barGroup => {
+            return (
+              <Group
+                key={`bar-group-${barGroup.index}-${barGroup.x0}`}
+                left={barGroup.x0}
+              >
+                {barGroup.bars.map(bar => {
                   return (
-                    <Group
-                      key={`bar-group-${barGroup.index}-${barGroup.x0}`}
-                      left={barGroup.x0}
-                    >
-                      {barGroup.bars.map(bar => {
-                        return (
-                          <rect
-                            key={`bar-group-bar-${barGroup.index}-${
-                              bar.index
-                            }-${bar.value}-${bar.key}`}
-                            x={bar.x}
-                            y={bar.y}
-                            width={bar.width}
-                            height={bar.height}
-                            fill={bar.color}
-                            onMouseMove={event =>
-                              renderTooltip
-                                ? handleMouseEnter({ event, data, datum: bar })
-                                : null
-                            }
-                            onMouseLeave={
-                              renderTooltip ? handleMouseLeave : null
-                            }
-                          />
-                        );
-                      })}
-                    </Group>
+                    <rect
+                      key={`bar-group-bar-${barGroup.index}-${bar.index}-${
+                        bar.value
+                      }-${bar.key}`}
+                      x={bar.x}
+                      y={bar.y}
+                      width={bar.width}
+                      height={bar.height}
+                      fill={bar.color}
+                      onMouseMove={event =>
+                        renderTooltip
+                          ? handleMouseEnter({ event, data, datum: bar })
+                          : null
+                      }
+                      onMouseLeave={renderTooltip ? handleMouseLeave : null}
+                    />
                   );
-                });
-              }}
-            </BarGroup>
-            <AxisLeft
-              scale={yScale}
-              hideTicks={true}
-              hideAxisLine={true}
-              numTicks={numTicksY}
-              tickFormat={yFormat}
-              tickLabelProps={(value, index) => ({
-                textAnchor: "end",
-                verticalAnchor: "middle"
-              })}
-              label={yAxisLabel}
-              labelProps={{
-                textAnchor: "middle",
-                verticalAnchor: "end"
-              }}
-            />
-            <AxisBottom
-              top={yMax}
-              scale={x0Scale}
-              label={xAxisLabel}
-              hideAxisLine={false}
-              hideTicks={false}
-              tickFormat={xFormat}
-              tickLabelProps={() => ({
-                textAnchor: "middle",
-                width: x0Scale.bandwidth(),
-                verticalAnchor: "middle"
-              })}
-              labelProps={{
-                dy: "3em",
-                textAnchor: "middle",
-                y: 0
-              }}
-            />
-          </Group>
-        );
-      }}
-    </Chart>
+                })}
+              </Group>
+            );
+          });
+        }}
+      </BarGroup>
+      <AxisLeft
+        scale={yScale}
+        hideTicks={true}
+        hideAxisLine={true}
+        numTicks={numTicksY}
+        tickFormat={yFormat}
+        tickLabelProps={(value, index) => ({
+          textAnchor: "end",
+          verticalAnchor: "middle"
+        })}
+        label={yAxisLabel}
+        labelProps={{
+          textAnchor: "middle",
+          verticalAnchor: "end"
+        }}
+      />
+      <AxisBottom
+        top={yMax}
+        scale={x0Scale}
+        label={xAxisLabel}
+        hideAxisLine={false}
+        hideTicks={false}
+        tickFormat={xFormat}
+        tickLabelProps={() => ({
+          textAnchor: "middle",
+          width: x0Scale.bandwidth(),
+          verticalAnchor: "middle"
+        })}
+        labelProps={{
+          dy: "3em",
+          textAnchor: "middle",
+          y: 0
+        }}
+      />
+    </Group>
   );
 };
 

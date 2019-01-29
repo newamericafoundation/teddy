@@ -6,24 +6,18 @@ import "./Chart.scss";
 
 /**
  * The base Chart component for all charts and maps.
- * This takes care of creating a responsive svg, and rendering tooltips, legends, and annotations.
+ * This takes care of creating a responsive svg and rendering tooltips.
  */
 const Chart = ({
   maxWidth,
   height,
   aspectRatio,
   renderTooltip,
-  renderLegend,
-  renderAnnotation,
   children,
   ...rest
 }) => {
   return (
     <div style={{ maxWidth, height }} className="dv-Chart">
-      {renderLegend && (
-        <div className="dv-legend-container">{renderLegend()}</div>
-      )}
-
       <ParentSize>
         {({ width, height: computedHeight }) => {
           if (width < 10) return null;
@@ -53,8 +47,6 @@ const Chart = ({
             return (
               <svg width={width} height={chartHeight}>
                 {children({ width, height: chartHeight, ...rest })}
-                {renderAnnotation &&
-                  renderAnnotation({ width, height: chartHeight })}
               </svg>
             );
           }
