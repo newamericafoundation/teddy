@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Bar } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear } from "@vx/scale";
@@ -8,7 +7,7 @@ import { GridRows } from "@vx/grid";
 import { max } from "d3-array";
 import Chart from "../Chart";
 
-const BarChart = ({
+const Bar = ({
   maxWidth,
   height,
   aspectRatio,
@@ -60,7 +59,7 @@ const BarChart = ({
             <Group>
               {data.map((datum, i) => {
                 return (
-                  <Bar
+                  <rect
                     key={`bar-${i}`}
                     x={xScale(x(datum))}
                     y={yScale(y(datum))}
@@ -120,16 +119,27 @@ const BarChart = ({
   );
 };
 
-BarChart.propTypes = {
-  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  aspectRatio: PropTypes.number,
-  renderTooltip: PropTypes.func,
-  renderAnnotation: PropTypes.func,
+Bar.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  handleMouseMove: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
   data: PropTypes.array.isRequired,
+  /**
+   * Accessor function for x axis values
+   */
   x: PropTypes.func.isRequired,
+  /**
+   * Accessor function for y axis values
+   */
   y: PropTypes.func.isRequired,
+  /**
+   * Formatting function for x axis tick labels
+   */
   xFormat: PropTypes.func,
+  /**
+   * Formatting function for y axis tick labels
+   */
   yFormat: PropTypes.func,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
@@ -139,14 +149,14 @@ BarChart.propTypes = {
   numTicksY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
   color: PropTypes.string,
   margin: PropTypes.shape({
-    top: PropTypes.number.isRequired,
-    right: PropTypes.number.isRequired,
-    bottom: PropTypes.number.isRequired,
-    left: PropTypes.number.isRequired
-  })
+    top: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+    left: PropTypes.number
+  }).isRequired
 };
 
-BarChart.defaultProps = {
+Bar.defaultProps = {
   numTicksY: 5,
   color: "#22C8A3",
   margin: {
@@ -157,4 +167,4 @@ BarChart.defaultProps = {
   }
 };
 
-export default BarChart;
+export default Bar;

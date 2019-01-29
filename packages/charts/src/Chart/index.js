@@ -122,7 +122,7 @@ Chart.propTypes = {
   /**
    * A function that is passed the caculated width and height of the chart, as well as tooltip functions (if the renderTooltip prop is defined)
    */
-  children: PropTypes.func
+  children: PropTypes.func.isRequired
 };
 
 Chart.defaultProps = {

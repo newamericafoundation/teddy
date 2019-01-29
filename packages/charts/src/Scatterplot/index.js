@@ -6,7 +6,7 @@ import { Grid } from "@vx/grid";
 import { max, extent } from "d3-array";
 import Chart from "../Chart";
 
-export default ({
+const Scatterplot = ({
   maxWidth,
   height,
   data,
@@ -148,3 +148,5 @@ export default ({
     </Chart>
   );
 };
+
+export default Scatterplot;

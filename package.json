@@ -4,11 +4,14 @@
   "description": "A charting and component library for New America data visualization projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "react-docgen packages/charts"
   },
   "author": "lorenries",
   "license": "MIT",
   "devDependencies": {
-    "lerna": "^3.10.5"
+    "lerna": "^3.10.5",
+    "react-docgen": "^3.0.0",
+    "react-docgen-markdown-renderer": "^1.1.0"
   }
 }

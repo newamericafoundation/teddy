@@ -8,7 +8,7 @@ import { GridRows } from "@vx/grid";
 import { max } from "d3-array";
 import Chart from "../Chart";
 
-export default ({
+const VerticalGroupedBar = ({
   maxWidth,
   height,
   data,
@@ -162,3 +162,5 @@ export default ({
     </Chart>
   );
 };
+
+export default VerticalGroupedBar;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Bar } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
@@ -7,7 +8,7 @@ import { GridColumns } from "@vx/grid";
 import { max } from "d3-array";
 import Chart from "../Chart";
 
-export default ({
+const HorizontalBar = ({
   maxWidth,
   height,
   data,
@@ -71,11 +72,11 @@ export default ({
                     height={yScale.bandwidth()}
                     fill={color}
                     onMouseMove={event =>
-                      renderTooltip
-                        ? handleMouseEnter({ event, data, datum })
+                      handleMouseMove
+                        ? handleMouseMove({ event, data, datum })
                         : null
                     }
-                    onMouseLeave={renderTooltip ? handleMouseLeave : null}
+                    onMouseLeave={handleMouseLeave ? handleMouseLeave : null}
                   />
                 );
               })}
@@ -124,3 +125,40 @@ export default ({
     </Chart>
   );
 };
+
+HorizontalBar.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  handleMouseMove: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
+  data: PropTypes.array.isRequired,
+  x: PropTypes.func.isRequired,
+  y: PropTypes.func.isRequired,
+  xFormat: PropTypes.func,
+  yFormat: PropTypes.func,
+  xAxisLabel: PropTypes.string,
+  yAxisLabel: PropTypes.string,
+  yLabelOffset: PropTypes.string,
+  numTicksX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  color: PropTypes.string,
+  margin: PropTypes.shape({
+    top: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+    left: PropTypes.number
+  }).isRequired
+};
+
+HorizontalBar.defaultProps = {
+  margin: {
+    top: 10,
+    left: 50,
+    right: 10,
+    bottom: 20
+  },
+  color: "#22C8A3",
+  numTicksX: 6,
+  yLabelOffset: "-0.5em"
+};
+
+export default HorizontalBar;

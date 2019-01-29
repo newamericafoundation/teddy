@@ -11,7 +11,7 @@ import { bisector, max, extent } from "d3-array";
 import Chart from "../Chart";
 import HoverLine from "./HoverLine";
 
-class LineChart extends React.Component {
+class Line extends React.Component {
   constructor(props) {
     super(props);
     this.state = { x: 0, y: 0 };
@@ -178,7 +178,7 @@ class LineChart extends React.Component {
   }
 }
 
-LineChart.propTypes = {
+Line.propTypes = {
   maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   aspectRatio: PropTypes.number,
@@ -209,7 +209,7 @@ LineChart.propTypes = {
   })
 };
 
-LineChart.defaultProps = {
+Line.defaultProps = {
   numTicksX: 10,
   numTicksY: 5,
   stroke: "#22C8A3",
@@ -217,4 +217,4 @@ LineChart.defaultProps = {
   margin: { top: 10, left: 55, bottom: 30, right: 10 }
 };
 
-export default LineChart;
+export default Line;

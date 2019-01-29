@@ -15,6 +15,7 @@
     "start": "rollup -c -w --environment BUILD:development",
     "build": "rollup -c --environment BUILD:production",
     "prepublish": "rm -rf ./dist && npm run build",
+    "docs": "cd ./docs && ../../../node_modules/.bin/react-docgen ../src/** -e WithTooltip.js -e HoverLine.js  | ../../../scripts/buildDocs.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
