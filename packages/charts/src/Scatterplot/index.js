@@ -107,6 +107,7 @@ const Scatterplot = ({
               scale={yScale}
               hideAxisLine={false}
               hideTicks={true}
+              hideZero={true}
               numTicks={
                 typeof numTicksY === "function" ? numTicksY(width) : numTicksY
               }
