@@ -4,6 +4,7 @@ import Pagination from "./Pagination";
 import withSearch from "./WithSearch";
 import { Select } from "@newamerica/components";
 import "react-table/react-table.css";
+import "@newamerica/components/dist/styles.scss";
 import "./DataTable.scss";
 
 const DataTable = ({

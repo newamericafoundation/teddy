@@ -1,9 +1,6 @@
-@import "~@newamerica/scss/colors";
-@import "~@newamerica/scss/box-shadow";
 @import "~@newamerica/scss/breakpoints";
 @import "~@newamerica/scss/spacing";
 @import "~@newamerica/scss/widths";
-$desktop-padding: 25px;
 .ReactTable {
   border: none;
 }
@@ -50,22 +47,8 @@ $desktop-padding: 25px;
   align-items: center;
 }
 
-.-sticky {
-  @mixin breakpoint($breakpoint-medium) {
-    position: sticky !important;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-    background-color: white;
-  }
-}
-
 .-odd {
-  background-color: #f4f4f4 !important;
-}
-
-.-odd .-sticky {
-  background-color: #f4f4f4 !important;
+  background-color: #f5f5f5 !important;
 }
 
 .rt-tbody {
