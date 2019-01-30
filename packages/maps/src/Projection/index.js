@@ -1,5 +1,6 @@
 // simplified version of https://github.com/hshoff/vx/blob/master/packages/vx-geo/src/projections/Projection.js\
 import React from "react";
+import PropTypes from "prop-types";
 import { Group } from "@vx/group";
 import { geoAlbersUsa, geoEqualEarth, geoMercator, geoPath } from "d3-geo";
 
@@ -11,7 +12,7 @@ const projectionMapping = {
 /**
  * Component for all projections.
  */
-export default class Projection extends React.Component {
+class Projection extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -29,7 +30,7 @@ export default class Projection extends React.Component {
   render() {
     const {
       data,
-      projection = "equalEarth",
+      projection,
       projectionFunc,
       pathFunc,
       clipAngle,
@@ -93,3 +94,27 @@ export default class Projection extends React.Component {
     );
   }
 }
+
+Projection.propTypes = {
+  data: PropTypes.array.isRequired,
+  projection: PropTypes.oneOf(["mercator", "equalEarth", "albersUsa"]),
+  projectionFunc: PropTypes.func,
+  pathFunc: PropTypes.func,
+  clipAngle: PropTypes.number,
+  clipExtent: PropTypes.array,
+  scale: PropTypes.number,
+  translate: PropTypes.array,
+  center: PropTypes.array,
+  rotate: PropTypes.array,
+  precision: PropTypes.number,
+  fitExtent: PropTypes.array,
+  fitSize: PropTypes.array,
+  innerRef: PropTypes.func,
+  children: PropTypes.func
+};
+
+Projection.defaultProps = {
+  projection: "mercator"
+};
+
+export default Projection;

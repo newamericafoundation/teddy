@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./CheckboxGroup.scss";
 
-export default class CheckboxGroup extends React.Component {
+class CheckboxGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -12,10 +13,12 @@ export default class CheckboxGroup extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({
-      [e.target.id]: e.target.checked
-    });
-    this.props.onChange(e);
+    this.setState(
+      {
+        [e.target.id]: e.target.checked
+      },
+      () => this.props.onChange(this.state)
+    );
   }
 
   render() {
@@ -26,12 +29,14 @@ export default class CheckboxGroup extends React.Component {
           orientation === "vertical"
             ? "dv-checkbox-container-vertical"
             : orientation === "horizontal"
-              ? "dv-checkbox-container-horizontal"
-              : ""
+            ? "dv-checkbox-container-horizontal"
+            : ""
         }`}
         style={{ ...style }}
       >
-        <span className="dv-checkbox-container__title">{title}</span>
+        {title ? (
+          <span className="dv-checkbox-container__title">{title}</span>
+        ) : null}
         {options.map((option, i) => (
           <div className="dv-checkbox" key={i}>
             <input
@@ -49,3 +54,26 @@ export default class CheckboxGroup extends React.Component {
     );
   }
 }
+
+CheckboxGroup.propTypes = {
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      checked: PropTypes.bool
+    })
+  ).isRequired,
+  /**
+   * This function will receive an object with all checkbox values.
+   */
+  onChange: PropTypes.func.isRequired,
+  orientation: PropTypes.oneOf(["vertical", "horizontal"]),
+  style: PropTypes.object,
+  title: PropTypes.string
+};
+
+CheckboxGroup.defaultProps = {
+  orientation: "vertical"
+};
+
+export default CheckboxGroup;

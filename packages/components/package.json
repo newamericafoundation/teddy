@@ -44,5 +44,8 @@
     "rollup-plugin-terser": "^4.0.2"
   },
   "author": "lorenries",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.6.2"
+  }
 }

@@ -3,7 +3,8 @@ import { withOptions } from "@storybook/addon-options";
 
 addDecorator(
   withOptions({
-    addonPanelInRight: true
+    name: "Teddy",
+    showAddonPanel: false
   })
 );
 

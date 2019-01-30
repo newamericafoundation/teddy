@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { BarGroup } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
@@ -9,7 +10,7 @@ import { max } from "d3-array";
 const VerticalGroupedBar = ({
   width,
   height,
-  handleMouseEnter,
+  handleMouseMove,
   handleMouseLeave,
   data,
   x,
@@ -18,14 +19,9 @@ const VerticalGroupedBar = ({
   yFormat,
   xAxisLabel,
   yAxisLabel,
-  numTicksY = 5,
+  numTicksY,
   colors,
-  margin = {
-    top: 40,
-    left: 40,
-    right: 40,
-    bottom: 40
-  }
+  margin
 }) => {
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
@@ -86,11 +82,11 @@ const VerticalGroupedBar = ({
                       height={bar.height}
                       fill={bar.color}
                       onMouseMove={event =>
-                        renderTooltip
-                          ? handleMouseEnter({ event, data, datum: bar })
+                        handleMouseMove
+                          ? handleMouseMove({ event, data, datum: bar })
                           : null
                       }
-                      onMouseLeave={renderTooltip ? handleMouseLeave : null}
+                      onMouseLeave={handleMouseLeave ? handleMouseLeave : null}
                     />
                   );
                 })}
@@ -135,6 +131,45 @@ const VerticalGroupedBar = ({
       />
     </Group>
   );
+};
+
+VerticalGroupedBar.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  handleMouseMove: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
+  tooltipOpen: PropTypes.bool,
+  data: PropTypes.array.isRequired,
+  /**
+   * Accessor function for x axis values
+   */
+  x: PropTypes.func.isRequired,
+  /**
+   * An array of strings with the keys for each bar
+   */
+  keys: PropTypes.array.isRequired,
+  xFormat: PropTypes.func,
+  yFormat: PropTypes.func,
+  xAxisLabel: PropTypes.string,
+  yAxisLabel: PropTypes.string,
+  numTicksY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  colors: PropTypes.array.isRequired,
+  margin: PropTypes.shape({
+    top: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+    left: PropTypes.number
+  })
+};
+
+VerticalGroupedBar.defaultProps = {
+  numTicksY: 5,
+  margin: {
+    top: 40,
+    left: 40,
+    right: 40,
+    bottom: 40
+  }
 };
 
 export default VerticalGroupedBar;

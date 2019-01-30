@@ -1,5 +1,6 @@
 import React from "react";
 import { Search } from "@newamerica/components";
+import "@newamerica/components/dist/styles.css";
 
 export default function withSearch(Table) {
   return class extends React.Component {

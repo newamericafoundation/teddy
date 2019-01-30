@@ -15,10 +15,12 @@
     "start": "rollup -c -w --environment BUILD:development",
     "build": "rollup -c --environment BUILD:production",
     "prepublish": "rm -rf ./dist && npm run build",
+    "docs": "cd ./docs && ../../../node_modules/.bin/react-docgen ../src/**  | ../../../scripts/buildDocs.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@newamerica/scss": "^0.0.2"
+    "@newamerica/scss": "^0.0.2",
+    "prop-types": "^15.6.2"
   },
   "peerDependencies": {
     "react": "^16.2.0"

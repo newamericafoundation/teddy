@@ -8,17 +8,16 @@ import { curveBasis } from "@vx/curve";
 import { GridRows } from "@vx/grid";
 import { localPoint } from "@vx/event";
 import { bisector, max, extent } from "d3-array";
-import Chart from "../Chart";
 import HoverLine from "./HoverLine";
 
 class Line extends React.Component {
   constructor(props) {
     super(props);
     this.state = { x: 0, y: 0 };
-    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseEvent = this.handleMouseEvent.bind(this);
   }
 
-  handleMouseMove = ({
+  handleMouseEvent = ({
     data,
     event,
     tooltipParentFunc,
@@ -50,7 +49,7 @@ class Line extends React.Component {
     const {
       width,
       height,
-      handleMouseEnter,
+      handleMouseMove,
       handleMouseLeave,
       tooltipOpen,
       data,
@@ -97,8 +96,8 @@ class Line extends React.Component {
           height={yMax}
           fill="transparent"
           onMouseMove={event => {
-            handleMouseEnter
-              ? this.handleMouseMove({
+            handleMouseMove
+              ? this.handleMouseEvent({
                   event,
                   data,
                   xScale,
@@ -106,7 +105,7 @@ class Line extends React.Component {
                   margin,
                   xAccessor: x,
                   yAccessor: y,
-                  tooltipParentFunc: handleMouseEnter
+                  tooltipParentFunc: handleMouseMove
                 })
               : null;
           }}
@@ -163,7 +162,7 @@ class Line extends React.Component {
 Line.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  handleMouseEnter: PropTypes.func,
+  handleMouseMove: PropTypes.func,
   handleMouseLeave: PropTypes.func,
   tooltipOpen: PropTypes.bool,
   data: PropTypes.array.isRequired,
@@ -184,10 +183,10 @@ Line.propTypes = {
   stroke: PropTypes.string,
   strokeWidth: PropTypes.number,
   margin: PropTypes.shape({
-    top: PropTypes.number.isRequired,
-    right: PropTypes.number.isRequired,
-    bottom: PropTypes.number.isRequired,
-    left: PropTypes.number.isRequired
+    top: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+    left: PropTypes.number
   })
 };
 

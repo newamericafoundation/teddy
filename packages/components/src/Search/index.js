@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Search.scss";
 
 class Search extends React.Component {
@@ -10,8 +11,9 @@ class Search extends React.Component {
   }
 
   updateSearch(e) {
-    this.setState({ search: e.target.value });
-    this.props.onChange(e);
+    this.setState({ search: e.target.value }, () =>
+      this.props.onChange(this.state.search)
+    );
   }
 
   render() {
@@ -28,5 +30,15 @@ class Search extends React.Component {
     );
   }
 }
+
+Search.propTypes = {
+  /**
+   * This function will receive the current value of the search box
+   */
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
 
 export default Search;

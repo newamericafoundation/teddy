@@ -8,7 +8,7 @@ import { localPoint } from "@vx/event";
 class WithTooltip extends React.Component {
   constructor(props) {
     super(props);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.tooltipTimeout = null;
   }
@@ -19,7 +19,7 @@ class WithTooltip extends React.Component {
     }
   }
 
-  handleMouseEnter({ event, datum, coords, ...rest }) {
+  handleMouseMove({ event, datum, coords, ...rest }) {
     const { showTooltip } = this.props;
     if (this.tooltipTimeout) {
       clearTimeout(this.tooltipTimeout);
@@ -60,13 +60,13 @@ class WithTooltip extends React.Component {
       renderTooltip
     } = this.props;
 
-    const { handleMouseEnter, handleMouseLeave } = this;
+    const { handleMouseMove, handleMouseLeave } = this;
 
     const tooltipContent = tooltipOpen && renderTooltip(tooltipData);
 
     return (
       <React.Fragment>
-        {children({ handleMouseEnter, handleMouseLeave, tooltipOpen })}
+        {children({ handleMouseMove, handleMouseLeave, tooltipOpen })}
         {tooltipOpen && (
           <TooltipWithBounds
             top={tooltipTop}

@@ -11,7 +11,7 @@
   "scripts": {
     "test": "",
     "storybook": "start-storybook -p 9001 -c ./src",
-    "build-storybook": "build-storybook -c ./src -o ./dist && aws s3 sync ./dist s3://datadotnewamerica/components-library && aws cloudfront create-invalidation --distribution-id E15K2IVEDI1Y6H --paths \"/components-library/*\""
+    "build-storybook": "build-storybook -c ./src -o ./dist && aws s3 sync ./dist s3://datadotnewamerica/component-library && aws cloudfront create-invalidation --distribution-id E15K2IVEDI1Y6H --paths \"/component-library/*\""
   },
   "author": "lorenries",
   "license": "MIT",

@@ -27,18 +27,16 @@ const Chart = ({
           if (renderTooltip) {
             return (
               <WithTooltip renderTooltip={renderTooltip}>
-                {({ handleMouseEnter, handleMouseLeave, tooltipOpen }) => (
+                {({ handleMouseMove, handleMouseLeave, tooltipOpen }) => (
                   <svg width={width} height={chartHeight}>
                     {children({
                       width,
                       height: chartHeight,
-                      handleMouseEnter,
+                      handleMouseMove,
                       handleMouseLeave,
                       tooltipOpen,
                       ...rest
                     })}
-                    {renderAnnotation &&
-                      renderAnnotation({ width, height: chartHeight })}
                   </svg>
                 )}
               </WithTooltip>
@@ -60,8 +58,7 @@ Chart.propTypes = {
   /**
    * The max width of the chart. Can either be a string (i.e. `100%` or `8rem`) or a number representing a pixel value.
    */
-  maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
+  maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   /**
    * The height of the chart. Can either be a string (i.e. `100%` or `8rem`) or a number representing a pixel value.
    * The chart MUST receive either a height or and aspectRatio prop.
@@ -99,7 +96,7 @@ Chart.propTypes = {
   },
   /**
    * A function that returns a component for the chart's tooltip.
-   * It receives event, datum, and any other arguments passed into the `handleMouseEnter` function.
+   * It receives event, datum, and any other arguments passed into the `handleMouseMove` function.
    */
   renderTooltip: PropTypes.func,
   /**

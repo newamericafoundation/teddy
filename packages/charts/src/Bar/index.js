@@ -27,7 +27,7 @@ const Bar = ({
 
   const xScale = scaleBand({
     rangeRound: [0, xMax],
-    domain: data.map(x),
+    domain: data.map(d => x(d)),
     padding: 0.2
   });
 
@@ -48,7 +48,7 @@ const Bar = ({
       <Group>
         {data.map((datum, i) => {
           return (
-            <Bar
+            <rect
               key={`bar-${i}`}
               x={xScale(x(datum))}
               y={yScale(y(datum))}
@@ -137,7 +137,7 @@ Bar.propTypes = {
     right: PropTypes.number,
     bottom: PropTypes.number,
     left: PropTypes.number
-  }).isRequired
+  })
 };
 
 Bar.defaultProps = {

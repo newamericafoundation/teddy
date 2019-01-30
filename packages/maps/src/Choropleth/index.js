@@ -1,5 +1,5 @@
 import React from "react";
-import { Chart } from "@newamerica/charts";
+import PropTypes from "prop-types";
 import { scaleQuantize } from "@vx/scale";
 import { map } from "d3-collection";
 import { extent } from "d3-array";
@@ -12,69 +12,95 @@ import Projection from "../Projection";
  * TODO: legend and margins
  */
 const Choropleth = ({
-  maxWidth,
+  width,
   height,
-  aspectRatio,
+  handleMouseMove,
+  handleMouseLeave,
   data,
-  accessor,
+  valueAccessor,
   geometry,
   projection,
-  renderTooltip,
-  colors = ["#e5f5f9", "#2ca25f"],
-  numStops = 6,
-  mapStroke = "#fff",
-  mapFill = "#cbcbcd",
-  id = d => d.id
+  colors,
+  numStops,
+  mapStroke,
+  mapFill,
+  idAccessor
 }) => {
-  const dataMap = map(data, id);
+  const dataMap = map(data, idAccessor);
   const colorArray = quantize(interpolateRgb(colors[0], colors[1]), numStops);
   const colorScale = scaleQuantize({
-    domain: extent(data, accessor),
+    domain: extent(data, valueAccessor),
     range: colorArray
   });
   return (
     <LoadGeometry geometry={geometry}>
       {feature => (
-        <Chart
-          maxWidth={maxWidth}
-          height={height}
-          aspectRatio={aspectRatio}
-          renderTooltip={renderTooltip}
+        <Projection
+          data={feature.features}
+          projection={projection}
+          fitSize={[[width, height], feature]}
         >
-          {({ width, height, handleMouseEnter, handleMouseLeave }) => {
-            return (
-              <Projection
-                data={feature.features}
-                projection={projection}
-                fitSize={[[width, height], feature]}
-              >
-                {topo => (
-                  <g>
-                    {topo.features.map((f, i) => {
-                      const datum = dataMap.get(f.feature.id);
-                      return (
-                        <path
-                          key={`map-feature-${i}`}
-                          d={f.path}
-                          fill={datum ? colorScale(accessor(datum)) : mapFill}
-                          stroke={mapStroke}
-                          strokeWidth={0.5}
-                          onMouseMove={event =>
-                            handleMouseEnter({ event, datum })
-                          }
-                          onMouseLeave={handleMouseLeave}
-                        />
-                      );
-                    })}
-                  </g>
-                )}
-              </Projection>
-            );
-          }}
-        </Chart>
+          {topo => (
+            <g>
+              {topo.features.map((f, i) => {
+                const datum = dataMap.get(f.feature.id);
+                return (
+                  <path
+                    key={`map-feature-${i}`}
+                    d={f.path}
+                    fill={datum ? colorScale(valueAccessor(datum)) : mapFill}
+                    stroke={mapStroke}
+                    strokeWidth={0.5}
+                    onMouseMove={event =>
+                      handleMouseMove ? handleMouseMove({ event, datum }) : null
+                    }
+                    onMouseLeave={handleMouseLeave ? handleMouseLeave : null}
+                  />
+                );
+              })}
+            </g>
+          )}
+        </Projection>
       )}
     </LoadGeometry>
   );
+};
+
+Choropleth.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  handleMouseMove: PropTypes.func,
+  handleMouseLeave: PropTypes.func,
+  data: PropTypes.array.isRequired,
+  /**
+   * An accessor function for the data that's colored on the map
+   */
+  valueAccessor: PropTypes.func.isRequired,
+  geometry: PropTypes.oneOf(["world", "us"]).isRequired,
+  projection: PropTypes.oneOf(["mercator", "equalEarth", "albersUsa"])
+    .isRequired,
+  /**
+   * An array of two colors, from which the color scale will be calculated
+   */
+  colors: PropTypes.array,
+  /**
+   * The number of color stops
+   */
+  numStops: PropTypes.number,
+  mapStroke: PropTypes.string,
+  mapFill: PropTypes.string,
+  /**
+   * An accessor function for the state, country, or county FIPS code in your data. This is necessary to match politcal boundaries in the feature collection to your data.
+   */
+  idAccessor: PropTypes.func
+};
+
+Choropleth.defaultProps = {
+  colors: ["#e6dcff", "#504a70"],
+  numStops: 6,
+  mapStroke: "#fff",
+  mapFill: "#cbcbcd",
+  idAccessor: d => d.id
 };
 
 export default Choropleth;

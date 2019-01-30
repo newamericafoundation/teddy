@@ -54,12 +54,12 @@ While not required, the base `Chart` component is helpful, because it creates a 
 
 
 
-## Bar
-
+### Bar
+ 
 From [`../src/Bar/index.js`](../src/Bar/index.js)
+ 
 
-
-
+ 
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
 **color** | `String` | `"#22C8A3"` | :x: | 
@@ -80,18 +80,18 @@ prop | type | default | required | description
 **y** | `Function` |  | :white_check_mark: | Accessor function for y axis values
 **yAxisLabel** | `String` |  | :x: | 
 **yFormat** | `Function` |  | :x: | Formatting function for y axis tick labels
+ 
+ 
+ 
 
 
-
-
-
-## Chart
-
+### Chart
+ 
 From [`../src/Chart/index.js`](../src/Chart/index.js)
-
+ 
 The base Chart component for all charts and maps.
-This takes care of creating a responsive svg, and rendering tooltips, legends, and annotations.
-
+This takes care of creating a responsive svg and rendering tooltips.
+ 
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
 **aspectRatio** | `(custom validator)` |  | :x: | The aspectRatio of the chart. This is a number that is multiplied by the chart's computed width to calculate the chart's height. The chart MUST receive either a height or and aspectRatio prop.
@@ -100,18 +100,18 @@ prop | type | default | required | description
 **maxWidth** | `Union<String \| Number>` | `"100%"` | :x: | The max width of the chart. Can either be a string (i.e. `100%` or `8rem`) or a number representing a pixel value.
 **renderAnnotation** | `Function` |  | :x: | A function that returns a component for an annotation, which is rendered at the very bottom of the svg. It receive's the chart's current width and height (which are helpful to have for annotation positioning).
 **renderLegend** | `Function` |  | :x: | A function that returns a component for the chart's legend. This is rendered as a div above the chart's svg.
-**renderTooltip** | `Function` |  | :x: | A function that returns a component for the chart's tooltip. It receives event, datum, and any other arguments passed into the `handleMouseEnter` function.
+**renderTooltip** | `Function` |  | :x: | A function that returns a component for the chart's tooltip. It receives event, datum, and any other arguments passed into the `handleMouseMove` function.
+ 
+ 
+ 
 
 
-
-
-
-## HorizontalBar
-
+### HorizontalBar
+ 
 From [`../src/HorizontalBar/index.js`](../src/HorizontalBar/index.js)
+ 
 
-
-
+ 
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
 **color** | `String` | `"#22C8A3"` | :x: | 
@@ -133,88 +133,137 @@ prop | type | default | required | description
 **yAxisLabel** | `String` |  | :x: | 
 **yFormat** | `Function` |  | :x: | 
 **yLabelOffset** | `String` | `"-0.5em"` | :x: | 
+ 
+ 
+ 
 
 
-
-
-
-## HorizontalStackedBar
-
+### HorizontalStackedBar
+ 
 From [`../src/HorizontalStackedBar/index.js`](../src/HorizontalStackedBar/index.js)
+ 
 
-
-
+ 
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
-**margin** | `Unknown` | `{   top: 10,   left: 60,   right: 40,   bottom: 40 }` | :x: | 
-
-
-
-
-
-## Line
-
-From [`../src/Line/index.js`](../src/Line/index.js)
-
-
-
-prop | type | default | required | description
----- | :----: | :-------: | :--------: | -----------
-**aspectRatio** | `Number` |  | :x: | 
+**colors** | `Array` |  | :white_check_mark: | 
 **data** | `Array` |  | :white_check_mark: | 
-**height** | `Union<Number \| String>` |  | :x: | 
+**handleMouseLeave** | `Function` |  | :x: | 
+**handleMouseMove** | `Function` |  | :x: | 
+**height** | `Number` |  | :white_check_mark: | 
+**keys** | `Array` |  | :white_check_mark: | An array of strings with the column keys of each bar
+**margin** | `Shape` | `{   top: 10,   left: 60,   right: 40,   bottom: 40 }` | :x: | 
+**margin.bottom** | `Number` |  | :x: | 
+**margin.left** | `Number` |  | :x: | 
+**margin.right** | `Number` |  | :x: | 
+**margin.top** | `Number` |  | :x: | 
+**numTicksX** | `Union<Number \| Function>` |  | :x: | 
+**width** | `Number` |  | :white_check_mark: | 
+**xAxisLabel** | `String` |  | :x: | 
+**xFormat** | `Function` |  | :x: | 
+**y** | `Function` |  | :white_check_mark: | Accessor function for y axis values
+**yAxisLabel** | `String` |  | :x: | 
+**yFormat** | `Function` |  | :x: | 
+ 
+ 
+ 
+
+
+### Line
+ 
+From [`../src/Line/index.js`](../src/Line/index.js)
+ 
+
+ 
+prop | type | default | required | description
+---- | :----: | :-------: | :--------: | -----------
+**data** | `Array` |  | :white_check_mark: | 
+**handleMouseLeave** | `Function` |  | :x: | 
+**handleMouseMove** | `Function` |  | :x: | 
+**height** | `Number` |  | :white_check_mark: | 
 **margin** | `Shape` | `{ top: 10, left: 55, bottom: 30, right: 10 }` | :x: | 
-**margin.bottom** | `Number` |  | :white_check_mark: | 
-**margin.left** | `Number` |  | :white_check_mark: | 
-**margin.right** | `Number` |  | :white_check_mark: | 
-**margin.top** | `Number` |  | :white_check_mark: | 
-**maxWidth** | `Union<Number \| String>` |  | :x: | 
+**margin.bottom** | `Number` |  | :x: | 
+**margin.left** | `Number` |  | :x: | 
+**margin.right** | `Number` |  | :x: | 
+**margin.top** | `Number` |  | :x: | 
 **numTicksX** | `Union<Number \| Function>` | `10` | :x: | You can specify the number of x axis ticks directly, or pass in a function which will receive the chart's computed width as an argument.
 **numTicksY** | `Union<Number \| Function>` | `5` | :x: | You can specify the number of y axis ticks directly, or pass in a function which will receive the chart's computed height as an argument.
-**renderAnnotation** | `Function` |  | :x: | 
-**renderTooltip** | `Function` |  | :x: | 
 **stroke** | `String` | `"#22C8A3"` | :x: | 
 **strokeWidth** | `Number` | `2` | :x: | 
+**tooltipOpen** | `Boolean` |  | :x: | 
+**width** | `Number` |  | :white_check_mark: | 
 **x** | `Function` |  | :white_check_mark: | 
 **xAxisLabel** | `String` |  | :x: | 
 **xFormat** | `Function` |  | :x: | 
 **y** | `Function` |  | :white_check_mark: | 
 **yAxisLabel** | `String` |  | :x: | 
 **yFormat** | `Function` |  | :x: | 
+ 
+ 
+ 
 
 
-
-
-
-## Scatterplot
-
+### Scatterplot
+ 
 From [`../src/Scatterplot/index.js`](../src/Scatterplot/index.js)
+ 
 
-
-
+ 
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
-**circleFill** | `Unknown` | `"rgba(76,129,219, 0.4)"` | :x: | 
-**circleStroke** | `Unknown` | `"#4C81DB"` | :x: | 
-**margin** | `Unknown` | `{   top: 10,   bottom: 50,   left: 55,   right: 10 }` | :x: | 
-**numTicksX** | `Unknown` | `5` | :x: | 
-**numTicksY** | `Unknown` | `5` | :x: | 
-**size** | `Unknown` | `5` | :x: | 
+**circleFill** | `Union<String \| Function>` | `"rgba(76,129,219, 0.4)"` | :x: | A string for each circle's fill, or a function that will receive that circle's datum
+**circleRadius** | `Union<Number \| Function>` | `5` | :x: | A number for the circle's radius, or a function that will receive that circle's datum for [radius scaling](https://bl.ocks.org/guilhermesimoes/e6356aa90a16163a6f917f53600a2b4a).
+**circleStroke** | `Union<String \| Function>` | `"#4C81DB"` | :x: | A string for each circle's stroke, or a function that will receive that circle's datum
+**data** | `Array` |  | :white_check_mark: | 
+**handleMouseLeave** | `Function` |  | :x: | 
+**handleMouseMove** | `Function` |  | :x: | 
+**height** | `Number` |  | :white_check_mark: | 
+**margin** | `Shape` | `{   top: 10,   bottom: 50,   left: 55,   right: 10 }` | :x: | 
+**margin.bottom** | `Number` |  | :x: | 
+**margin.left** | `Number` |  | :x: | 
+**margin.right** | `Number` |  | :x: | 
+**margin.top** | `Number` |  | :x: | 
+**numTicksX** | `Union<Number \| Function>` | `5` | :x: | You can specify the number of x axis ticks directly, or pass in a function which will receive the chart's computed width as an argument.
+**numTicksY** | `Union<Number \| Function>` | `5` | :x: | You can specify the number of y axis ticks directly, or pass in a function which will receive the chart's computed height as an argument.
+**width** | `Number` |  | :white_check_mark: | 
+**x** | `Function` |  | :white_check_mark: | Accessor function for x axis values
+**xAxisLabel** | `String` |  | :x: | 
+**xFormat** | `Function` |  | :x: | Formatting function for x axis tick labels
+**y** | `Function` |  | :white_check_mark: | Accessor function for y axis values
+**yAxisLabel** | `String` |  | :x: | 
+**yFormat** | `Function` |  | :x: | Formatting function for y axis tick labels
+ 
+ 
+ 
 
 
-
-
-
-## VerticalGroupedBar
-
+### VerticalGroupedBar
+ 
 From [`../src/VerticalGroupedBar/index.js`](../src/VerticalGroupedBar/index.js)
+ 
 
-
-
+ 
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
-**margin** | `Unknown` | `{   top: 40,   left: 40,   right: 40,   bottom: 40 }` | :x: | 
-**numTicksY** | `Unknown` | `5` | :x: | 
-
-
-
+**colors** | `Array` |  | :white_check_mark: | 
+**data** | `Array` |  | :white_check_mark: | 
+**handleMouseLeave** | `Function` |  | :x: | 
+**handleMouseMove** | `Function` |  | :x: | 
+**height** | `Number` |  | :white_check_mark: | 
+**keys** | `Array` |  | :white_check_mark: | An array of strings with the keys for each bar
+**margin** | `Shape` | `{   top: 40,   left: 40,   right: 40,   bottom: 40 }` | :x: | 
+**margin.bottom** | `Number` |  | :x: | 
+**margin.left** | `Number` |  | :x: | 
+**margin.right** | `Number` |  | :x: | 
+**margin.top** | `Number` |  | :x: | 
+**numTicksY** | `Union<Number \| Function>` | `5` | :x: | 
+**tooltipOpen** | `Boolean` |  | :x: | 
+**width** | `Number` |  | :white_check_mark: | 
+**x** | `Function` |  | :white_check_mark: | Accessor function for x axis values
+**xAxisLabel** | `String` |  | :x: | 
+**xFormat** | `Function` |  | :x: | 
+**yAxisLabel** | `String` |  | :x: | 
+**yFormat** | `Function` |  | :x: | 
+ 
+ 
+ 

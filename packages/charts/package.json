@@ -31,7 +31,6 @@
     "@vx/event": "0.0.182",
     "@vx/grid": "0.0.183",
     "@vx/group": "0.0.183",
-    "@vx/legend": "0.0.183",
     "@vx/mock-data": "0.0.182",
     "@vx/responsive": "0.0.182",
     "@vx/scale": "0.0.182",

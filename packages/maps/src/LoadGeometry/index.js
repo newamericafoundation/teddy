@@ -1,7 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { feature } from "topojson-client";
 
-export default class LoadGeometry extends React.Component {
+/**
+ * Loads a geojson from our S3 bucket, and calls your child function with the topojson feature.
+ */
+class LoadGeometry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,3 +36,10 @@ export default class LoadGeometry extends React.Component {
     return this.props.children(this.state.feature);
   }
 }
+
+LoadGeometry.propTypes = {
+  geometry: PropTypes.oneOf(["world", "us"]).isRequired,
+  children: PropTypes.func.isRequired
+};
+
+export default LoadGeometry;

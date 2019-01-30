@@ -2,8 +2,9 @@
 
 const fs = require("fs");
 const path = require("path");
+const template = require("./template")
 const ReactDocGenMarkdownRenderer = require("react-docgen-markdown-renderer");
-const renderer = new ReactDocGenMarkdownRenderer();
+const renderer = new ReactDocGenMarkdownRenderer({template});
 
 let json = "";
 process.stdin.setEncoding("utf8");
@@ -30,12 +31,7 @@ function buildDocs(api) {
     .join("\n");
 
   const md = Object.keys(api).map(filepath => {
-    var name = getComponentName(filepath);
-    return renderer.render(
-      filepath,
-      api[filepath],
-      []
-    );
+    return renderer.render(filepath, api[filepath], []);
   });
 
   const apiDocs = md.join("\n");
@@ -54,13 +50,4 @@ function buildDocs(api) {
 
   fs.writeFileSync("../README.md", docs);
   process.stdout.write(" -> " + "README.md\n");
-}
-
-function getComponentName(filepath) {
-  let name = path.basename(filepath);
-  let ext;
-  while ((ext = path.extname(name))) {
-    name = name.substring(0, name.length - ext.length);
-  }
-  return name;
 }

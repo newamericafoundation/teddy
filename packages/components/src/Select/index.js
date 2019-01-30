@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Select.scss";
 
-export default class Select extends React.Component {
+class Select extends React.Component {
   constructor(props) {
     super(props);
     this.onSelectChange = this.onSelectChange.bind(this);
@@ -9,10 +10,12 @@ export default class Select extends React.Component {
   }
 
   onSelectChange(e) {
-    this.setState({
-      value: e.target.value
-    });
-    this.props.onChange(e);
+    this.setState(
+      {
+        value: e.target.value
+      },
+      () => this.props.onChange(this.state.value)
+    );
   }
 
   render() {
@@ -39,3 +42,15 @@ export default class Select extends React.Component {
     );
   }
 }
+
+Select.propTypes = {
+  /**
+   * This function will receive the current value of the select dropdown.
+   */
+  onChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selected: PropTypes.string,
+  className: PropTypes.string
+};
+
+export default Select;

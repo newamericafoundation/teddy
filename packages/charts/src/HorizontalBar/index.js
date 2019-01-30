@@ -6,7 +6,6 @@ import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear } from "@vx/scale";
 import { GridColumns } from "@vx/grid";
 import { max } from "d3-array";
-import Chart from "../Chart";
 
 const HorizontalBar = ({
   width,
@@ -16,21 +15,14 @@ const HorizontalBar = ({
   data,
   x,
   y,
-  renderTooltip,
-  renderAnnotation,
   xFormat,
   yFormat,
   xAxisLabel,
   yAxisLabel,
-  yLabelOffset = "-0.5em",
-  numTicksX = 6,
-  color = "#22C8A3",
-  margin = {
-    top: 10,
-    left: 50,
-    right: 10,
-    bottom: 20
-  }
+  yLabelOffset,
+  numTicksX,
+  color,
+  margin
 }) => {
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
@@ -135,7 +127,7 @@ HorizontalBar.propTypes = {
     right: PropTypes.number,
     bottom: PropTypes.number,
     left: PropTypes.number
-  }).isRequired
+  })
 };
 
 HorizontalBar.defaultProps = {

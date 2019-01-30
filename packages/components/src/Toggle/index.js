@@ -1,15 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Toggle.scss";
 
-export default class Toggle extends React.Component {
+class Toggle extends React.Component {
   constructor(props) {
     super(props);
     this.state = { checked: this.props.checked };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    this.setState({ checked: e.target.checked });
-    this.props.onChange(e);
+    this.setState({ checked: e.target.checked }, () =>
+      this.props.onChange(this.state.checked)
+    );
   }
 
   render() {
@@ -21,7 +24,7 @@ export default class Toggle extends React.Component {
           <input
             type="checkbox"
             className="dv-toggle__input"
-            onChange={e => this.handleChange(e)}
+            onChange={this.handleChange}
             checked={checked ? true : false}
             id={id}
           />
@@ -32,3 +35,20 @@ export default class Toggle extends React.Component {
     );
   }
 }
+
+Toggle.propTypes = {
+  /**
+   * This function will receive a boolean value for whether or not the toggle is on/off.
+   */
+  onChange: PropTypes.func.isRequired,
+  checked: PropTypes.bool,
+  onLabel: PropTypes.string.isRequired,
+  offLabel: PropTypes.string.isRequired,
+  id: PropTypes.string
+};
+
+Toggle.defaultProps = {
+  checked: false
+};
+
+export default Toggle;

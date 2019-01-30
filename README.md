@@ -32,9 +32,9 @@ ReactDOM.render(
 
 ## Packages
 
-_Documentation coming soon_
+_More documentation coming soon_
 
-**Charts**
+**Charts** ([docs](./packages/charts/README.md))
 
 ```bash
 npm install --save @newamerica/charts
@@ -47,7 +47,7 @@ npm install --save @newamerica/charts
 - Line
 - Scatterplot
 
-**Maps**
+**Maps** ([docs](./packages/maps/README.md))
 
 ```bash
 npm install --save @newamerica/maps
@@ -58,7 +58,7 @@ npm install --save @newamerica/maps
 - Cartogram
 - Hexgrid (coming soon)
 
-**Data Table**
+**Data Table** ([docs](./packages/data-table/README.md))
 
 ```bash
 npm install --save @newamerica/data-table
@@ -75,7 +75,7 @@ npm install --save @newamerica/timeline
 
 - Timeline
 
-**Components**
+**Components** ([docs](./packages/components/README.md))
 
 ```bash
 npm install --save @newamerica/components
@@ -88,7 +88,7 @@ npm install --save @newamerica/components
 - Slider
 - Toggle
 
-**Meta**
+**Meta** ([docs](./packages/meta/README.md))
 
 ```bash
 npm install --save @newamerica/meta
@@ -101,8 +101,8 @@ npm install --save @newamerica/meta
 
 ## To do
 
-- [ ] add prop type checks to all packages
-- [ ] generate documentation from prop types
+- [x] add prop type checks to all packages
+- [x] generate documentation from prop types
 - [ ] add mobile touch events for tooltip interactions
 - [ ] project website
 - [ ] improve accessibility across packages, especially for UI components
@@ -151,4 +151,12 @@ Now you can start storybook to develop charts/maps/components locally. Packages 
 
 ```bash
 npm run storybook
+```
+
+**Docs**
+
+To generate documentation from component prop-types, run this from the root of the repo, or run `npm run docs` in an individual package folder:
+
+```bash
+lerna run docs
 ```

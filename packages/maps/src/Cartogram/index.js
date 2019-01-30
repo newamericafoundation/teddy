@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Chart } from "@newamerica/charts";
 import { Text } from "@vx/text";
 import { scaleLinear, scaleQuantize } from "@vx/scale";
@@ -9,20 +10,20 @@ import layout from "./layout";
 import "./Cartogram.scss";
 
 /**
- * Cartogram map component
- * TODO: legend and margins
+ * Cartogram map
+ *
+ * ⚠ this chart wraps the base `Chart` component in `@newamerica/charts`, because it relies on an internally calculated aspect ratio.
  */
 const Cartogram = ({
   maxWidth,
   data,
   renderTooltip,
   valueAccessor,
-  idAccessor = d => d.id,
-  margin = { top: 10, right: 10, bottom: 10, left: 10 },
-  mapStroke = "#fff",
-  mapFill = "#cbcbcd",
-  colors = ["#e5f5f9", "#2ca25f"],
-  numStops = 6
+  idAccessor,
+  mapStroke,
+  mapFill,
+  colors,
+  numStops
 }) => {
   const dataMap = map(data, idAccessor);
   const colorArray = quantize(interpolateRgb(colors[0], colors[1]), numStops);
@@ -41,7 +42,7 @@ const Cartogram = ({
       aspectRatio={ratio}
       renderTooltip={renderTooltip}
     >
-      {({ width, height, handleMouseEnter, handleMouseLeave }) => {
+      {({ width, height, handleMouseMove, handleMouseLeave }) => {
         if (width < 10) return;
         const boxWidth = width / boxesWide;
         const textOffset = boxWidth / 2;
@@ -62,7 +63,7 @@ const Cartogram = ({
               return (
                 <g
                   key={`grid-square-${i}`}
-                  onMouseMove={event => handleMouseEnter({ event, datum })}
+                  onMouseMove={event => handleMouseMove({ event, datum })}
                   onMouseLeave={handleMouseLeave}
                 >
                   <rect
@@ -90,6 +91,26 @@ const Cartogram = ({
       }}
     </Chart>
   );
+};
+
+Cartogram.propTypes = {
+  maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  data: PropTypes.array.isRequired,
+  renderTooltip: PropTypes.func,
+  valueAccessor: PropTypes.func.isRequired,
+  idAccessor: PropTypes.func,
+  mapStroke: PropTypes.string,
+  mapFill: PropTypes.string,
+  colors: PropTypes.array,
+  numStops: PropTypes.number
+};
+
+Cartogram.defaultProps = {
+  idAccessor: d => d.id,
+  mapStroke: "#fff",
+  mapFill: "#cbcbcd",
+  colors: ["#e6dcff", "#504a70"],
+  numStops: 6
 };
 
 export default Cartogram;

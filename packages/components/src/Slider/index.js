@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Slider.scss";
 
 class Slider extends React.Component {
@@ -9,8 +10,9 @@ class Slider extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({ value: e.target.value });
-    this.props.onChange(e);
+    this.setState({ value: e.target.value }, () =>
+      this.props.onChange(this.state.value)
+    );
   }
 
   render() {
@@ -33,7 +35,8 @@ class Slider extends React.Component {
           min={min}
           max={max}
           step={step || 1}
-          onChange={e => this.handleChange(e)}
+          onChange={this.handleChange}
+          onTouchMove={this.handleChange}
           style={{
             background: `linear-gradient(90deg,#2dd1ac ${gradValue}%,#e3e3e3 ${gradValue}%)`
           }}
@@ -42,5 +45,17 @@ class Slider extends React.Component {
     );
   }
 }
+
+Slider.propTypes = {
+  /**
+   * This function will receive the entire event when the slider has changed. Use `event.target.value` to get the current slider value.
+   */
+  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  step: PropTypes.number,
+  id: PropTypes.string
+};
 
 export default Slider;

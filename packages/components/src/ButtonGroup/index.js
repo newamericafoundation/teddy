@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./ButtonGroup.scss";
 
-export default class ButtonGroup extends React.Component {
+class ButtonGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = { active: this.props.active };
@@ -10,8 +11,9 @@ export default class ButtonGroup extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    this.setState({ active: e.target.id });
-    this.props.onChange(e);
+    this.setState({ active: e.target.id }, () =>
+      this.props.onChange(this.state.active)
+    );
   }
 
   render() {
@@ -33,3 +35,19 @@ export default class ButtonGroup extends React.Component {
     );
   }
 }
+
+ButtonGroup.propTypes = {
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    })
+  ).isRequired,
+  /**
+   * This function will receive the currently selected button's id
+   */
+  onChange: PropTypes.func.isRequired,
+  active: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
+
+export default ButtonGroup;
