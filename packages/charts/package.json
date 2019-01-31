@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/charts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "All the charts for all your hearts",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",

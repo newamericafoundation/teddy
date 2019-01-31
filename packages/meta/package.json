@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/meta",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Title, description, and source components for data viz projects",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",

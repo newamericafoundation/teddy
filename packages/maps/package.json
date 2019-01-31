@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/maps",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Nothing is certain in this life but death, taxes and requests for geographic data to be represented on a map",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -28,7 +28,7 @@
     "visualization"
   ],
   "dependencies": {
-    "@newamerica/charts": "^0.0.3",
+    "@newamerica/charts": "^0.0.4",
     "@vx/group": "0.0.183",
     "@vx/scale": "0.0.182",
     "@vx/text": "0.0.183",
