@@ -32,21 +32,29 @@ const MyTable = () => (
 
 
 
-  - [Pagination](#pagination)
+  - [DataTable](#datatable)
 
 ## API
 
 
 
 
-### Pagination
+### DataTable
  
-From [`../src/DataTable/Pagination.js`](../src/DataTable/Pagination.js)
+From [`./src/DataTable/index.js`](./src/DataTable/index.js)
  
+All extra props will be passed directly to the `ReactTable` component. See docs for that [here](https://react-table.js.org).
 
+TODO:
+- [ ] add functionality for a sticky first column
+- [ ] add functionality for a select dropdown in addition to a search box
  
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
+**children** | `ReactElement` |  | :x: | 
+**columns** | `Array[]<Object>` |  | :white_check_mark: | 
+**data** | `Array` |  | :white_check_mark: | 
+**showPagination** | `Boolean` | `true` | :x: | 
  
  
  

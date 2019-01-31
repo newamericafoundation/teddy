@@ -27,7 +27,7 @@ npm install @newamerica/components --save
 
 ### ButtonGroup
  
-From [`../src/ButtonGroup/index.js`](../src/ButtonGroup/index.js)
+From [`./src/ButtonGroup/index.js`](./src/ButtonGroup/index.js)
  
 
  
@@ -45,7 +45,7 @@ prop | type | default | required | description
 
 ### CheckboxGroup
  
-From [`../src/CheckboxGroup/index.js`](../src/CheckboxGroup/index.js)
+From [`./src/CheckboxGroup/index.js`](./src/CheckboxGroup/index.js)
  
 
  
@@ -66,7 +66,7 @@ prop | type | default | required | description
 
 ### Search
  
-From [`../src/Search/index.js`](../src/Search/index.js)
+From [`./src/Search/index.js`](./src/Search/index.js)
  
 
  
@@ -83,7 +83,7 @@ prop | type | default | required | description
 
 ### Select
  
-From [`../src/Select/index.js`](../src/Select/index.js)
+From [`./src/Select/index.js`](./src/Select/index.js)
  
 
  
@@ -100,7 +100,7 @@ prop | type | default | required | description
 
 ### Slider
  
-From [`../src/Slider/index.js`](../src/Slider/index.js)
+From [`./src/Slider/index.js`](./src/Slider/index.js)
  
 
  
@@ -119,7 +119,7 @@ prop | type | default | required | description
 
 ### Toggle
  
-From [`../src/Toggle/index.js`](../src/Toggle/index.js)
+From [`./src/Toggle/index.js`](./src/Toggle/index.js)
  
 
  

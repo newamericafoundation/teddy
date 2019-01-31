@@ -49,7 +49,7 @@ const MyMap = () => (
 
 ### Cartogram
  
-From [`../src/Cartogram/index.js`](../src/Cartogram/index.js)
+From [`./src/Cartogram/index.js`](./src/Cartogram/index.js)
  
 Cartogram map
 
@@ -73,7 +73,7 @@ prop | type | default | required | description
 
 ### Choropleth
  
-From [`../src/Choropleth/index.js`](../src/Choropleth/index.js)
+From [`./src/Choropleth/index.js`](./src/Choropleth/index.js)
  
 Choropleth map
 TODO: legend and margins
@@ -100,7 +100,7 @@ prop | type | default | required | description
 
 ### LoadGeometry
  
-From [`../src/LoadGeometry/index.js`](../src/LoadGeometry/index.js)
+From [`./src/LoadGeometry/index.js`](./src/LoadGeometry/index.js)
  
 Loads a geojson from our S3 bucket, and calls your child function with the topojson feature.
  
@@ -115,7 +115,7 @@ prop | type | default | required | description
 
 ### Pindrop
  
-From [`../src/Pindrop/index.js`](../src/Pindrop/index.js)
+From [`./src/Pindrop/index.js`](./src/Pindrop/index.js)
  
 Pindrop map component
 TODO: implement overlap detection with an optional `preventOverlap` prop
@@ -141,7 +141,7 @@ prop | type | default | required | description
 
 ### Projection
  
-From [`../src/Projection/index.js`](../src/Projection/index.js)
+From [`./src/Projection/index.js`](./src/Projection/index.js)
  
 Component for all projections.
  

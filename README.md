@@ -2,37 +2,42 @@
 
 ## Teddy
 
-Teddy is a library of data visualization charts and components, built with React and vx.
+Teddy is a library of charts, maps, and user interface components for data visualization, built with React and vx.
 
-While anyone can use these packages, many of the styles are customized to suit data visualizations on newamerica.org.
+[**Demo and examples**](https://data.newamerica.org/component-library/)
 
 ## Usage
 
 Example:
 
 ```jsx
-import { Bar } from "@newamerica/charts";
-import "@newamerica/charts/styles.css";
-import data from "data.json";
+import { Chart, Bar } from "@newamerica/charts";
+import "@newamerica/charts/dist/styles.css";
 
-const vis = document.querySelector(".vis");
-
-ReactDOM.render(
-  <Bar
-    maxWidth={600}
+const MyChart = () => (
+  <Chart
+    maxWidth="100%"
     height={400}
-    data={data}
-    x={d => d.key}
-    y={d => d.value}
     renderTooltip={({ datum }) => <div>{datum.value}</div>}
-  />,
-  vis
+  >
+    {({ width, height, handleMouseMove, handleMouseLeave }) => (
+      <Bar
+        data={data}
+        width={width}
+        height={height}
+        x={d => d.x}
+        y={d => +d.y}
+        handleMouseMove={handleMouseMove}
+        handleMouseLeave={handleMouseLeave}
+      />
+    )}
+  </Chart>
 );
 ```
 
-## Packages
+## Packages and docs
 
-_More documentation coming soon_
+_More charts and documentation coming soon_
 
 **Charts** ([docs](./packages/charts/README.md))
 

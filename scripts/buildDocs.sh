@@ -31,7 +31,8 @@ function buildDocs(api) {
     .join("\n");
 
   const md = Object.keys(api).map(filepath => {
-    return renderer.render(filepath, api[filepath], []);
+    const path = filepath.slice(1);
+    return renderer.render(path, api[filepath], []);
   });
 
   const apiDocs = md.join("\n");

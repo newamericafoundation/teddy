@@ -41,7 +41,7 @@ const MyChart = () => (
 
 ### ChartContainer
  
-From [`../src/ChartContainer/index.js`](../src/ChartContainer/index.js)
+From [`./src/ChartContainer/index.js`](./src/ChartContainer/index.js)
  
 
  
@@ -59,7 +59,7 @@ prop | type | default | required | description
 
 ### Description
  
-From [`../src/Description/index.js`](../src/Description/index.js)
+From [`./src/Description/index.js`](./src/Description/index.js)
  
 
  
@@ -75,7 +75,7 @@ prop | type | default | required | description
 
 ### Source
  
-From [`../src/Source/index.js`](../src/Source/index.js)
+From [`./src/Source/index.js`](./src/Source/index.js)
  
 
  
@@ -91,7 +91,7 @@ prop | type | default | required | description
 
 ### Title
  
-From [`../src/Title/index.js`](../src/Title/index.js)
+From [`./src/Title/index.js`](./src/Title/index.js)
  
 
  
