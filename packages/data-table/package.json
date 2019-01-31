@@ -11,6 +11,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "sideEffects": false,
   "scripts": {
     "start": "rollup -c -w --environment BUILD:development",
     "build": "rollup -c --environment BUILD:production",
