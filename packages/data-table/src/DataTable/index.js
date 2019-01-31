@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import Pagination from "./Pagination";
-import withSearch from "./WithSearch";
 import "react-table/react-table.css";
 import "./DataTable.scss";
 
@@ -39,7 +38,4 @@ DataTable.defaultProps = {
   showPagination: true
 };
 
-const DataTableWithSearch = withSearch(DataTable);
-
 export default DataTable;
-export { DataTableWithSearch };

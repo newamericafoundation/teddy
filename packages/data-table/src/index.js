@@ -1,2 +1,2 @@
 export { default as DataTable } from "./DataTable";
-export { DataTableWithSearch } from "./DataTable";
+export { default as DataTableWithSearch } from "./DataTableWithSearch";
