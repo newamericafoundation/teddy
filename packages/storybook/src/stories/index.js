@@ -500,7 +500,9 @@ storiesOf("Timeline", module).add("Timeline", () => {
           date: new Date(val.date),
           dateString: val.date
         }));
-        return <Timeline title="test" divisionWidth={30} data={_data} />;
+        return (
+          <Timeline title="This is a title" divisionWidth={30} data={_data} />
+        );
       }}
     </LoadData>
   );

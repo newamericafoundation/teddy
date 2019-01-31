@@ -13,7 +13,13 @@ export default class Timeline extends React.Component {
     this.state = {
       activeData: this._data[0]
     };
-    this.updatePoint = this.updatePoint.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._data = nextProps.data
+      .sort((a, b) => ascending(a.date, b.date))
+      .map((val, i) => ({ ...val, id: i }));
+    this.setState({ activeData: this._data[0] });
   }
 
   updatePoint = id => {
@@ -29,9 +35,10 @@ export default class Timeline extends React.Component {
     return (
       <div className="dv-Timeline">
         <div className="dv-Timeline__container">
-          <h1 className="dv-Timeline__title col-5" id="dv-Timeline__title">
+          <h1 className="dv-Timeline__title" id="dv-Timeline__title">
             {title}
           </h1>
+          {this.props.children}
           <ContentArea
             activeData={activeData}
             updatePoint={this.updatePoint}

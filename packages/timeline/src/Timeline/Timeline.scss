@@ -15,7 +15,8 @@ h1#dv-Timeline__title {
   margin: 0 $s2;
   margin-bottom: $s3;
   padding: 0;
-  line-height: 1.2;
+  line-height: 1.3;
+  letter-spacing: 0;
 }
 
 .dv-Timeline__container {
@@ -33,11 +34,12 @@ h1#dv-Timeline__title {
   &-group {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
     flex-wrap: wrap;
     padding: 0 2.3rem;
   }
   @include breakpoint(medium) {
-    padding: $s6 0;
+    padding: $s5 0;
     &-group {
       padding: 0;
     }
@@ -50,13 +52,13 @@ h1#dv-Timeline__title {
   align-items: start;
   justify-content: center;
   height: 100%;
-  overflow: scroll;
   margin: 20px 0;
   &-left {
     width: 100%;
   }
   &-right {
     width: 100%;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
   }
   &-label {
     font-family: Circular;
@@ -85,8 +87,21 @@ h1#dv-Timeline__title {
     color: #333333;
     margin: 0;
   }
+  &-withImage {
+    p {
+      margin: 0 0 20px 0;
+    }
+  }
+  &-sources {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 12px;
+    font-family: Circular;
+    color: darken(#a6a6a6, 30%);
+  }
   @include breakpoint(medium) {
-    height: 20rem;
+    min-height: 20rem;
     margin: 0;
     &-left {
       width: 25%;
@@ -113,6 +128,7 @@ h1#dv-Timeline__title {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
+  user-select: none;
 }
 
 .dv-Timeline__ArrowRight {
@@ -122,6 +138,7 @@ h1#dv-Timeline__title {
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  user-select: none;
 }
 
 .dv-Timeline-fade {
@@ -136,5 +153,66 @@ h1#dv-Timeline__title {
   }
   to {
     opacity: 1;
+  }
+}
+
+.dv-TimelineControl-container {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0.5rem;
+  height: 140px;
+  &::before {
+    content: "DRAG";
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transform: rotate(270deg) translateX(6px);
+    color: #fff;
+    font-weight: 900;
+    font-size: 12px;
+    font-family: Circular;
+    top: 50%;
+    right: 10px;
+    z-index: 1;
+    opacity: 1;
+  }
+  &::after {
+    content: "";
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-image: linear-gradient(
+      -90deg,
+      rgba(139, 139, 139, 0.73) 0%,
+      rgba(238, 238, 238, 0) 100%
+    );
+    opacity: 1;
+    transition: all 300ms ease-in;
+  }
+  &.hidden::after,
+  &.hidden::before {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+.dv-TimelineControl-Tooltip {
+  font-family: Circular;
+}
+
+.dv-Timeline__image {
+  width: 100%;
+  &__caption {
+    display: block;
+    padding-top: 10px;
+    font-size: 12px;
+    line-height: 1.3;
+    color: lighten(#333, 30%);
+  }
+  @include breakpoint(medium) {
+    width: 25%;
   }
 }

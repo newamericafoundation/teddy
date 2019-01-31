@@ -1,19 +1,33 @@
 import React from "react";
 
-const Image = ({ image }) => (
-  <div>
-    <img src={image} />
+const Image = ({ image, caption }) => (
+  <div className="dv-Timeline__image">
+    <div
+      style={{
+        background: `url("${image}") no-repeat center/cover scroll`,
+        width: "100%",
+        height: 250
+      }}
+    />
+    <span className="dv-Timeline__image__caption">Source: {caption}</span>
   </div>
 );
 
 const ContentLeft = props => {
   const { hasImage, data } = props;
   if (hasImage) {
-    return <Image image={data.image} />;
+    return (
+      <Image
+        image={`https://data.newamerica.org/isp_proxy_warfare/images/timeline/${
+          data.title
+        }.jpg`}
+        caption={data["Caption"]}
+      />
+    );
   } else {
     return (
       <div className={`dv-Timeline__content dv-Timeline__content-left`}>
-        <span className="dv-Timeline__content-label">{data.dateString}</span>
+        <span className="dv-Timeline__content-label">{data.date_string}</span>
         <h1 id="dv-Timeline__content-title">{data.title}</h1>
         <div>
           {data.tags.split(",").map(tag => (
@@ -30,13 +44,15 @@ const ContentRight = props => {
 
   if (hasImage) {
     return (
-      <div className="dv-Timeline__content dv-Timeline__content-right">
-        <span className="dv-Timeline__content-label">{data.dateString}</span>
-        <h1 className="dv-Timeline__content-title">{data.title}</h1>
+      <div className="dv-Timeline__content dv-Timeline__content-right dv-Timeline__content-withImage">
+        <span className="dv-Timeline__content-label">{data.date_string}</span>
+        <h1 id="dv-Timeline__content-title">{data.title}</h1>
         <p className="dv-Timeline__content-description">{data.description}</p>
-        {data.tags.split(",").map(tag => (
-          <span className="dv-Timeline__content-tag">{tag}</span>
-        ))}
+        <div>
+          {data.tags.split(",").map(tag => (
+            <span className="dv-Timeline__content-tag">{tag}</span>
+          ))}
+        </div>
       </div>
     );
   } else {
@@ -49,7 +65,7 @@ const ContentRight = props => {
 };
 
 const ArrowLeft = ({ updatePoint, data }) => (
-  <div
+  <a
     className="dv-Timeline__ArrowLeft"
     onClick={() => data.id !== 0 && updatePoint(data.id - 1)}
     style={{ cursor: data.id === 0 ? "not-allowed" : "pointer" }}
@@ -68,11 +84,11 @@ const ArrowLeft = ({ updatePoint, data }) => (
         />
       </g>
     </svg>
-  </div>
+  </a>
 );
 
 const ArrowRight = ({ updatePoint, data, highestPoint }) => (
-  <div
+  <a
     className="dv-Timeline__ArrowRight"
     onClick={() => data.id !== highestPoint && updatePoint(data.id + 1)}
     style={{ cursor: data.id === highestPoint ? "not-allowed" : "pointer" }}
@@ -91,8 +107,41 @@ const ArrowRight = ({ updatePoint, data, highestPoint }) => (
         />
       </g>
     </svg>
-  </div>
+  </a>
 );
+
+const Sources = ({ data }) => {
+  const keys = Object.keys(data);
+  const sources = keys.filter(c => c.includes("source"));
+  const names = keys.filter(c => c.includes("name"));
+  return (
+    <div className="dv-Timeline__content-sources">
+      <span>
+        Source{data[names[1]] ? "s" : ""}:{" "}
+        {names.map((name, i) => {
+          if (data[name] && data[names[i + 1]]) {
+            return (
+              <span>
+                <a href={data[sources[i]]} target="_blank" rel="noopener">
+                  {data[name]}
+                </a>
+                {", "}
+              </span>
+            );
+          } else if (data[name]) {
+            return (
+              <a href={data[sources[i]]} target="_blank" rel="noopener">
+                {data[name]}
+              </a>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </span>
+    </div>
+  );
+};
 
 export default class ContentArea extends React.Component {
   constructor(props) {
@@ -119,12 +168,13 @@ export default class ContentArea extends React.Component {
         >
           <ContentLeft
             data={activeData}
-            hasImage={activeData.image ? true : false}
+            hasImage={activeData["Caption"] ? true : false}
           />
           <ContentRight
             data={activeData}
-            hasImage={activeData.image ? true : false}
+            hasImage={activeData["Caption"] ? true : false}
           />
+          <Sources data={activeData} />
         </div>
         <ArrowLeft updatePoint={updatePoint} data={activeData} />
         <ArrowRight

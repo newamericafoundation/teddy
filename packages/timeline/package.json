@@ -28,12 +28,15 @@
   "dependencies": {
     "@newamerica/scss": "^0.0.2",
     "@vx/axis": "0.0.182",
+    "@vx/event": "0.0.182",
     "@vx/grid": "0.0.183",
     "@vx/group": "0.0.183",
     "@vx/responsive": "0.0.182",
     "@vx/scale": "0.0.182",
+    "@vx/tooltip": "0.0.184",
     "d3-array": "^1.2.4",
     "d3-time": "^1.0.10",
+    "debounce": "^1.2.0",
     "react-draggable": "^3.0.5"
   },
   "peerDependencies": {
