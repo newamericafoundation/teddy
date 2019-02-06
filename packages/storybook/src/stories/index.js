@@ -497,11 +497,13 @@ storiesOf("Timeline", module).add("Timeline", () => {
       {data => {
         const _data = data.timeline.map((val, i) => ({
           ...val,
-          date: new Date(val.date),
-          dateString: val.date
+          date: new Date(val.date)
         }));
         return (
-          <Timeline title="This is a title" divisionWidth={30} data={_data} />
+          <ChartContainer full>
+            <Title>This is a Title</Title>
+            <Timeline divisionWidth={30} data={_data} />
+          </ChartContainer>
         );
       }}
     </LoadData>
