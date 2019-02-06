@@ -20,7 +20,7 @@ class TimelineControl extends React.Component {
     this.scrubberWidth = this.props.divisionWidth * this.count;
     this.scale = scaleTime({
       domain: [this.props.minDate, this.props.maxDate],
-      range: [20, this.scrubberWidth - 100]
+      range: [20, this.scrubberWidth - 20]
     });
     this._data = dodge(this.props.data, 14, d => d.date, this.scale);
     this.lastActiveX = this._data[this.props.activePoint].x;

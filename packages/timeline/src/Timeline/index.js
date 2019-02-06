@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ContentArea from "./ContentArea";
 import TimelineControl from "./TimelineControl";
 import { min, max, ascending } from "d3-array";
 import "./Timeline.scss";
 
-export default class Timeline extends React.Component {
+class Timeline extends React.Component {
   constructor(props) {
     super(props);
     this._data = this.props.data
@@ -27,33 +28,44 @@ export default class Timeline extends React.Component {
   };
 
   render() {
-    const { divisionWidth, title } = this.props;
+    const { divisionWidth } = this.props;
     const { activeData } = this.state;
     const highestPoint = this._data.length - 1;
     const minDate = min(this._data, d => d.date);
     const maxDate = max(this._data, d => d.date);
     return (
       <div className="dv-Timeline">
-        <div className="dv-Timeline__container">
-          <h1 className="dv-Timeline__title" id="dv-Timeline__title">
-            {title}
-          </h1>
-          {this.props.children}
-          <ContentArea
-            activeData={activeData}
-            updatePoint={this.updatePoint}
-            highestPoint={highestPoint}
-          />
-          <TimelineControl
-            data={this._data}
-            onChange={this.updatePoint}
-            activePoint={activeData.id}
-            divisionWidth={divisionWidth}
-            minDate={minDate}
-            maxDate={maxDate}
-          />
-        </div>
+        <ContentArea
+          activeData={activeData}
+          updatePoint={this.updatePoint}
+          highestPoint={highestPoint}
+        />
+        <TimelineControl
+          data={this._data}
+          onChange={this.updatePoint}
+          activePoint={activeData.id}
+          divisionWidth={divisionWidth}
+          minDate={minDate}
+          maxDate={maxDate}
+        />
       </div>
     );
   }
 }
+
+Timeline.propTypes = {
+  divisionWidth: PropTypes.number.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      date: PropTypes.instanceOf(Date).isRequired,
+      date_string: PropTypes.node.isRequired,
+      title: PropTypes.node.isRequired,
+      description: PropTypes.node.isRequired,
+      tags: PropTypes.string,
+      imageUrl: PropTypes.string,
+      imageCaption: PropTypes.string
+    })
+  ).isRequired
+};
+
+export default Timeline;

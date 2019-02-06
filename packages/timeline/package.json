@@ -38,6 +38,7 @@
     "d3-array": "^1.2.4",
     "d3-time": "^1.0.10",
     "debounce": "^1.2.0",
+    "prop-types": "^15.6.2",
     "react-draggable": "^3.0.5"
   },
   "peerDependencies": {

@@ -16,23 +16,20 @@ const Image = ({ image, caption }) => (
 const ContentLeft = props => {
   const { hasImage, data } = props;
   if (hasImage) {
-    return (
-      <Image
-        image={`https://data.newamerica.org/isp_proxy_warfare/images/timeline/${
-          data.title
-        }.jpg`}
-        caption={data["Caption"]}
-      />
-    );
+    return <Image image={data.imageUrl} caption={data.imageCaption} />;
   } else {
     return (
       <div className={`dv-Timeline__content dv-Timeline__content-left`}>
         <span className="dv-Timeline__content-label">{data.date_string}</span>
         <h1 id="dv-Timeline__content-title">{data.title}</h1>
         <div>
-          {data.tags.split(",").map(tag => (
-            <span className="dv-Timeline__content-tag">{tag}</span>
-          ))}
+          {data.tags
+            ? data.tags
+                .split(",")
+                .map(tag => (
+                  <span className="dv-Timeline__content-tag">{tag}</span>
+                ))
+            : null}
         </div>
       </div>
     );
@@ -49,9 +46,13 @@ const ContentRight = props => {
         <h1 id="dv-Timeline__content-title">{data.title}</h1>
         <p className="dv-Timeline__content-description">{data.description}</p>
         <div>
-          {data.tags.split(",").map(tag => (
-            <span className="dv-Timeline__content-tag">{tag}</span>
-          ))}
+          {data.tags
+            ? data.tags
+                .split(",")
+                .map(tag => (
+                  <span className="dv-Timeline__content-tag">{tag}</span>
+                ))
+            : null}
         </div>
       </div>
     );
@@ -160,6 +161,9 @@ export default class ContentArea extends React.Component {
 
   render() {
     const { updatePoint, activeData, highestPoint } = this.props;
+    const hasSource = Object.keys(activeData).filter(key =>
+      key.includes("source")
+    );
     return (
       <div className="dv-Timeline__ContentArea">
         <div
@@ -168,13 +172,13 @@ export default class ContentArea extends React.Component {
         >
           <ContentLeft
             data={activeData}
-            hasImage={activeData["Caption"] ? true : false}
+            hasImage={activeData.imageUrl ? true : false}
           />
           <ContentRight
             data={activeData}
-            hasImage={activeData["Caption"] ? true : false}
+            hasImage={activeData.imageUrl ? true : false}
           />
-          <Sources data={activeData} />
+          {hasSource && <Sources data={activeData} />}
         </div>
         <ArrowLeft updatePoint={updatePoint} data={activeData} />
         <ArrowRight
