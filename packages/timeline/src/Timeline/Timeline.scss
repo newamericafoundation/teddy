@@ -161,11 +161,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    background-image: linear-gradient(
-      -90deg,
-      rgba(139, 139, 139, 0.73) 0%,
-      rgba(238, 238, 238, 0) 100%
-    );
+    background-image: linear-gradient( -90deg, rgba(139, 139, 139, 0.73) 0%, rgba(238, 238, 238, 0) 100%);
     opacity: 1;
     transition: all 300ms ease-in;
   }

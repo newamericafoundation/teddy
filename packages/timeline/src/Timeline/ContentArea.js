@@ -161,8 +161,8 @@ export default class ContentArea extends React.Component {
 
   render() {
     const { updatePoint, activeData, highestPoint } = this.props;
-    const hasSource = Object.keys(activeData).filter(key =>
-      key.includes("source")
+    const hasSource = Object.keys(activeData).filter(
+      key => key.includes("source").length > 0
     );
     return (
       <div className="dv-Timeline__ContentArea">
