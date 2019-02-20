@@ -9,8 +9,8 @@ export default function withSearch(Table) {
       this.state = { search: "" };
     }
 
-    handleChange(e) {
-      this.setState({ search: e.target.value });
+    handleChange(searchString) {
+      this.setState({ search: searchString });
     }
 
     render() {
