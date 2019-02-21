@@ -31,7 +31,7 @@
     "@newamerica/components": "^0.0.4",
     "@newamerica/scss": "^0.0.2",
     "prop-types": "^15.6.2",
-    "react-table": "^6.8.6"
+    "react-table": "6.8.6"
   },
   "peerDependencies": {
     "react": "^16.2.0"
