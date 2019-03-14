@@ -1,84 +1,104 @@
-.dv-checkbox-container {
+.dv-Checkbox__container {
   display: flex;
-  &__title {
-    font-size: 0.875rem;
-    font-weight: bold;
-    padding-bottom: 0.5rem;
-  }
 }
 
-.dv-checkbox-container-vertical {
+.dv-Checkbox__title {
+  padding-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.dv-Checkbox__container-vertical {
   flex-direction: column;
 }
 
-.dv-checkbox-container-horizontal {
+.dv-Checkbox__container-horizontal {
   flex-direction: row;
   div {
     padding-right: 1rem;
   }
 }
 
-.dv-checkbox {
+.dv-Checkbox {
   cursor: pointer;
   input {
-    -webkit-appearance: checkbox;
     position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
+    visibility: visible;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
+    margin: -1px;
+    padding: 0;
+    width: 1px;
+    height: 1px;
     border: 0;
-    visibility: visible;
     white-space: nowrap;
+
+    -webkit-appearance: checkbox;
     &:checked {
-      +.dv-checkbox-label::before {
-        background-color: #333;
+      +.dv-Checkbox__label::before {
         border-color: #333;
+        background-color: #333;
       }
-      +.dv-checkbox-label::after {
+      +.dv-Checkbox__label::after {
         opacity: 1;
         transform: scale(1) rotate(-45deg);
       }
     }
   }
-  &-label {
-    font-size: 0.875rem;
+  &__label {
+    position: relative;
     display: -webkit-box;
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    cursor: pointer;
-    position: relative;
     margin: 0;
     padding: 0.5rem 0 0.5rem 1.5rem;
     min-height: 1rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+
     user-select: none;
   }
-  &-label::before {
-    box-sizing: border-box;
-    content: "";
+  &__label::before {
     position: absolute;
-    left: 0;
     top: calc(50% - 8px);
-    height: 18px;
+    left: 0;
+    box-sizing: border-box;
     width: 18px;
+    height: 18px;
     border: 2px solid #333;
     background-color: transparent;
-  }
-  &-label::after {
-    box-sizing: border-box;
     content: "";
+  }
+  &__label::after {
+    position: absolute;
+    top: calc(50% - 2px);
+    left: 5px;
+    box-sizing: border-box;
     width: 9px;
     height: 5px;
-    background: none;
-    border-left: 2px solid #fff;
     border-bottom: 2px solid #fff;
+    border-left: 2px solid #fff;
+    background: none;
     color: #fff;
+    content: "";
     transform: scale(0) rotate(-45deg);
-    position: absolute;
-    left: 5px;
-    top: calc(50% - 2px);
+  }
+  &__deselect {
+    margin: 0;
+    margin-top: 0.5rem;
+    padding: 0;
+    padding-bottom: 0.25rem;
+    border: none;
+    text-align: left;
+    text-decoration: underline;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: normal;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 }

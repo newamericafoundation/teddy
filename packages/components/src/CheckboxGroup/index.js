@@ -10,6 +10,7 @@ class CheckboxGroup extends React.Component {
       this.state[val.id] = val.checked ? true : false;
     });
     this.handleChange = this.handleChange.bind(this);
+    this.deselectAll = this.deselectAll.bind(this);
   }
 
   handleChange(e) {
@@ -21,35 +22,52 @@ class CheckboxGroup extends React.Component {
     );
   }
 
+  deselectAll() {
+    const options = Object.keys(this.state);
+    const newState = {};
+    options.forEach(option => {
+      newState[option] = false;
+    });
+    this.setState(newState, () => this.props.onChange(this.state));
+  }
+
   render() {
-    const { orientation, options, style, title } = this.props;
+    const { orientation, options, deselectButton, style, title } = this.props;
     return (
       <div
-        className={`dv-checkbox-container ${
+        className={`dv-Checkbox__container ${
           orientation === "vertical"
-            ? "dv-checkbox-container-vertical"
+            ? "dv-Checkbox__container-vertical"
             : orientation === "horizontal"
-            ? "dv-checkbox-container-horizontal"
+            ? "dv-Checkbox__container-horizontal"
             : ""
         }`}
         style={{ ...style }}
       >
-        {title ? (
-          <span className="dv-checkbox-container__title">{title}</span>
-        ) : null}
+        {title ? <span className="dv-Checkbox__title">{title}</span> : null}
         {options.map((option, i) => (
-          <div className="dv-checkbox" key={i}>
+          <div className="dv-Checkbox" key={i}>
             <input
               id={option.id}
               type="checkbox"
               checked={this.state[option.id]}
               onChange={this.handleChange}
             />
-            <label htmlFor={option.id} className="dv-checkbox-label">
+            <label htmlFor={option.id} className="dv-Checkbox__label">
               {option.label}
             </label>
           </div>
         ))}
+        {deselectButton ? (
+          <div>
+            <button
+              className="dv-Checkbox__deselect"
+              onClick={this.deselectAll}
+            >
+              Deselect All
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -68,12 +86,17 @@ CheckboxGroup.propTypes = {
    */
   onChange: PropTypes.func.isRequired,
   orientation: PropTypes.oneOf(["vertical", "horizontal"]),
+  /**
+   * If set to true, adds a button that lets the user deselect all checkboxes at once.
+   */
+  deselectButton: PropTypes.bool,
   style: PropTypes.object,
   title: PropTypes.string
 };
 
 CheckboxGroup.defaultProps = {
-  orientation: "vertical"
+  orientation: "vertical",
+  deselectButton: false
 };
 
 export default CheckboxGroup;
