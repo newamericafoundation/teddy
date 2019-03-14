@@ -51,13 +51,13 @@ From [`./src/CheckboxGroup/index.js`](./src/CheckboxGroup/index.js)
  
 prop | type | default | required | description
 ---- | :----: | :-------: | :--------: | -----------
-**deselectButton** | `Boolean` | `false` | :x: | If set to true, adds a button that lets the user deselect all checkboxes at once.
 **onChange** | `Function` |  | :white_check_mark: | This function will receive an object with all checkbox values.
 **options** | `Array[]<Shape>` |  | :white_check_mark: | 
 **options[].checked** | `Boolean` |  | :x: | 
 **options[].id** | `Union<String \| Number>` |  | :x: | 
 **options[].label** | `String` |  | :x: | 
 **orientation** | `Enum("vertical","horizontal")` | `"vertical"` | :x: | 
+**selectButtons** | `Boolean` | `false` | :x: | If true, adds buttons that let the user select and deselect all checkboxes at once.
 **style** | `Object` |  | :x: | 
 **title** | `String` |  | :x: | 
  

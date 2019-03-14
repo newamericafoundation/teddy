@@ -595,7 +595,7 @@ storiesOf("Components", module)
         ]}
         onChange={val => console.log(val)}
         title="Title"
-        deselectButton={true}
+        selectButtons={true}
       />
     );
   });

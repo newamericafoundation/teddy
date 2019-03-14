@@ -10,6 +10,7 @@ class CheckboxGroup extends React.Component {
       this.state[val.id] = val.checked ? true : false;
     });
     this.handleChange = this.handleChange.bind(this);
+    this.selectAll = this.selectAll.bind(this);
     this.deselectAll = this.deselectAll.bind(this);
   }
 
@@ -22,6 +23,15 @@ class CheckboxGroup extends React.Component {
     );
   }
 
+  selectAll() {
+    const options = Object.keys(this.state);
+    const newState = {};
+    options.forEach(option => {
+      newState[option] = true;
+    });
+    this.setState(newState, () => this.props.onChange(this.state));
+  }
+
   deselectAll() {
     const options = Object.keys(this.state);
     const newState = {};
@@ -32,7 +42,7 @@ class CheckboxGroup extends React.Component {
   }
 
   render() {
-    const { orientation, options, deselectButton, style, title } = this.props;
+    const { orientation, options, selectButtons, style, title } = this.props;
     return (
       <div
         className={`dv-Checkbox__container ${
@@ -58,12 +68,13 @@ class CheckboxGroup extends React.Component {
             </label>
           </div>
         ))}
-        {deselectButton ? (
+        {selectButtons ? (
           <div>
-            <button
-              className="dv-Checkbox__deselect"
-              onClick={this.deselectAll}
-            >
+            <button className="dv-Checkbox__select" onClick={this.selectAll}>
+              Select All
+            </button>
+            <span className="dv-Checkbox__bullet" />
+            <button className="dv-Checkbox__select" onClick={this.deselectAll}>
               Deselect All
             </button>
           </div>
@@ -87,16 +98,16 @@ CheckboxGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
   orientation: PropTypes.oneOf(["vertical", "horizontal"]),
   /**
-   * If set to true, adds a button that lets the user deselect all checkboxes at once.
+   * If true, adds buttons that let the user select and deselect all checkboxes at once.
    */
-  deselectButton: PropTypes.bool,
+  selectButtons: PropTypes.bool,
   style: PropTypes.object,
   title: PropTypes.string
 };
 
 CheckboxGroup.defaultProps = {
   orientation: "vertical",
-  deselectButton: false
+  selectButtons: false
 };
 
 export default CheckboxGroup;

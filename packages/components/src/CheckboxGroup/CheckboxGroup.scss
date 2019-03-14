@@ -35,11 +35,11 @@
 
     -webkit-appearance: checkbox;
     &:checked {
-      +.dv-Checkbox__label::before {
+      + .dv-Checkbox__label::before {
         border-color: #333;
         background-color: #333;
       }
-      +.dv-Checkbox__label::after {
+      + .dv-Checkbox__label::after {
         opacity: 1;
         transform: scale(1) rotate(-45deg);
       }
@@ -84,7 +84,7 @@
     content: "";
     transform: scale(0) rotate(-45deg);
   }
-  &__deselect {
+  &__select {
     margin: 0;
     margin-top: 0.5rem;
     padding: 0;
@@ -100,5 +100,9 @@
 
     -webkit-appearance: none;
     -moz-appearance: none;
+  }
+  &__bullet::after {
+    padding: 0 0.25rem;
+    content: "\2022";
   }
 }
