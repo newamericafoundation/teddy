@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/data-table",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Tables on tables",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -28,7 +28,7 @@
     "visualization"
   ],
   "dependencies": {
-    "@newamerica/components": "^0.0.5",
+    "@newamerica/components": "^0.0.6",
     "@newamerica/scss": "^0.0.2",
     "prop-types": "^15.6.2",
     "react-table": "6.8.6"

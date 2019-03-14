@@ -1,6 +1,6 @@
 {
   "name": "@newamerica/components",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Components to build stuff with",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
