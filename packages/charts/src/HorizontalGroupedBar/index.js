@@ -1,25 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { BarGroup } from "@vx/shape";
+import { BarGroupHorizontal } from "@vx/shape";
 import { Group } from "@vx/group";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
-import { GridRows } from "@vx/grid";
+import { GridColumns } from "@vx/grid";
 import { max } from "d3-array";
 
-const VerticalGroupedBar = ({
+const HorizontalGroupedBar = ({
   width,
   height,
   handleMouseMove,
   handleMouseLeave,
   data,
-  x,
+  y,
   keys,
   xFormat,
   yFormat,
   xAxisLabel,
   yAxisLabel,
-  numTicksY,
+  numTicksX,
   colors,
   margin
 }) => {
@@ -30,18 +30,18 @@ const VerticalGroupedBar = ({
     domain: keys,
     range: colors
   });
-  const x0Scale = scaleBand({
-    rangeRound: [0, xMax],
-    domain: data.map(x),
+  const y0Scale = scaleBand({
+    rangeRound: [0, yMax],
+    domain: data.map(y),
     padding: 0.2
   });
-  const x1Scale = scaleBand({
-    rangeRound: [0, x0Scale.bandwidth()],
+  const y1Scale = scaleBand({
+    rangeRound: [0, y0Scale.bandwidth()],
     domain: keys,
     padding: 0.1
   });
-  const yScale = scaleLinear({
-    rangeRound: [yMax, 0],
+  const xScale = scaleLinear({
+    rangeRound: [0, xMax],
     domain: [
       0,
       max(data, d => {
@@ -52,23 +52,23 @@ const VerticalGroupedBar = ({
 
   return (
     <Group top={margin.top} left={margin.left}>
-      <GridRows scale={yScale} width={xMax} numTicks={numTicksY} />
-      <BarGroup
+      <GridColumns scale={xScale} width={xMax} numTicks={numTicksX} />
+      <BarGroupHorizontal
         data={data}
         keys={keys}
-        height={yMax}
-        x0={x}
-        x0Scale={x0Scale}
-        x1Scale={x1Scale}
-        yScale={yScale}
+        width={xMax}
+        y0={y}
+        y0Scale={y0Scale}
+        y1Scale={y1Scale}
+        xScale={xScale}
         color={colorScale}
       >
         {barGroups => {
           return barGroups.map(barGroup => {
             return (
               <Group
-                key={`bar-group-${barGroup.index}-${barGroup.x0}`}
-                left={barGroup.x0}
+                key={`bar-group-${barGroup.index}-${barGroup.y0}`}
+                top={barGroup.y0}
               >
                 {barGroup.bars.map(bar => {
                   return (
@@ -94,46 +94,46 @@ const VerticalGroupedBar = ({
             );
           });
         }}
-      </BarGroup>
-      <AxisLeft
-        scale={yScale}
-        hideTicks={true}
-        hideAxisLine={true}
-        numTicks={numTicksY}
-        tickFormat={yFormat}
-        tickLabelProps={(value, index) => ({
-          textAnchor: "end",
-          verticalAnchor: "middle"
-        })}
-        label={yAxisLabel}
-        labelProps={{
-          textAnchor: "middle",
-          verticalAnchor: "end"
-        }}
-      />
+      </BarGroupHorizontal>
       <AxisBottom
         top={yMax}
-        scale={x0Scale}
-        label={xAxisLabel}
-        hideAxisLine={false}
-        hideTicks={false}
+        scale={xScale}
+        hideTicks={true}
+        hideAxisLine={true}
+        numTicks={numTicksX}
         tickFormat={xFormat}
-        tickLabelProps={() => ({
+        tickLabelProps={(value, index) => ({
           textAnchor: "middle",
-          width: x0Scale.bandwidth(),
           verticalAnchor: "middle"
         })}
+        label={xAxisLabel}
         labelProps={{
           dy: "3em",
           textAnchor: "middle",
           y: 0
         }}
       />
+      <AxisLeft
+        scale={y0Scale}
+        label={yAxisLabel}
+        hideAxisLine={true}
+        hideTicks={true}
+        tickFormat={yFormat}
+        tickLabelProps={() => ({
+          textAnchor: "end",
+          height: y0Scale.bandwidth(),
+          verticalAnchor: "middle"
+        })}
+        labelProps={{
+          textAnchor: "middle",
+          verticalAnchor: "end"
+        }}
+      />
     </Group>
   );
 };
 
-VerticalGroupedBar.propTypes = {
+HorizontalGroupedBar.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   handleMouseMove: PropTypes.func,
@@ -143,7 +143,7 @@ VerticalGroupedBar.propTypes = {
   /**
    * Accessor function for x axis values
    */
-  x: PropTypes.func.isRequired,
+  y: PropTypes.func.isRequired,
   /**
    * An array of strings with the keys for each bar
    */
@@ -152,7 +152,7 @@ VerticalGroupedBar.propTypes = {
   yFormat: PropTypes.func,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
-  numTicksY: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  numTicksX: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
   colors: PropTypes.array.isRequired,
   margin: PropTypes.shape({
     top: PropTypes.number,
@@ -162,8 +162,8 @@ VerticalGroupedBar.propTypes = {
   })
 };
 
-VerticalGroupedBar.defaultProps = {
-  numTicksY: 5,
+HorizontalGroupedBar.defaultProps = {
+  numTicksX: 5,
   margin: {
     top: 40,
     left: 40,
@@ -172,4 +172,4 @@ VerticalGroupedBar.defaultProps = {
   }
 };
 
-export default VerticalGroupedBar;
+export default HorizontalGroupedBar;

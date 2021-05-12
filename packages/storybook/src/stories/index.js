@@ -7,6 +7,7 @@ import {
   HorizontalBar,
   HorizontalStackedBar,
   VerticalGroupedBar,
+  HorizontalGroupedBar,
   Line,
   Scatterplot
 } from "@newamerica/charts";
@@ -319,11 +320,45 @@ storiesOf("Charts", module)
     <ChartContainer>
       <Title>This is a title</Title>
       <Description>This is a short description</Description>
-      <Chart height={350} renderTooltip={d => <div>Tooltip</div>}>
+      <Chart height={350} renderTooltip={d => <div>{d.datum.key}, {d.data[d.index]["date"]}: {d.datum.y}</div>}>
         {props => (
           <VerticalGroupedBar
             data={[...cityTemperature.slice(0, 10)]}
             x={d => d["date"]}
+            keys={Object.keys(cityTemperature[0]).filter(d => d !== "date")}
+            colors={[
+              colors.turquoise.light,
+              colors.blue.light,
+              colors.purple.light
+            ]}
+            margin={{ top: 50, left: 25, right: 10, bottom: 30 }}
+            {...props}
+          />
+        )}
+      </Chart>
+      <Source>This is a source</Source>
+    </ChartContainer>
+  ));
+
+// This is just an untested duplicate of VerticalGroupedBar
+storiesOf("Charts", module)
+  .addDecorator(
+    styles({
+      maxWidth: "600px",
+      width: "100%",
+      margin: "1rem auto",
+      padding: "0 1rem"
+    })
+  )
+  .add("Horizontal Grouped Bar", () => (
+    <ChartContainer>
+      <Title>This is a title</Title>
+      <Description>This is a short description</Description>
+      <Chart height={350} renderTooltip={d => <div>{d.datum.key}, {d.data[d.index]["date"]}: {d.datum.y}</div>}>
+        {props => (
+          <HorizontalGroupedBar
+            data={[...cityTemperature.slice(0, 10)]}
+            y={d => d["date"]}
             keys={Object.keys(cityTemperature[0]).filter(d => d !== "date")}
             colors={[
               colors.turquoise.light,
